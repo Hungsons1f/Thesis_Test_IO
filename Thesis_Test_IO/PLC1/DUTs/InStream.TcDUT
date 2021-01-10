@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <DUT Name="InStream" Id="{186da9ff-ca62-40de-af8f-25e0a5eeccfa}">
+    <Declaration><![CDATA[TYPE InStream :
+STRUCT
+	ForceFan1_Speed: LREAL;
+	ForceFan2_Speed: LREAL;
+	ForceFan3_Speed: LREAL;
+	Combuster_Temp: LREAL;
+	CondensePump_Press: LREAL;
+	CondensePump_Flow: LREAL;
+	LPHeater_Temp: LREAL;
+	LPHeater_Press: LREAL;
+	AirEjector_Temp: LREAL;
+	AirEjector_Press: LREAL;
+	SupplyPump_Press: LREAL;
+	SupplyPump_Flow: LREAL;
+	HPHeater_Temp: LREAL;
+	HPHeater_Press: LREAL;
+	Furnace_Temp: LREAL;
+	Furnace_Press: LREAL;
+	Turbine_Rotation: LREAL;
+	Turbine_Temp: LREAL;
+	Turbine_Press: LREAL;
+	Condenser_Temp: LREAL;
+	CircularPump_Flow: LREAL;
+
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="aFb_Motor" Id="{deea6eae-00c4-4d52-adc2-0d6a9e27c1a4}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK aFb_Motor
+VAR_INPUT
+	Mode: aE_Mode := aE_Mode.Manual;
+	
+	//Manual
+	Start: BOOL;
+	Stop: BOOL;
+	Reset1: BOOL;
+	SetSpeed: LREAL;
+	
+	//Auto
+	RunCondition: BOOL;
+	StopCondition: BOOL;
+	SpeedCondition: LREAL;
+	
+	//Others
+	RunFeedback: BOOL;
+	Interlock: BOOL;
+END_VAR
+VAR_OUTPUT
+	Cmd: BOOL;
+	Fault: BOOL;
+	Speed: LREAL;
+END_VAR
+VAR
+	fbTon: TON;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE Mode OF 
+	aE_Mode.Manual: 
+		Cmd := (Cmd OR Start) AND NOT Stop AND NOT Fault AND NOT Interlock;
+		Speed := SetSpeed;
+	aE_Mode.Auto:
+		Cmd := (Cmd OR RunCondition) AND NOT StopCondition AND NOT Fault AND NOT Interlock;
+		Speed := SpeedCondition;
+	aE_Mode.Service:
+		Cmd := (Cmd OR Start) AND NOT Stop AND NOT Fault;
+		Speed := SetSpeed;
+END_CASE
+
+fbTon(IN := Cmd, PT := T#5S);
+IF fbTon.Q AND NOT RunFeedback THEN
+	Fault := TRUE;
+END_IF
+
+IF Reset1 THEN
+	Fault := FALSE;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="aFb_Motor">
+      <LineId Id="48" Count="18" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <GVL Name="Components" Id="{de8e8b3f-76c8-439b-8275-ee2ceeb5e298}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	ForceFan1: aT_Fan;
+	ForceFan2: aT_Fan;
+	ForceFan3: aT_Fan;
+	Combuster: aT_FireCombuster;
+	CondensePump: aT_Pump;
+	LPHeater: aT_Heater;
+	AirEjector: aT_Heater;
+	HPHeater: aT_Heater;
+	SupplyPump: aT_Pump;
+	SteamFurnace: aT_Heater;
+	Turbine: aT_Turbine;
+	Condenser: aT_Heater;
+	CircularPump: aT_Pump;
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

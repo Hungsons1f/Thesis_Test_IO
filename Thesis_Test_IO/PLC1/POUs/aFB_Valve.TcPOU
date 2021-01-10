@@ -1,0 +1,59 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="aFB_Valve" Id="{3d1810ca-99c6-4a27-a7c3-1ca372238459}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK aFb_Valve
+VAR_INPUT
+	Mode: aE_Mode := aE_Mode.Manual;
+	
+	//Manual
+	Start: BOOL;
+	Stop: BOOL;
+	Reset1: BOOL;
+	SetRatio: LREAL;
+	
+	//Auto
+	RunCondition: BOOL;
+	StopCondition: BOOL;
+	RatioCondition: LREAL;
+	
+	//Others
+	RunFeedback: BOOL;
+	Interlock: BOOL;
+END_VAR
+VAR_OUTPUT
+	Cmd: BOOL;
+	Fault: BOOL;
+	OpenPercent: LREAL;
+END_VAR
+VAR
+	fbTon: TON;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE Mode OF 
+	aE_Mode.Manual: 
+		Cmd := (Cmd OR Start) AND NOT Stop AND NOT Fault AND NOT Interlock;
+		OpenPercent := ACOS(SetRatio);
+	aE_Mode.Auto:
+		Cmd := (Cmd OR RunCondition) AND NOT StopCondition AND NOT Fault AND NOT Interlock;
+		OpenPercent := ACOS(RatioCondition);
+	aE_Mode.Service:
+		Cmd := (Cmd OR Start) AND NOT Stop AND NOT Fault;
+		OpenPercent := ACOS(SetRatio);
+END_CASE
+
+fbTon(IN := Cmd, PT := T#3S);
+IF fbTon.Q AND NOT RunFeedback THEN
+	Fault := TRUE;
+END_IF
+
+IF Reset1 THEN
+	Fault := FALSE;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="aFB_Valve">
+      <LineId Id="37" Count="18" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>
