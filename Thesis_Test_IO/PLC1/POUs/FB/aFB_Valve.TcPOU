@@ -8,8 +8,8 @@ VAR_INPUT
 	//Manual
 	Start: BOOL;
 	Stop: BOOL;
-	Reset1: BOOL;
 	SetRatio: LREAL;
+	Reset1: BOOL;
 	
 	//Auto
 	RunCondition: BOOL;

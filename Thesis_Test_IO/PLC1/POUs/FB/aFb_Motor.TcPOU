@@ -8,8 +8,8 @@ VAR_INPUT
 	//Manual
 	Start: BOOL;
 	Stop: BOOL;
-	Reset1: BOOL;
 	SetSpeed: LREAL;
+	Reset1: BOOL;
 	
 	//Auto
 	RunCondition: BOOL;
@@ -26,21 +26,36 @@ VAR_OUTPUT
 	Speed: LREAL;
 END_VAR
 VAR
+	{attribute 'hide'}
 	fbTon: TON;
+	{attribute 'hide'}
+	fbPID: FB_BasicPID;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE Mode OF 
 	aE_Mode.Manual: 
 		Cmd := (Cmd OR Start) AND NOT Stop AND NOT Fault AND NOT Interlock;
-		Speed := SetSpeed;
 	aE_Mode.Auto:
 		Cmd := (Cmd OR RunCondition) AND NOT StopCondition AND NOT Fault AND NOT Interlock;
-		Speed := SpeedCondition;
 	aE_Mode.Service:
 		Cmd := (Cmd OR Start) AND NOT Stop AND NOT Fault;
-		Speed := SetSpeed;
 END_CASE
+
+IF Cmd THEN
+	IF Mode = aE_Mode.Auto THEN
+		fbPID.fSetpointValue := SpeedCondition;
+	ELSE
+		fbPID.fSetpointValue := SetSpeed; 
+	END_IF
+ELSE 
+	fbPID.fSetpointValue := 0;
+END_IF
+fbPID(fActualValue:= Speed, fCtrlCycleTime:= 0.09, fKp:= 1);
+Speed:= fbPID.fCtrlOutput;
+IF fbPID.bReset THEN
+	fbPID.bReset := FALSE;
+END_IF
 
 fbTon(IN := Cmd, PT := T#5S);
 IF fbTon.Q AND NOT RunFeedback THEN
@@ -49,10 +64,26 @@ END_IF
 
 IF Reset1 THEN
 	Fault := FALSE;
+	fbPID.bReset := TRUE;
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="aFb_Motor">
-      <LineId Id="48" Count="18" />
+      <LineId Id="48" Count="2" />
+      <LineId Id="52" Count="1" />
+      <LineId Id="55" Count="1" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="116" Count="1" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="123" Count="1" />
+      <LineId Id="121" Count="0" />
+      <LineId Id="125" Count="1" />
+      <LineId Id="118" Count="0" />
+      <LineId Id="158" Count="0" />
+      <LineId Id="160" Count="0" />
+      <LineId Id="163" Count="2" />
+      <LineId Id="59" Count="7" />
+      <LineId Id="161" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
   </POU>
