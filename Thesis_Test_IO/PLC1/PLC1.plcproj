@@ -61,9 +61,6 @@
     <Compile Include="POUs\FB\aFB_Valve.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\LPHeater_Pressure_Ctrl.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>

@@ -3,14 +3,26 @@
   <POU Name="MAIN" Id="{536ebec5-64ea-44f4-a7d3-77b57f6c07a7}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
+	set: LREAL := 0.33;
+	reset: BOOL:= FALSE;
+	Kp: LREAL := 9027;
+	Tn: LREAL := 3.407;
+	Tv: LREAL := 0.826;
+	Td: LREAL := 0.01;
+	fbpid : FB_BasicPID;
+	
 	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[//fbpid(fSetpointValue:=set, fActualValue:= Streams.InStream.ForceFan1_Speed, 
+//		bReset:= reset, fCtrlCycleTime:= 0.1, fKp:= Kp, fTn:= Tn, fTv:= Tv, fTd:= Td);
+//Streams.OutStream.ForceFan1_SetSpeed := fbpid.fCtrlOutput;]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
-      <LineId Id="2" Count="0" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="7" Count="0" />
+      <LineId Id="9" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
