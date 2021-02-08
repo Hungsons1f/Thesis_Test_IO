@@ -8,13 +8,13 @@ VAR_INPUT
 	//Manual
 	Start: BOOL;
 	Stop: BOOL;
-	SetRatio: LREAL;
+	SetPercent: LREAL;
 	Reset1: BOOL;
 	
 	//Auto
 	RunCondition: BOOL;
 	StopCondition: BOOL;
-	RatioCondition: LREAL;
+	PercentCondition: LREAL;
 	
 	//Others
 	RunFeedback: BOOL;
@@ -26,6 +26,7 @@ VAR_OUTPUT
 	OpenPercent: LREAL;
 END_VAR
 VAR
+	{attribute 'hide'}
 	fbTon: TON;
 END_VAR
 ]]></Declaration>
@@ -33,14 +34,21 @@ END_VAR
       <ST><![CDATA[CASE Mode OF 
 	aE_Mode.Manual: 
 		Cmd := (Cmd OR Start) AND NOT Stop AND NOT Fault AND NOT Interlock;
-		OpenPercent := ACOS(SetRatio);
 	aE_Mode.Auto:
 		Cmd := (Cmd OR RunCondition) AND NOT StopCondition AND NOT Fault AND NOT Interlock;
-		OpenPercent := ACOS(RatioCondition);
 	aE_Mode.Service:
 		Cmd := (Cmd OR Start) AND NOT Stop AND NOT Fault;
-		OpenPercent := ACOS(SetRatio);
 END_CASE
+
+IF Cmd THEN
+	IF Mode = aE_Mode.Auto THEN
+		OpenPercent := LIMIT( 0, PercentCondition, 1);
+	ELSE
+		OpenPercent := LIMIT( 0, SetPercent, 1);
+	END_IF
+ELSE 
+	OpenPercent:= 0;
+END_IF
 
 fbTon(IN := Cmd, PT := T#3S);
 IF fbTon.Q AND NOT RunFeedback THEN
@@ -52,7 +60,13 @@ IF Reset1 THEN
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="aFB_Valve">
-      <LineId Id="37" Count="18" />
+      <LineId Id="37" Count="2" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="44" Count="1" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="85" Count="0" />
+      <LineId Id="87" Count="8" />
+      <LineId Id="48" Count="7" />
       <LineId Id="9" Count="0" />
     </LineIds>
   </POU>

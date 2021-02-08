@@ -9,6 +9,10 @@ STRUCT
 	CondensePump_SetSpeed: LREAL;
 	SupplyPump_SetSpeed: LREAL;
 	CircularPump_SetSpeed: LREAL;
+	LPHeaterValve_SetPercent: LREAL;
+	AirEjectorValve_SetPercent: LREAL;
+	HPHeaterValve_SetPercent: LREAL;
+	TurbineValve_SetPercent: LREAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

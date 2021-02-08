@@ -43,22 +43,9 @@ END_CASE
 
 IF Cmd THEN
 	IF Mode = aE_Mode.Auto THEN
-//		IF SpeedCondition > Maxspeed THEN
-//			Speed := Maxspeed;
-//		ELSIF SpeedCondition < -Maxspeed THEN
-//			Speed := -Maxspeed;
-//		ELSE
-//			Speed:= SpeedCondition;		
-//		END_IF
 		Speed := LIMIT(-Maxspeed, SpeedCondition, Maxspeed);
 	ELSE
-		IF SetSpeed > Maxspeed THEN
-			Speed := Maxspeed;
-		ELSIF SetSpeed < -Maxspeed THEN
-			Speed := -Maxspeed;
-		ELSE
-			Speed:= SetSpeed; 
-		END_IF
+		Speed := LIMIT(-Maxspeed, SetSpeed, Maxspeed);
 	END_IF
 ELSE 
 	Speed:= 0;
@@ -80,15 +67,9 @@ END_IF]]></ST>
       <LineId Id="58" Count="0" />
       <LineId Id="114" Count="0" />
       <LineId Id="116" Count="1" />
-      <LineId Id="226" Count="1" />
-      <LineId Id="229" Count="0" />
-      <LineId Id="233" Count="2" />
-      <LineId Id="228" Count="0" />
       <LineId Id="247" Count="0" />
       <LineId Id="123" Count="0" />
-      <LineId Id="239" Count="4" />
-      <LineId Id="246" Count="0" />
-      <LineId Id="245" Count="0" />
+      <LineId Id="277" Count="0" />
       <LineId Id="121" Count="0" />
       <LineId Id="125" Count="1" />
       <LineId Id="118" Count="0" />
