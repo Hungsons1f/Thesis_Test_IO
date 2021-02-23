@@ -23,19 +23,30 @@ END_VAR
 VAR_OUTPUT
 	Cmd: BOOL;
 	Fault: BOOL;
+	State: aE_State;
 	OpenPercent: LREAL;
+	Runtime: UDINT := 0;
+	AccRuntime: UDINT := 0;
 END_VAR
 VAR
 	{attribute 'hide'}
 	fbTon: TON;
+	{attribute 'hide'}
+	fbTRuntime: TON;	
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE Mode OF 
 	aE_Mode.Manual: 
 		Cmd := (Cmd OR Start) AND NOT Stop AND NOT Fault AND NOT Interlock;
+		IF Cmd THEN
+			State := aE_State.ManRun;
+		ELSE
+			State := aE_State.ManStop;
+		END_IF
 	aE_Mode.Auto:
 		Cmd := (Cmd OR RunCondition) AND NOT StopCondition AND NOT Fault AND NOT Interlock;
+		State := aE_State.Auto;
 	aE_Mode.Service:
 		Cmd := (Cmd OR Start) AND NOT Stop AND NOT Fault;
 END_CASE
@@ -53,21 +64,39 @@ END_IF
 fbTon(IN := Cmd, PT := T#3S);
 IF fbTon.Q AND NOT RunFeedback THEN
 	Fault := TRUE;
+	State := aE_State.Fault;
 END_IF
 
 IF Reset1 THEN
 	Fault := FALSE;
+END_IF
+
+IF Cmd THEN
+	fbTRuntime(IN := NOT fbTRuntime.Q, PT:= T#1S);
+	IF fbTRuntime.Q THEN
+		Runtime:= Runtime + 1;
+		AccRuntime := AccRuntime + 1;
+	END_IF
+ELSE
+	Runtime:= 0;
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="aFB_Valve">
       <LineId Id="37" Count="2" />
+      <LineId Id="134" Count="4" />
       <LineId Id="41" Count="1" />
-      <LineId Id="44" Count="1" />
+      <LineId Id="140" Count="0" />
+      <LineId Id="139" Count="0" />
+      <LineId Id="45" Count="0" />
       <LineId Id="47" Count="0" />
       <LineId Id="85" Count="0" />
       <LineId Id="87" Count="8" />
-      <LineId Id="48" Count="7" />
+      <LineId Id="48" Count="3" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="52" Count="3" />
       <LineId Id="9" Count="0" />
+      <LineId Id="144" Count="8" />
+      <LineId Id="143" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

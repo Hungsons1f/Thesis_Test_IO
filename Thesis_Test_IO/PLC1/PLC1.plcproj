@@ -20,6 +20,9 @@
     <Compile Include="DUTs\aE_Mode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\aE_State.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\aT_Pump.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -44,7 +47,14 @@
     <Compile Include="DUTs\OutStream.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\PidParameter.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GVLs\Components.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
+    <Compile Include="GVLs\Parameters.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
@@ -64,7 +74,7 @@
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\MainCtrl.TcPOU">
+    <Compile Include="POUs\PnID.TcPOU">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

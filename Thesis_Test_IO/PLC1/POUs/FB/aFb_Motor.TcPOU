@@ -24,19 +24,30 @@ END_VAR
 VAR_OUTPUT
 	Cmd: BOOL;
 	Fault: BOOL;
+	State: aE_State;
 	Speed: LREAL;
+	Runtime: UDINT := 0;
+	AccRuntime: UDINT := 0;
 END_VAR
 VAR
 	{attribute 'hide'}
 	fbTon: TON;
+	{attribute 'hide'}
+	fbTRuntime: TON;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE Mode OF 
 	aE_Mode.Manual: 
 		Cmd := (Cmd OR Start) AND NOT Stop AND NOT Fault AND NOT Interlock;
+		IF Cmd THEN
+			State := aE_State.ManRun;
+		ELSE
+			State := aE_State.ManStop;
+		END_IF
 	aE_Mode.Auto:
 		Cmd := (Cmd OR RunCondition) AND NOT StopCondition AND NOT Fault AND NOT Interlock;
+		State := aE_State.Auto;
 	aE_Mode.Service:
 		Cmd := (Cmd OR Start) AND NOT Stop AND NOT Fault;
 END_CASE
@@ -54,15 +65,30 @@ END_IF
 fbTon(IN := Cmd, PT := T#5S);
 IF fbTon.Q AND NOT RunFeedback THEN
 	Fault := TRUE;
+	State := aE_State.Fault;
 END_IF
 
 IF Reset1 THEN
 	Fault := FALSE;
+END_IF
+
+IF Cmd THEN
+	fbTRuntime(IN := NOT fbTRuntime.Q, PT:= T#1S);
+	IF fbTRuntime.Q THEN
+		Runtime:= Runtime + 1;
+		AccRuntime := AccRuntime + 1;
+	END_IF
+ELSE
+	Runtime:= 0;
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="aFb_Motor">
       <LineId Id="48" Count="2" />
+      <LineId Id="322" Count="1" />
+      <LineId Id="325" Count="1" />
+      <LineId Id="324" Count="0" />
       <LineId Id="52" Count="1" />
+      <LineId Id="318" Count="0" />
       <LineId Id="55" Count="1" />
       <LineId Id="58" Count="0" />
       <LineId Id="114" Count="0" />
@@ -73,8 +99,18 @@ END_IF]]></ST>
       <LineId Id="121" Count="0" />
       <LineId Id="125" Count="1" />
       <LineId Id="118" Count="0" />
-      <LineId Id="59" Count="7" />
+      <LineId Id="59" Count="3" />
+      <LineId Id="321" Count="0" />
+      <LineId Id="63" Count="3" />
       <LineId Id="9" Count="0" />
+      <LineId Id="332" Count="0" />
+      <LineId Id="328" Count="0" />
+      <LineId Id="333" Count="0" />
+      <LineId Id="335" Count="1" />
+      <LineId Id="338" Count="0" />
+      <LineId Id="337" Count="0" />
+      <LineId Id="340" Count="1" />
+      <LineId Id="334" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -1,13 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
-  <DUT Name="aE_Mode" Id="{c21e9aec-a197-4c7c-9a2c-fe675826180b}">
+  <DUT Name="aE_State" Id="{4af4cbba-ecba-476e-8816-c5249e25214a}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 {attribute 'strict'}
-TYPE aE_Mode :
+TYPE aE_State :
 (
-	Manual := 0,
+	Fault := 0,
 	Auto := 1,
-	Service := 2
+	ManRun := 2,
+	ManStop := 3
 );
 END_TYPE
 ]]></Declaration>

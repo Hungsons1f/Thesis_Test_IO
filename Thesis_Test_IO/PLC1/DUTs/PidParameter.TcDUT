@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <DUT Name="PidParameter" Id="{ffed4d33-afa9-4166-8187-7786206b43a6}">
+    <Declaration><![CDATA[TYPE PidParameter :
+STRUCT
+	Kp: LREAL;
+	Ti: LREAL;
+	Td: LREAL;
+	Tn: LREAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
