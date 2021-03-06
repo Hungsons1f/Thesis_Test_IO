@@ -8,13 +8,13 @@ VAR_INPUT
 	//Manual
 	Start: BOOL;
 	Stop: BOOL;
-	SetPercent: LREAL;
+	SetPercent: REAL;
 	Reset1: BOOL;
 	
 	//Auto
 	RunCondition: BOOL;
 	StopCondition: BOOL;
-	PercentCondition: LREAL;
+	PercentCondition: REAL;
 	
 	//Others
 	RunFeedback: BOOL;
@@ -24,7 +24,7 @@ VAR_OUTPUT
 	Cmd: BOOL;
 	Fault: BOOL;
 	State: aE_State;
-	OpenPercent: LREAL;
+	OpenPercent: REAL;
 	Runtime: UDINT := 0;
 	AccRuntime: UDINT := 0;
 END_VAR

@@ -3,27 +3,27 @@
   <DUT Name="InStream" Id="{186da9ff-ca62-40de-af8f-25e0a5eeccfa}">
     <Declaration><![CDATA[TYPE InStream :
 STRUCT
-	ForceFan1_Speed: LREAL;
-	ForceFan2_Speed: LREAL;
-	ForceFan3_Speed: LREAL;
-	Combuster_Temp: LREAL;
-	CondensePump_Press: LREAL;
-	CondensePump_Flow: LREAL;
-	LPHeater_Temp: LREAL;
-	LPHeater_Press: LREAL;
-	AirEjector_Temp: LREAL;
-	AirEjector_Press: LREAL;
-	SupplyPump_Press: LREAL;
-	SupplyPump_Flow: LREAL;
-	HPHeater_Temp: LREAL;
-	HPHeater_Press: LREAL;
-	Furnace_Temp: LREAL;
-	Furnace_Press: LREAL;
-	Turbine_Rotation: LREAL;
-	Turbine_Temp: LREAL;
-	Turbine_Press: LREAL;
-	Condenser_Temp: LREAL;
-	CircularPump_Flow: LREAL;
+	ForceFan1_Speed: REAL;
+	ForceFan2_Speed: REAL;
+	ForceFan3_Speed: REAL;
+	Combuster_Temp: REAL;
+	CondensePump_Press: REAL;
+	CondensePump_Flow: REAL;
+	LPHeater_Temp: REAL;
+	LPHeater_Press: REAL;
+	AirEjector_Temp: REAL;
+	AirEjector_Press: REAL;
+	SupplyPump_Press: REAL;
+	SupplyPump_Flow: REAL;
+	HPHeater_Temp: REAL;
+	HPHeater_Press: REAL;
+	Furnace_Temp: REAL;
+	Furnace_Press: REAL;
+	Turbine_Rotation: REAL;
+	Turbine_Temp: REAL;
+	Turbine_Press: REAL;
+	Condenser_Temp: REAL;
+	CircularPump_Flow: REAL;
 
 END_STRUCT
 END_TYPE

@@ -29,15 +29,15 @@ VAR
 
 	start: BOOL;
 	stop: BOOL;
-	setpoint: LREAL := 0.266;
-	setpoint2: LREAL := 28;
-	setpoint3: LREAL := 167;
-	setpoint4: LREAL := 37.85; //200,12.5,0.3,0.05
-	setpoint5: LREAL := 141.3;
-	setpoint6: LREAL := 200;
-	setpoint7: LREAL := 295;
-	setpoint8: LREAL := 3000;
-	setpoint9: LREAL := 566;
+	setpoint: REAL := 0.266;
+	setpoint2: REAL := 28;
+	setpoint3: REAL := 167;
+	setpoint4: REAL := 37.85; //200,12.5,0.3,0.05
+	setpoint5: REAL := 141.3;
+	setpoint6: REAL := 200;
+	setpoint7: REAL := 295;
+	setpoint8: REAL := 3000;
+	setpoint9: REAL := 566;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -97,7 +97,7 @@ END_VAR
                           </o>
                           <o>
                             <v n="Operand">"Streams.OutStream.ForceFan1_SetSpeed"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -343,7 +343,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"setpoint"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -362,7 +362,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"Streams.InStream.ForceFan1_Speed"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -628,7 +628,7 @@ END_VAR
                         <l2 n="Types" cet="String">
                           <v>BOOL</v>
                           <v>BOOL</v>
-                          <v>LREAL</v>
+                          <v>REAL</v>
                         </l2>
                       </o>
                       <v n="CallType" t="Operator">FunctionBlock</v>
@@ -692,7 +692,7 @@ END_VAR
                           </o>
                           <o>
                             <v n="Operand">"Streams.OutStream.ForceFan2_SetSpeed"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -938,7 +938,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"setpoint"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -957,7 +957,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"Streams.InStream.ForceFan2_Speed"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -1223,7 +1223,7 @@ END_VAR
                         <l2 n="Types" cet="String">
                           <v>BOOL</v>
                           <v>BOOL</v>
-                          <v>LREAL</v>
+                          <v>REAL</v>
                         </l2>
                       </o>
                       <v n="CallType" t="Operator">FunctionBlock</v>
@@ -1287,7 +1287,7 @@ END_VAR
                           </o>
                           <o>
                             <v n="Operand">"Streams.OutStream.ForceFan3_SetSpeed"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -1533,7 +1533,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"setpoint"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -1552,7 +1552,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"Streams.InStream.ForceFan3_Speed"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -1818,7 +1818,7 @@ END_VAR
                         <l2 n="Types" cet="String">
                           <v>BOOL</v>
                           <v>BOOL</v>
-                          <v>LREAL</v>
+                          <v>REAL</v>
                         </l2>
                       </o>
                       <v n="CallType" t="Operator">FunctionBlock</v>
@@ -1898,7 +1898,7 @@ END_VAR
                           </o>
                           <o>
                             <v n="Operand">"Streams.OutStream.CondensePump_SetSpeed"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -2176,7 +2176,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"setpoint2"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -2195,7 +2195,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"Streams.InStream.CondensePump_Press"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -2407,7 +2407,7 @@ END_VAR
                         <o t="BoxTreeOperand">
                           <o n="Operand" t="Operand">
                             <v n="Operand">"Parameters.MaxSpeed_CondensePump"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -2465,7 +2465,7 @@ END_VAR
                           <v>BOOL</v>
                           <v>BOOL</v>
                           <v>aE_State</v>
-                          <v>LREAL</v>
+                          <v>REAL</v>
                           <v>UDINT</v>
                           <v>UDINT</v>
                         </l2>
@@ -2547,7 +2547,7 @@ END_VAR
                           </o>
                           <o>
                             <v n="Operand">"Streams.OutStream.SupplyPump_SetSpeed"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -2825,7 +2825,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"setpoint3"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -2844,7 +2844,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"Streams.InStream.SupplyPump_Press"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -3056,7 +3056,7 @@ END_VAR
                         <o t="BoxTreeOperand">
                           <o n="Operand" t="Operand">
                             <v n="Operand">"Parameters.MaxSpeed_SupplyPump"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -3114,7 +3114,7 @@ END_VAR
                           <v>BOOL</v>
                           <v>BOOL</v>
                           <v>aE_State</v>
-                          <v>LREAL</v>
+                          <v>REAL</v>
                           <v>UDINT</v>
                           <v>UDINT</v>
                         </l2>
@@ -3196,7 +3196,7 @@ END_VAR
                           </o>
                           <o>
                             <v n="Operand">"Streams.OutStream.CircularPump_SetSpeed"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -3474,7 +3474,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"setpoint4"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -3493,7 +3493,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"Streams.InStream.Condenser_Temp"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -3705,7 +3705,7 @@ END_VAR
                         <o t="BoxTreeOperand">
                           <o n="Operand" t="Operand">
                             <v n="Operand">"Parameters.MaxSpeed_CircularPump"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -3763,7 +3763,7 @@ END_VAR
                           <v>BOOL</v>
                           <v>BOOL</v>
                           <v>aE_State</v>
-                          <v>LREAL</v>
+                          <v>REAL</v>
                           <v>UDINT</v>
                           <v>UDINT</v>
                         </l2>
@@ -3845,7 +3845,7 @@ END_VAR
                           </o>
                           <o>
                             <v n="Operand">"Streams.OutStream.LPHeaterValve_SetPercent"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -4123,7 +4123,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"setpoint5"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -4142,7 +4142,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"Streams.InStream.LPHeater_Temp"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -4391,7 +4391,7 @@ END_VAR
                           <v>BOOL</v>
                           <v>BOOL</v>
                           <v>aE_State</v>
-                          <v>LREAL</v>
+                          <v>REAL</v>
                           <v>UDINT</v>
                           <v>UDINT</v>
                         </l2>
@@ -4473,7 +4473,7 @@ END_VAR
                           </o>
                           <o>
                             <v n="Operand">"Streams.OutStream.AirEjectorValve_SetPercent"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -4751,7 +4751,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"setpoint6"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -4770,7 +4770,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"Streams.InStream.AirEjector_Temp"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -5019,7 +5019,7 @@ END_VAR
                           <v>BOOL</v>
                           <v>BOOL</v>
                           <v>aE_State</v>
-                          <v>LREAL</v>
+                          <v>REAL</v>
                           <v>UDINT</v>
                           <v>UDINT</v>
                         </l2>
@@ -5101,7 +5101,7 @@ END_VAR
                           </o>
                           <o>
                             <v n="Operand">"Streams.OutStream.HPHeaterValve_SetPercent"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -5379,7 +5379,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"setpoint7"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -5398,7 +5398,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"Streams.InStream.HPHeater_Temp"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -5647,7 +5647,7 @@ END_VAR
                           <v>BOOL</v>
                           <v>BOOL</v>
                           <v>aE_State</v>
-                          <v>LREAL</v>
+                          <v>REAL</v>
                           <v>UDINT</v>
                           <v>UDINT</v>
                         </l2>
@@ -5729,7 +5729,7 @@ END_VAR
                           </o>
                           <o>
                             <v n="Operand">"Streams.OutStream.TurbineValve_SetPercent"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -6007,7 +6007,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"setpoint8"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -6026,7 +6026,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"Streams.InStream.Turbine_Rotation"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -6275,7 +6275,7 @@ END_VAR
                           <v>BOOL</v>
                           <v>BOOL</v>
                           <v>aE_State</v>
-                          <v>LREAL</v>
+                          <v>REAL</v>
                           <v>UDINT</v>
                           <v>UDINT</v>
                         </l2>
@@ -6357,7 +6357,7 @@ END_VAR
                           </o>
                           <o>
                             <v n="Operand">"Streams.OutStream.ForceFan1_SetSpeed"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -6635,7 +6635,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"setpoint9"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -6654,7 +6654,7 @@ END_VAR
                             <o>
                               <o n="Operand" t="Operand">
                                 <v n="Operand">"Streams.InStream.Furnace_Temp"</v>
-                                <v n="Type">"LREAL"</v>
+                                <v n="Type">"REAL"</v>
                                 <v n="Comment">""</v>
                                 <v n="SymbolComment">""</v>
                                 <v n="Address">""</v>
@@ -6866,7 +6866,7 @@ END_VAR
                         <o t="BoxTreeOperand">
                           <o n="Operand" t="Operand">
                             <v n="Operand">"Parameters.MaxSpeed_ForceFan1"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -6924,7 +6924,7 @@ END_VAR
                           <v>BOOL</v>
                           <v>BOOL</v>
                           <v>aE_State</v>
-                          <v>LREAL</v>
+                          <v>REAL</v>
                           <v>UDINT</v>
                           <v>UDINT</v>
                         </l2>
@@ -7006,7 +7006,7 @@ END_VAR
                           </o>
                           <o>
                             <v n="Operand">"Streams.OutStream.ForceFan2_SetSpeed"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -7254,7 +7254,7 @@ END_VAR
                         <o>
                           <o n="Operand" t="Operand">
                             <v n="Operand">"Parameters.MaxSpeed_ForceFan2"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -7312,7 +7312,7 @@ END_VAR
                           <v>BOOL</v>
                           <v>BOOL</v>
                           <v>aE_State</v>
-                          <v>LREAL</v>
+                          <v>REAL</v>
                           <v>UDINT</v>
                           <v>UDINT</v>
                         </l2>
@@ -7394,7 +7394,7 @@ END_VAR
                           </o>
                           <o>
                             <v n="Operand">"Streams.OutStream.ForceFan3_SetSpeed"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -7642,7 +7642,7 @@ END_VAR
                         <o>
                           <o n="Operand" t="Operand">
                             <v n="Operand">"Parameters.MaxSpeed_ForceFan3"</v>
-                            <v n="Type">"LREAL"</v>
+                            <v n="Type">"REAL"</v>
                             <v n="Comment">""</v>
                             <v n="SymbolComment">""</v>
                             <v n="Address">""</v>
@@ -7700,7 +7700,7 @@ END_VAR
                           <v>BOOL</v>
                           <v>BOOL</v>
                           <v>aE_State</v>
-                          <v>LREAL</v>
+                          <v>REAL</v>
                           <v>UDINT</v>
                           <v>UDINT</v>
                         </l2>

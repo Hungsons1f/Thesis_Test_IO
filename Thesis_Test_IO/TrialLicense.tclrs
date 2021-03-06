@@ -2,23 +2,28 @@
 <TcLicenseInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2011/11/TcLicenseInfo">
 	<LicenseInfo>
 		<SystemId>{C0552275-876E-863E-BA1F-9911AB788E59}</SystemId>
-		<IssueTime>2021-02-13T09:46:00</IssueTime>
-		<ExpireTime>2021-02-21T00:00:00</ExpireTime>
-		<LicenseKey>4b8081ed9d646ee8afa25dd79881f7dee60b1f2a4a5dd09de1963651c288c1705e6c8357b1251d630bc89fdf969d1f68e9d78dab1cd504b2eb75962dcb0199d55ebd2adae3d7f14d90293c38dc9f40f5880238a2273b0d3a9fc4d221fbc42e7f236d09f0d9e51c5ad94cbc68c1d7ec76dbceeb09da5365846c7bb02aba42ac2cc2cbcdbe73fce112d017a785f7fe11b945f391c20ecefd19fd2e206d157442c73bd4941db881d8d56f115615992da7673da0790bf50d2b33daff6aaa67eeaaafc4b73cb77453c057432969eb126d7f61e0a083d7d75975625055823f713f0bb14adbb0bd84f8eee3b23ea3039fe0afe80a0f34914fd73d9458b0eb0660a1f9f7</LicenseKey>
+		<IssueTime>2021-03-06T04:16:00</IssueTime>
+		<ExpireTime>2021-03-14T00:00:00</ExpireTime>
+		<LicenseKey>e159857edbb3c488379c615df19493af48f8c8fb2a3267cd70856f88e9debaddac07ce5ce12951454168822a213d0dcf7b876e419a4504e34becfce374a7ed9a90dbf035ff21e0096ef451e21ceaf4b818cb938d7275a2cb9bc0b048feb466587cde77fba4bb2d866f50416b8a4ce135af9fac04ec25dc380f7050dd8b694c90134f5fea8884c1ce5f90f39f17bba9bc3cc87abce729c3b4cdd668ac483902f37360f5e169ad05cb098a10c83ac943ca6936d80436e9584080fdf87ccc8f2185744f3c0239d534232fd49c9c731eb11833d557f5040171fe0d3891d869bf9bcaa3dd2ca5d815e4a77951d97fe8fcc762997dee67680ce085ec854919f49d392c</LicenseKey>
+		<License>
+			<LicenseId>{6952449D-F68C-49A2-ADE4-8639D85B33A4}</LicenseId>
+			<Name>TC3 Modbus-TCP</Name>
+			<OrderNo>TF6250</OrderNo>
+		</License>
 		<License>
 			<LicenseId>{4C256767-E6E6-4AF5-BD68-9F7ABAD0C200}</LicenseId>
 			<Name>TC3 ADS</Name>
 			<OrderNo>TC1000</OrderNo>
 		</License>
 		<License>
-			<LicenseId>{3FF18E97-7754-401B-93FB-70544DE28A13}</LicenseId>
-			<Name>TC3 IO</Name>
-			<OrderNo>TC1100</OrderNo>
-		</License>
-		<License>
 			<LicenseId>{66689887-CCBD-452C-AC9A-039D997C6E66}</LicenseId>
 			<Name>TC3 PLC</Name>
 			<OrderNo>TC1200</OrderNo>
+		</License>
+		<License>
+			<LicenseId>{3FF18E97-7754-401B-93FB-70544DE28A13}</LicenseId>
+			<Name>TC3 IO</Name>
+			<OrderNo>TC1100</OrderNo>
 		</License>
 	</LicenseInfo>
 </TcLicenseInfo>

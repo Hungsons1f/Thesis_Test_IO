@@ -3,16 +3,16 @@
   <DUT Name="OutStream" Id="{756ac912-a9ec-4daa-b1e4-0f27d2726c76}">
     <Declaration><![CDATA[TYPE OutStream :
 STRUCT
-	ForceFan1_SetSpeed: LREAL;
-	ForceFan2_SetSpeed: LREAL;
-	ForceFan3_SetSpeed: LREAL;
-	CondensePump_SetSpeed: LREAL;
-	SupplyPump_SetSpeed: LREAL;
-	CircularPump_SetSpeed: LREAL;
-	LPHeaterValve_SetPercent: LREAL;
-	AirEjectorValve_SetPercent: LREAL;
-	HPHeaterValve_SetPercent: LREAL;
-	TurbineValve_SetPercent: LREAL;
+	ForceFan1_SetSpeed: REAL;
+	ForceFan2_SetSpeed: REAL;
+	ForceFan3_SetSpeed: REAL;
+	CondensePump_SetSpeed: REAL;
+	SupplyPump_SetSpeed: REAL;
+	CircularPump_SetSpeed: REAL;
+	LPHeaterValve_SetPercent: REAL;
+	AirEjectorValve_SetPercent: REAL;
+	HPHeaterValve_SetPercent: REAL;
+	TurbineValve_SetPercent: REAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

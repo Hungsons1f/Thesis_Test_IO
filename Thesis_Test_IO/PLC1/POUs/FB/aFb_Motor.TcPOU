@@ -8,24 +8,24 @@ VAR_INPUT
 	//Manual
 	Start: BOOL;
 	Stop: BOOL;
-	SetSpeed: LREAL;
+	SetSpeed: REAL;
 	Reset1: BOOL;
 	
 	//Auto
 	RunCondition: BOOL;
 	StopCondition: BOOL;
-	SpeedCondition: LREAL;
+	SpeedCondition: REAL;
 	
 	//Others
 	RunFeedback: BOOL;
 	Interlock: BOOL;
-	Maxspeed: LREAL:= 1500;
+	Maxspeed: REAL:= 1500;
 END_VAR
 VAR_OUTPUT
 	Cmd: BOOL;
 	Fault: BOOL;
 	State: aE_State;
-	Speed: LREAL;
+	Speed: REAL;
 	Runtime: UDINT := 0;
 	AccRuntime: UDINT := 0;
 END_VAR

@@ -12,14 +12,14 @@ VAR_GLOBAL
 	PID_Turbine_Speed: PidParameter := (Kp:= 0.001, Ti:= 10, Td:= 100, Tn:= 100);
 	PID_Furnace_Temp: PidParameter := (Kp:= 7, Ti:= 20, Td:= 1.4286, Tn:= 0.05);
 	
-	MaxSpeed_CondensePump: LREAL := 1485;
-	MaxSpeed_SupplyPump: LREAL := 5645;
-	MaxSpeed_CircularPump: LREAL := 1500;
-	MaxSpeed_ForceFan1: LREAL := 1485;
-	MaxSpeed_ForceFan2: LREAL := 1485;
-	MaxSpeed_ForceFan3: LREAL := 1485;
+	MaxSpeed_CondensePump: REAL := 1485;
+	MaxSpeed_SupplyPump: REAL := 5645;
+	MaxSpeed_CircularPump: REAL := 1500;
+	MaxSpeed_ForceFan1: REAL := 1485;
+	MaxSpeed_ForceFan2: REAL := 1485;
+	MaxSpeed_ForceFan3: REAL := 1485;
 	
-	SampleTime: LREAL := 0.1;
+	SampleTime: REAL := 0.1;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

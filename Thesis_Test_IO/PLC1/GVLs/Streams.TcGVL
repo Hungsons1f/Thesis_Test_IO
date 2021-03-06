@@ -3,8 +3,8 @@
   <GVL Name="Streams" Id="{35a4eca8-cff5-4d79-a04f-8802f49464c0}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
-	InStream AT %ML0: InStream;
-	OutStream AT %ML21: OutStream;
+	InStream AT %MD0: InStream;
+	OutStream AT %MD21: OutStream;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>
