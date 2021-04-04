@@ -3,7 +3,7 @@
   <GVL Name="Parameters" Id="{f4668864-d891-48e2-9c5f-9350446d42e6}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
-	PID_CondenserPump_Press: PidParameter := (Kp:= 200, Ti:= 33.333, Td:= 0, Tn:= 0.05);
+	PID_CondensePump_Press: PidParameter := (Kp:= 200, Ti:= 33.333, Td:= 0, Tn:= 0.05);
 	PID_SupplyPump_Press: PidParameter := (Kp:= 40, Ti:= 8, Td:= 0.125, Tn:= 0.05);
 	PID_Condenser_Temp: PidParameter := (Kp:= -40, Ti:= 53.333, Td:= 2.5, Tn:= 0.05);
 	PID_LPHeater_Temp: PidParameter := (Kp:= 0.02, Ti:= 6.667, Td:= 2, Tn:= 0.5);

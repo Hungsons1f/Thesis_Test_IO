@@ -8,7 +8,7 @@
       <Name>MAIN</Name>
     </PouCall>
     <PouCall>
-      <Name>PnID</Name>
+      <Name>PnID2</Name>
     </PouCall>
     <TaskFBGuid>{15b0e27a-5835-409f-940d-a4bf383a00f4}</TaskFBGuid>
     <Fb_init>{d347acfc-5290-4d37-85df-ce3f785df001}</Fb_init>
