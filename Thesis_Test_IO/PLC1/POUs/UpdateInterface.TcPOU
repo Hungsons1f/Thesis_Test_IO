@@ -1,0 +1,57 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="UpdateInterface" Id="{e8cb10a7-494a-4ed3-b949-ffbd33c6033c}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM UpdateInterface
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[Components.iInterface.ForceFan1 := PnID.ForceFan1;
+Components.iInterface.ForceFan2 := PnID.ForceFan2;
+Components.iInterface.ForceFan3 := PnID.ForceFan3;
+
+Components.iInterface.CondensePump := PnID.CondensePump;
+Components.iInterface.SupplyPump := PnID.SupplyPump;
+Components.iInterface.CircularPump := PnID.CircularPump;
+
+Components.iInterface.LPHValve := PnID.LPHeaterValve;
+Components.iInterface.AirEjValve := PnID.AirEjectorValve;
+Components.iInterface.HPHValve := PnID.HPHeaterValve;
+Components.iInterface.TurbineValve := PnID.TurbineValve;
+
+Components.iInterface.Furnace.Temperature := Streams.InStream.Furnace_Temp;
+Components.iInterface.LPHeater.Temperature := Streams.InStream.LPHeater_Temp;
+Components.iInterface.LPHeater.Pressure := Streams.InStream.LPHeater_Press;
+Components.iInterface.Deaerator.Temperature := Streams.InStream.AirEjector_Temp;
+Components.iInterface.Deaerator.Pressure := Streams.InStream.AirEjector_Press;
+Components.iInterface.HPHeater.Temperature := Streams.InStream.HPHeater_Temp;
+Components.iInterface.HPHeater.Pressure := Streams.InStream.HPHeater_Press;
+Components.iInterface.Boiler.Temperature := Streams.InStream.Boiler_Temp;
+Components.iInterface.Boiler.Pressure := Streams.InStream.Boiler_Press;
+Components.iInterface.Condenser.Temperature := Streams.InStream.Condenser_Temp;
+Components.iInterface.Turbine.Rotation := Streams.InStream.Turbine_Rotation;
+Components.iInterface.Turbine.HighTemperature := Streams.InStream.Turbine_HighTemp;
+Components.iInterface.Turbine.ImmediateTemperature := Streams.InStream.Turbine_ImmediateTemp;
+Components.iInterface.Turbine.OutTemperature := Streams.InStream.Turbine_OutTemp;
+Components.iInterface.Turbine.HighPressure := Streams.InStream.Turbine_HighPress;
+Components.iInterface.Turbine.ImmediatePressure := Streams.InStream.Turbine_ImmediatePress;
+Components.iInterface.Turbine.OutPressure := Streams.InStream.Turbine_OutPress;]]></ST>
+    </Implementation>
+    <LineIds Name="UpdateInterface">
+      <LineId Id="5" Count="0" />
+      <LineId Id="10" Count="1" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="12" Count="0" />
+      <LineId Id="14" Count="1" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="16" Count="0" />
+      <LineId Id="18" Count="2" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="6" Count="0" />
+      <LineId Id="23" Count="8" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="35" Count="4" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <DUT Name="aE_ProcessState" Id="{d47d6372-c584-4618-8ce7-ee8cd0d8b72b}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+{attribute 'strict'}
+TYPE aE_ProcessState :
+(
+	Error := 0,
+	Init := 1,
+	Enable := 2,
+	Start := 3,
+	SteadyState := 4,
+	Stop := 5,
+	Disable := 6,
+	Reset := 7
+);
+END_TYPE]]></Declaration>
+  </DUT>
+</TcPlcObject>

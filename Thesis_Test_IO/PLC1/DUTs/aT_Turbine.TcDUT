@@ -4,8 +4,12 @@
     <Declaration><![CDATA[TYPE aT_Turbine :
 STRUCT
 	Rotation: LREAL;
-	Temperature: LREAL;
-	Pressure: LREAL;
+	HighPressure: LREAL;
+	ImmediatePressure: LREAL;
+	OutPressure: LREAL;
+	HighTemperature: LREAL;
+	ImmediateTemperature: LREAL;
+	OutTemperature: LREAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

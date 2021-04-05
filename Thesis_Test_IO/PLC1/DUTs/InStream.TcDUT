@@ -6,24 +6,31 @@ STRUCT
 	ForceFan1_Speed: REAL;
 	ForceFan2_Speed: REAL;
 	ForceFan3_Speed: REAL;
-	Combuster_Temp: REAL;
+	Furnace_Temp: REAL;
 	CondensePump_Press: REAL;
 	CondensePump_Flow: REAL;
+	CondensePump_Speed: REAL;
 	LPHeater_Temp: REAL;
 	LPHeater_Press: REAL;
 	AirEjector_Temp: REAL;
 	AirEjector_Press: REAL;
 	SupplyPump_Press: REAL;
 	SupplyPump_Flow: REAL;
+	SupplyPump_Speed: REAL;
 	HPHeater_Temp: REAL;
 	HPHeater_Press: REAL;
-	Furnace_Temp: REAL;
-	Furnace_Press: REAL;
+	Boiler_Temp: REAL;
+	Boiler_Press: REAL;
 	Turbine_Rotation: REAL;
-	Turbine_Temp: REAL;
-	Turbine_Press: REAL;
+	Turbine_HighPress: REAL;
+	Turbine_ImmediatePress: REAL;
+	Turbine_OutPress: REAL;
+	Turbine_HighTemp: REAL;
+	Turbine_ImmediateTemp: REAL;
+	Turbine_OutTemp: REAL;
 	Condenser_Temp: REAL;
 	CircularPump_Flow: REAL;
+	CircularPump_Speed: REAL;
 
 END_STRUCT
 END_TYPE

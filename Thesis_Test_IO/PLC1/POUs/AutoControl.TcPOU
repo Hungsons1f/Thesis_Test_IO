@@ -1,0 +1,358 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="AutoControl" Id="{034eab86-42d1-4d45-93b4-eb66e60beb13}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM AutoControl
+VAR
+	{region 'Control Template'} 			//Struct to manipulate the auto mode 
+	CondensePump_Press: aS_AutoControl;
+	SupplyPump_Press: aS_AutoControl;
+	Condenser_Temp: aS_AutoControl;
+	LPHeater_Temp: aS_AutoControl;
+	AirEjector_Temp: aS_AutoControl;
+	HPHeater_Temp: aS_AutoControl;
+	Turbine_Speed: aS_AutoControl;
+	Boiler_Temp: aS_AutoControl;
+	{endregion}
+		 
+	{region 'Component PID Controllers'}
+	ForceFan1_PID: FB_BasicPID;
+	ForceFan2_PID: FB_BasicPID;
+	ForceFan3_PID: FB_BasicPID;
+	CondensePump_Press_PID: FB_BasicPID;
+	SupplyPump_Press_PID: FB_BasicPID;
+	Condenser_Temp_PID: FB_BasicPID;
+	LPHeater_Temp_PID: FB_BasicPID;
+	AirEjector_Temp_PID: FB_BasicPID;
+	HPHeater_Temp_PID: FB_BasicPID;
+	Turbine_Speed_PID: FB_BasicPID;
+	Boiler_Temp_PID: FB_BasicPID;
+
+	setpoint: REAL := 0.266;
+	setpoint2: REAL := 28;
+	setpoint3: REAL := 167;
+	setpoint4: REAL := 37.85; //200,12.5,0.3,0.05
+	setpoint5: REAL := 141.3;
+	setpoint6: REAL := 200;
+	setpoint7: REAL := 295;
+	setpoint8: REAL := 3000;
+	setpoint9: REAL := 566;
+	{endregion}
+		 
+	{region 'Process State Vars'}
+	ProcessState: aE_ProcessState := aE_ProcessState.Init;
+	StartState: BYTE;
+		 
+	flag1: BOOL;
+	flag2: BOOL;
+	flag3: BOOL;
+	{endregion}
+	i: INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE ProcessState OF
+	aE_ProcessState.Init:
+		//Reset all components
+		CondensePump_Press.Stop := FALSE;
+		SupplyPump_Press.Stop := FALSE;
+		Condenser_Temp.Stop := FALSE;
+		LPHeater_Temp.Stop := FALSE;
+		AirEjector_Temp.Stop := FALSE;
+		HPHeater_Temp.Stop := FALSE;
+		Turbine_Speed.Stop := FALSE;
+		Boiler_Temp.Stop := FALSE;
+		
+		//Reset all PID Controllers
+		CondensePump_Press_PID(bReset := TRUE);
+		SupplyPump_Press_PID(bReset := TRUE);
+		Condenser_Temp_PID(bReset := TRUE);
+		LPHeater_Temp_PID(bReset := TRUE);
+		AirEjector_Temp_PID(bReset := TRUE);
+		HPHeater_Temp_PID(bReset := TRUE);
+		Turbine_Speed_PID(bReset := TRUE);
+		Boiler_Temp_PID(bReset := TRUE);
+
+		//Reset all flags
+		flag1 := FALSE;
+		flag2 := FALSE;
+		flag3 := FALSE;
+		//Check if all conditions is matched
+		//Next state
+		ProcessState := aE_ProcessState.Enable;
+		
+	aE_ProcessState.Enable:
+		//Start all components
+		CondensePump_Press.Start := TRUE;
+		SupplyPump_Press.Start := TRUE;
+		Condenser_Temp.Start := TRUE;
+		LPHeater_Temp.Start := TRUE;
+		AirEjector_Temp.Start := TRUE;
+		HPHeater_Temp.Start := TRUE;
+		Turbine_Speed.Start := TRUE;
+		Boiler_Temp.Start := TRUE;
+		
+		//Next state
+		ProcessState := aE_ProcessState.Start;
+		
+	aE_ProcessState.Start:
+		CASE StartState OF 
+			0:  //Start state 1
+				//Assign setpoint
+				CondensePump_Press.Setpoint := 5;		//5 bar, pid control
+				SupplyPump_Press.Setpoint := 10;		//10 bar, pid control
+				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
+				LPHeater_Temp.Setpoint := 100;			//100% valve openpercent, switch = direct control
+				AirEjector_Temp.Setpoint := 100;		//100% valve openpercent, switch = direct control
+				HPHeater_Temp.Setpoint := 100;			//100% valve openpercent, switch = direct control
+				Turbine_Speed.Setpoint := 100;			//100% valve openpercent, switch = direct control
+				Boiler_Temp.Setpoint := 350;			//350 oC, pid control		
+				
+				//Switch controller
+				LPHeater_Temp.Switch := 0;
+				AirEjector_Temp.Switch := 0;
+				HPHeater_Temp.Switch := 0;
+				Turbine_Speed.Switch := 0;
+				
+				//Check condition to change state
+				IF Streams.InStream.CondensePump_Press >= 5 THEN
+					flag1 := TRUE;
+				END_IF
+				IF Streams.InStream.SupplyPump_Press >= 10 THEN
+					flag2 := TRUE;
+				END_IF
+				IF Streams.InStream.Boiler_Temp >= 350 THEN
+					flag3 := TRUE;
+				END_IF
+				IF flag1 = TRUE AND flag2 = TRUE AND flag3 = TRUE THEN
+					StartState := 1;
+					flag1 := FALSE; flag2:= FALSE; flag3 := FALSE;
+				END_IF
+			1:  //Start state 2
+				//Assign setpoint
+				CondensePump_Press.Setpoint := 15;		//5 bar, pid control
+				SupplyPump_Press.Setpoint := 100;		//10 bar, pid control
+				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
+				LPHeater_Temp.Setpoint := 100;			//100% valve openpercent, switch = direct control
+				AirEjector_Temp.Setpoint := 100;		//100% valve openpercent, switch = direct control
+				HPHeater_Temp.Setpoint := 100;			//100% valve openpercent, switch = direct control
+				Turbine_Speed.Setpoint := 100;			//100% valve openpercent, switch = direct control
+				Boiler_Temp.Setpoint := 350;			//350 oC, pid control		
+				
+				//Switch controller
+				LPHeater_Temp.Switch := 0;
+				AirEjector_Temp.Switch := 0;
+				HPHeater_Temp.Switch := 0;
+				Turbine_Speed.Switch := 0;
+				
+				//Check condition to change state
+				IF Streams.InStream.CondensePump_Press >= 15 THEN
+					flag1 := TRUE;
+				END_IF
+				IF Streams.InStream.SupplyPump_Press >= 100 THEN
+					flag2 := TRUE;
+				END_IF
+				IF flag1 = TRUE AND flag2 = TRUE THEN
+					StartState := 1;
+					flag1 := FALSE; flag2:= FALSE; 
+				END_IF
+		END_CASE
+		
+	aE_ProcessState.SteadyState:
+		i:=1;
+		
+	aE_ProcessState.Stop:
+		i:=1;
+		
+	aE_ProcessState.Disable:
+		//Clear all start flags of components
+		CondensePump_Press.Start := FALSE;
+		SupplyPump_Press.Start := FALSE;
+		Condenser_Temp.Start := FALSE;
+		LPHeater_Temp.Start := FALSE;
+		AirEjector_Temp.Start := FALSE;
+		HPHeater_Temp.Start := FALSE;
+		Turbine_Speed.Start := FALSE;
+		Boiler_Temp.Start := FALSE;
+
+		
+	aE_ProcessState.Error:
+		i:=1;
+		
+	aE_ProcessState.Reset:
+		i:=1;
+END_CASE
+
+
+
+{region 'Component Controllers'}
+IF (ProcessState = aE_ProcessState.Start OR ProcessState = aE_ProcessState.SteadyState OR ProcessState = aE_ProcessState.Stop) THEN 
+
+CondensePump_Press_PID(fSetpointValue := CondensePump_Press.Setpoint,
+						fActualValue := Streams.InStream.CondensePump_Press,
+						bReset := NOT PnID.CondensePump.Cmd,
+						fCtrlCycleTime := Parameters.SampleTime,
+						fKp := Parameters.PID_CondensePump_Press.Kp,
+						fTn := Parameters.PID_CondensePump_Press.Ti,
+						fTv := Parameters.PID_CondensePump_Press.Td,
+						fTd := Parameters.PID_CondensePump_Press.Tn,
+						fCtrlOutput => CondensePump_Press.ControlSignal);
+							 
+SupplyPump_Press_PID(fSetpointValue := setpoint3,
+						fActualValue := Streams.InStream.SupplyPump_Press,
+						bReset := NOT PnID.SupplyPump.Cmd,
+						fCtrlCycleTime := Parameters.SampleTime,
+						fKp := Parameters.PID_SupplyPump_Press.Kp,
+						fTn := Parameters.PID_SupplyPump_Press.Ti,
+						fTv := Parameters.PID_SupplyPump_Press.Td,
+						fTd := Parameters.PID_SupplyPump_Press.Tn,
+						fCtrlOutput => SupplyPump_Press.ControlSignal);	
+	  
+Condenser_Temp_PID(fSetpointValue := setpoint4,
+						fActualValue := Streams.InStream.Condenser_Temp,
+						bReset := NOT PnID.CircularPump.Cmd,
+						fCtrlCycleTime := Parameters.SampleTime,
+						fKp := Parameters.PID_Condenser_Temp.Kp,
+						fTn := Parameters.PID_Condenser_Temp.Ti,
+						fTv := Parameters.PID_Condenser_Temp.Td,
+						fTd := Parameters.PID_Condenser_Temp.Tn,
+						fCtrlOutput => Condenser_Temp.ControlSignal);
+							 
+CASE LPHeater_Temp.Switch OF 
+	 0: 
+		  LPHeater_Temp.ControlSignal := LPHeater_Temp.Setpoint;
+	 1: 
+		  LPHeater_Temp_PID(fSetpointValue := setpoint5,
+					fActualValue := Streams.InStream.LPHeater_Temp,
+					bReset := NOT PnID.LPHeaterValve.Cmd,
+					fCtrlCycleTime := Parameters.SampleTime,
+					fKp := Parameters.PID_LPHeater_Temp.Kp,
+					fTn := Parameters.PID_LPHeater_Temp.Ti,
+					fTv := Parameters.PID_LPHeater_Temp.Td,
+					fTd := Parameters.PID_LPHeater_Temp.Tn,
+					fCtrlOutput => LPHeater_Temp.ControlSignal);
+END_CASE
+
+CASE AirEjector_Temp.Switch OF
+	0:
+		 AirEjector_Temp.ControlSignal := AirEjector_Temp.Setpoint;
+	1: 
+		 AirEjector_Temp_PID(fSetpointValue := setpoint6,
+						fActualValue := Streams.InStream.AirEjector_Temp,
+						bReset := NOT PnID.AirEjectorValve.Cmd,
+						fCtrlCycleTime := Parameters.SampleTime,
+						fKp := Parameters.PID_AirEjector_Temp.Kp,
+						fTn := Parameters.PID_AirEjector_Temp.Ti,
+						fTv := Parameters.PID_AirEjector_Temp.Td,
+						fTd := Parameters.PID_AirEjector_Temp.Tn,
+						fCtrlOutput => AirEjector_Temp.ControlSignal);
+END_CASE							 
+			
+CASE HPHeater_Temp.Switch OF
+	0: 
+		 HPHeater_Temp.ControlSignal := HPHeater_Temp.Setpoint;
+	1: 
+		 HPHeater_Temp_PID(fSetpointValue := setpoint7,
+						fActualValue := Streams.InStream.HPHeater_Temp,
+						bReset := NOT PnID.HPHeaterValve.Cmd,
+						fCtrlCycleTime := Parameters.SampleTime,
+						fKp := Parameters.PID_HPHeater_Temp.Kp,
+						fTn := Parameters.PID_HPHeater_Temp.Ti,
+						fTv := Parameters.PID_HPHeater_Temp.Td,
+						fTd := Parameters.PID_HPHeater_Temp.Tn,
+						fCtrlOutput => HPHeater_Temp.ControlSignal);
+END_CASE				 
+
+CASE Turbine_Speed.Switch OF
+	0:
+		 Turbine_Speed.ControlSignal := Turbine_Speed.Setpoint;
+	1: 
+		 Turbine_Speed_PID(fSetpointValue := setpoint8,
+						fActualValue := Streams.InStream.Turbine_Rotation,
+						bReset := NOT PnID.TurbineValve.Cmd,
+						fCtrlCycleTime := Parameters.SampleTime,
+						fKp := Parameters.PID_Turbine_Speed.Kp,
+						fTn := Parameters.PID_Turbine_Speed.Ti,
+						fTv := Parameters.PID_Turbine_Speed.Td,
+						fTd := Parameters.PID_Turbine_Speed.Tn,
+						fCtrlOutput => Turbine_Speed.ControlSignal);
+END_CASE
+
+Boiler_Temp_PID(fSetpointValue := setpoint9,
+						fActualValue := Streams.InStream.Boiler_Temp,
+						bReset := NOT (PnID.ForceFan1.Cmd AND PnID.ForceFan2.Cmd AND PnID.ForceFan3.Cmd),
+						fCtrlCycleTime := Parameters.SampleTime,
+						fKp := Parameters.PID_Boiler_Temp.Kp,
+						fTn := Parameters.PID_Boiler_Temp.Ti,
+						fTv := Parameters.PID_Boiler_Temp.Td,
+						fTd := Parameters.PID_Boiler_Temp.Tn,
+						fCtrlOutput => Boiler_Temp.ControlSignal);
+							 
+END_IF
+{endregion}]]></ST>
+    </Implementation>
+    <LineIds Name="AutoControl">
+      <LineId Id="160" Count="10" />
+      <LineId Id="343" Count="0" />
+      <LineId Id="346" Count="0" />
+      <LineId Id="344" Count="0" />
+      <LineId Id="347" Count="6" />
+      <LineId Id="420" Count="0" />
+      <LineId Id="171" Count="0" />
+      <LineId Id="421" Count="2" />
+      <LineId Id="172" Count="36" />
+      <LineId Id="413" Count="0" />
+      <LineId Id="209" Count="0" />
+      <LineId Id="418" Count="1" />
+      <LineId Id="425" Count="1" />
+      <LineId Id="424" Count="0" />
+      <LineId Id="428" Count="1" />
+      <LineId Id="427" Count="0" />
+      <LineId Id="430" Count="1" />
+      <LineId Id="433" Count="0" />
+      <LineId Id="432" Count="0" />
+      <LineId Id="435" Count="23" />
+      <LineId Id="462" Count="3" />
+      <LineId Id="211" Count="29" />
+      <LineId Id="355" Count="0" />
+      <LineId Id="354" Count="0" />
+      <LineId Id="241" Count="7" />
+      <LineId Id="338" Count="0" />
+      <LineId Id="294" Count="0" />
+      <LineId Id="256" Count="6" />
+      <LineId Id="250" Count="0" />
+      <LineId Id="339" Count="0" />
+      <LineId Id="296" Count="0" />
+      <LineId Id="264" Count="7" />
+      <LineId Id="340" Count="0" />
+      <LineId Id="297" Count="0" />
+      <LineId Id="321" Count="0" />
+      <LineId Id="334" Count="1" />
+      <LineId Id="322" Count="0" />
+      <LineId Id="325" Count="7" />
+      <LineId Id="337" Count="0" />
+      <LineId Id="323" Count="0" />
+      <LineId Id="341" Count="0" />
+      <LineId Id="298" Count="0" />
+      <LineId Id="364" Count="1" />
+      <LineId Id="368" Count="0" />
+      <LineId Id="370" Count="8" />
+      <LineId Id="342" Count="0" />
+      <LineId Id="299" Count="0" />
+      <LineId Id="379" Count="0" />
+      <LineId Id="381" Count="1" />
+      <LineId Id="384" Count="0" />
+      <LineId Id="386" Count="8" />
+      <LineId Id="380" Count="0" />
+      <LineId Id="396" Count="0" />
+      <LineId Id="303" Count="0" />
+      <LineId Id="397" Count="0" />
+      <LineId Id="401" Count="1" />
+      <LineId Id="404" Count="8" />
+      <LineId Id="400" Count="0" />
+      <LineId Id="312" Count="8" />
+      <LineId Id="363" Count="0" />
+      <LineId Id="358" Count="1" />
+      <LineId Id="132" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

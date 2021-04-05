@@ -20,16 +20,16 @@
     <Compile Include="DUTs\aE_Mode.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\aE_ProcessState.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\aE_State.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\aT_Pump.TcDUT">
+    <Compile Include="DUTs\aS_AutoControl.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\aT_Fan.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\aT_FireCombuster.TcDUT">
+    <Compile Include="DUTs\aT_Furnace.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\aT_Heater.TcDUT">
@@ -38,16 +38,16 @@
     <Compile Include="DUTs\aT_Turbine.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\InStream.TcDUT">
+    <Compile Include="DUTs\ComponentInterface.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\aT_Motor.TcDUT">
+    <Compile Include="DUTs\InStream.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\OutStream.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\PidParameter.TcDUT">
+    <Compile Include="DUTs\aS_PidParameter.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GVLs\Components.TcGVL">
@@ -65,6 +65,9 @@
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\AutoControl.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\FB\aFb_Motor.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -77,7 +80,7 @@
     <Compile Include="POUs\PnID.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\PnID2.TcPOU">
+    <Compile Include="POUs\UpdateInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>

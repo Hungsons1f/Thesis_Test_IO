@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <DUT Name="ComponentInterface" Id="{e0e65d87-76e8-4868-a5b5-faae59eb4c6f}">
+    <Declaration><![CDATA[TYPE ComponentInterface :
+STRUCT
+	ForceFan1: aFb_Motor;
+	ForceFan2: aFb_Motor;
+	ForceFan3: aFb_Motor;
+	
+	CondensePump: aFb_Motor;
+	SupplyPump: aFb_Motor;
+	CircularPump: aFb_Motor;
+
+	LPHValve: aFb_Valve;
+	AirEjValve: aFb_Valve;
+	HPHValve: aFb_Valve;
+	TurbineValve: aFb_Valve;
+	
+	Furnace: aT_Furnace;
+	LPHeater: aT_Heater;
+	Deaerator: aT_Heater;
+	HPHeater: aT_Heater;
+	Boiler: aT_Heater;
+	Turbine: aT_Turbine;
+	Condenser: aT_Heater;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
