@@ -50,6 +50,10 @@
     <Compile Include="DUTs\aS_PidParameter.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GVLs\AutoControlCommand.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
     <Compile Include="GVLs\Components.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>

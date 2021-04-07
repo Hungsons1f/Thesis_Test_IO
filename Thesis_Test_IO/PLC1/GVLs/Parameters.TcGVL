@@ -3,14 +3,14 @@
   <GVL Name="Parameters" Id="{f4668864-d891-48e2-9c5f-9350446d42e6}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
-	PID_CondensePump_Press: aS_PidParameter := (Kp:= 200, Ti:= 33.333, Td:= 0, Tn:= 0.05);
+	PID_CondensePump_Press: aS_PidParameter := (Kp:= 91.7, Ti:= 6.368, Td:= 0.1396, Tn:= 0.078);//(Kp:= 200, Ti:= 33.333, Td:= 0, Tn:= 0.05);
 	PID_SupplyPump_Press: aS_PidParameter := (Kp:= 40, Ti:= 8, Td:= 0.125, Tn:= 0.05);
 	PID_Condenser_Temp: aS_PidParameter := (Kp:= -40, Ti:= 53.333, Td:= 2.5, Tn:= 0.05);
 	PID_LPHeater_Temp: aS_PidParameter := (Kp:= 0.02, Ti:= 6.667, Td:= 2, Tn:= 0.5);
 	PID_AirEjector_Temp: aS_PidParameter := (Kp:= 0.0085, Ti:= 4.048, Td:= 0, Tn:= 0.5);
 	PID_HPHeater_Temp: aS_PidParameter := (Kp:= 0.0103, Ti:= 4.12, Td:= 0, Tn:= 0.5);
 	PID_Turbine_Speed: aS_PidParameter := (Kp:= 0.001, Ti:= 10, Td:= 100, Tn:= 100);
-	PID_Boiler_Temp: aS_PidParameter := (Kp:= 7, Ti:= 20, Td:= 1.4286, Tn:= 0.05);
+	PID_Boiler_Temp: aS_PidParameter := (Kp:= 7, Ti:= 20, Td:= 1.4286, Tn:= 0.05);//(Kp:= 7, Ti:= 20, Td:= 1.4286, Tn:= 0.05); //(Kp:= 7, Ti:= 100, Td:= 0, Tn:= 0.05);
 	
 	MaxSpeed_CondensePump: REAL := 1485;
 	MaxSpeed_SupplyPump: REAL := 5645;
