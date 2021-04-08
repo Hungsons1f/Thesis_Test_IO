@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
-  <GVL Name="Parameters" Id="{f4668864-d891-48e2-9c5f-9350446d42e6}">
-    <Declaration><![CDATA[{attribute 'qualified_only'}
-VAR_GLOBAL
+  <DUT Name="Parameters" Id="{8b61567d-5791-41d8-9384-2f35caa305c7}">
+    <Declaration><![CDATA[TYPE Parameters :
+STRUCT
 	PID_CondensePump_Press: aS_PidParameter := (Kp:= 91.7, Ti:= 6.368, Td:= 0.1396, Tn:= 0.078);//(Kp:= 200, Ti:= 33.333, Td:= 0, Tn:= 0.05);
 	PID_SupplyPump_Press: aS_PidParameter := (Kp:= 40, Ti:= 8, Td:= 0.125, Tn:= 0.05);
 	PID_Condenser_Temp: aS_PidParameter := (Kp:= -40, Ti:= 53.333, Td:= 2.5, Tn:= 0.05);
@@ -20,6 +20,8 @@ VAR_GLOBAL
 	MaxSpeed_ForceFan3: REAL := 1485;
 	
 	SampleTime: REAL := 0.1;
-END_VAR]]></Declaration>
-  </GVL>
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
 </TcPlcObject>

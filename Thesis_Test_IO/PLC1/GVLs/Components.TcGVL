@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
-  <GVL Name="Components" Id="{de8e8b3f-76c8-439b-8275-ee2ceeb5e298}">
-    <Declaration><![CDATA[{attribute 'qualified_only'}
-VAR_GLOBAL
-	iInterface: ComponentInterface;
-END_VAR]]></Declaration>
-  </GVL>
-</TcPlcObject>

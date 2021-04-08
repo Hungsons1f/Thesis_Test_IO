@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <DUT Name="MainInterface" Id="{398f3ae0-8a88-40c2-9306-0a6efe2857be}">
+    <Declaration><![CDATA[TYPE MainInterface :
+STRUCT
+	AutoCtrlCmds: AutoCtrlCmds;
+	Components: Components;
+	Parameters: Parameters;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

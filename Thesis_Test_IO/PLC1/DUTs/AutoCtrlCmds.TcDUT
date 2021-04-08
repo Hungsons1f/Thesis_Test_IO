@@ -1,14 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
-  <DUT Name="aS_AutoControl" Id="{3778eaae-88e4-41c4-8e5f-afd374d3343a}">
-    <Declaration><![CDATA[TYPE aS_AutoControl :
+  <DUT Name="AutoCtrlCmds" Id="{403ac9ea-31e2-4ebe-b815-e3db0e06f0bd}">
+    <Declaration><![CDATA[TYPE AutoCtrlCmds :
 STRUCT
 	Start: BOOL;
 	Stop: BOOL;
-	Setpoint: LREAL;
-	ControlSignal: LREAL;
-	Switch: BYTE;
-	ResetPid: BOOL;
+	Emergency: BOOL;
+	Reset: BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

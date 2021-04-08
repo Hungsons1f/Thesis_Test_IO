@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
-  <DUT Name="ComponentInterface" Id="{e0e65d87-76e8-4868-a5b5-faae59eb4c6f}">
-    <Declaration><![CDATA[TYPE ComponentInterface :
+  <DUT Name="Components" Id="{e0e65d87-76e8-4868-a5b5-faae59eb4c6f}">
+    <Declaration><![CDATA[TYPE Components :
 STRUCT
 	ForceFan1: aFb_Motor;
 	ForceFan2: aFb_Motor;

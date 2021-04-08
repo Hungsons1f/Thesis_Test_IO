@@ -28,7 +28,7 @@ CondensePump(RunCondition := AutoControl.CondensePump_Press.Start,
 				StopCondition := AutoControl.CondensePump_Press.Stop,
 				SpeedCondition := AutoControl.CondensePump_Press.ControlSignal,
 				RunFeedback := CondensePump.Cmd,
-				Maxspeed := Parameters.MaxSpeed_CondensePump,
+				Maxspeed := Interfacex.ScadaInterface.Parameters.MaxSpeed_CondensePump,//.MaxSpeed_CondensePump,
 				ActualSpeed := Streams.InStream.CondensePump_Speed ,
 				Speed => Streams.OutStream.CondensePump_SetSpeed);
 {endregion}
@@ -38,7 +38,7 @@ SupplyPump(RunCondition := AutoControl.SupplyPump_Press.Start,
 				StopCondition := AutoControl.SupplyPump_Press.Stop,
 				SpeedCondition := AutoControl.SupplyPump_Press.ControlSignal,
 				RunFeedback := SupplyPump.Cmd,
-				Maxspeed := Parameters.MaxSpeed_SupplyPump,
+				Maxspeed := Interfacex.ScadaInterface.Parameters.MaxSpeed_SupplyPump,
 				ActualSpeed := Streams.InStream.SupplyPump_Speed,
 				Speed => Streams.OutStream.SupplyPump_SetSpeed);
 {endregion}
@@ -49,7 +49,7 @@ CircularPump(RunCondition := AutoControl.Condenser_Temp.Start,
 				StopCondition := AutoControl.Condenser_Temp.Stop,
 				SpeedCondition := AutoControl.Condenser_Temp.ControlSignal,
 				RunFeedback := CircularPump.Cmd,
-				Maxspeed := Parameters.MaxSpeed_CircularPump,
+				Maxspeed := Interfacex.ScadaInterface.Parameters.MaxSpeed_CircularPump,
 				ActualSpeed := Streams.InStream.CircularPump_Speed,
 				Speed => Streams.OutStream.CircularPump_SetSpeed);
 {endregion}
@@ -98,7 +98,7 @@ ForceFan1(RunCondition := AutoControl.Boiler_Temp.Start,
 				StopCondition := AutoControl.Boiler_Temp.Stop,
 				SpeedCondition := AutoControl.Boiler_Temp.ControlSignal,
 				RunFeedback := ForceFan1.Cmd,
-				Maxspeed := Parameters.MaxSpeed_ForceFan1,
+				Maxspeed := Interfacex.ScadaInterface.Parameters.MaxSpeed_ForceFan1,
 				ActualSpeed := Streams.InStream.ForceFan1_Speed,
 				Speed => Streams.OutStream.ForceFan1_SetSpeed);
 {endregion}
@@ -109,7 +109,7 @@ ForceFan2(RunCondition := AutoControl.Boiler_Temp.Start,
 				StopCondition := AutoControl.Boiler_Temp.Stop,
 				SpeedCondition := AutoControl.Boiler_Temp.ControlSignal,
 				RunFeedback := ForceFan2.Cmd,
-				Maxspeed := Parameters.MaxSpeed_ForceFan2,
+				Maxspeed := Interfacex.ScadaInterface.Parameters.MaxSpeed_ForceFan2,
 				ActualSpeed := Streams.InStream.ForceFan2_Speed,
 				Speed => Streams.OutStream.ForceFan2_SetSpeed);
 {endregion}
@@ -119,55 +119,14 @@ ForceFan3(RunCondition := AutoControl.Boiler_Temp.Start,
 				StopCondition := AutoControl.Boiler_Temp.Stop,
 				SpeedCondition := AutoControl.Boiler_Temp.ControlSignal,
 				RunFeedback := ForceFan3.Cmd,
-				Maxspeed := Parameters.MaxSpeed_ForceFan3,
+				Maxspeed := Interfacex.ScadaInterface.Parameters.MaxSpeed_ForceFan3,
 				ActualSpeed := Streams.InStream.ForceFan3_Speed,
 				Speed => Streams.OutStream.ForceFan3_SetSpeed);
 {endregion}
 ]]></ST>
     </Implementation>
     <LineIds Name="PnID">
-      <LineId Id="5" Count="0" />
-      <LineId Id="215" Count="0" />
-      <LineId Id="45" Count="0" />
-      <LineId Id="44" Count="0" />
-      <LineId Id="55" Count="0" />
-      <LineId Id="64" Count="0" />
-      <LineId Id="56" Count="3" />
-      <LineId Id="321" Count="0" />
-      <LineId Id="62" Count="0" />
-      <LineId Id="121" Count="0" />
-      <LineId Id="120" Count="0" />
-      <LineId Id="76" Count="5" />
-      <LineId Id="322" Count="0" />
-      <LineId Id="61" Count="0" />
-      <LineId Id="123" Count="1" />
-      <LineId Id="126" Count="0" />
-      <LineId Id="135" Count="5" />
-      <LineId Id="323" Count="0" />
-      <LineId Id="141" Count="2" />
-      <LineId Id="216" Count="0" />
-      <LineId Id="145" Count="1" />
-      <LineId Id="155" Count="4" />
-      <LineId Id="161" Count="1" />
-      <LineId Id="179" Count="0" />
-      <LineId Id="163" Count="0" />
-      <LineId Id="172" Count="6" />
-      <LineId Id="182" Count="0" />
-      <LineId Id="191" Count="6" />
-      <LineId Id="199" Count="0" />
-      <LineId Id="208" Count="6" />
-      <LineId Id="217" Count="1" />
-      <LineId Id="125" Count="0" />
-      <LineId Id="220" Count="0" />
-      <LineId Id="229" Count="5" />
-      <LineId Id="324" Count="0" />
-      <LineId Id="235" Count="2" />
-      <LineId Id="257" Count="0" />
-      <LineId Id="266" Count="5" />
-      <LineId Id="325" Count="0" />
-      <LineId Id="272" Count="8" />
-      <LineId Id="326" Count="0" />
-      <LineId Id="281" Count="1" />
+      <LineId Id="343" Count="103" />
       <LineId Id="219" Count="0" />
     </LineIds>
   </POU>

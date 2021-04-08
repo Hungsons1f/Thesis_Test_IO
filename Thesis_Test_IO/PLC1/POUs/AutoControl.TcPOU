@@ -27,6 +27,18 @@ VAR
 	Turbine_Speed_PID: FB_BasicPID;
 	Boiler_Temp_PID: FB_BasicPID;
 
+	ForceFan1_Trig: R_TRIG;
+	ForceFan2_Trig: R_TRIG;
+	ForceFan3_Trig: R_TRIG;
+	CondensePump_Press_Trig: R_TRIG;
+	SupplyPump_Press_Trig: R_TRIG;
+	Condenser_Temp_Trig: R_TRIG;
+	LPHeater_Temp_Trig: R_TRIG;
+	AirEjector_Temp_Trig: R_TRIG;
+	HPHeater_Temp_Trig: R_TRIG;
+	Turbine_Speed_Trig: R_TRIG;
+	Boiler_Temp_Trig: R_TRIG;	 
+	
 	setpoint: REAL := 0.266;
 	setpoint2: REAL := 28;
 	setpoint3: REAL := 167;
@@ -55,53 +67,28 @@ VAR
 	ProcessStop: BOOL;
 	ProcessEmergency: BOOL;
 	ProcessReset: BOOL;
-	
-	ProcessRun: BOOL;
-	Trig_ProcessStop: R_TRIG;
-	Trig_ProcessEmergency: R_TRIG;
 	{endregion}
 	i: INT;
+	fbttemp: TON;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[{region 'Control signal'}
-Trig_ProcessEmergency(CLK:= AutoControlCommand.Emergency);
-Trig_ProcessStop(CLK:= AutoControlCommand.Stop);
+      <ST><![CDATA[//Chú ý lỗi ở việc reset bộ pid
 
-ProcessStart := AutoControlCommand.Start;
-IF Trig_ProcessStop THEN
-	ProcessStop := TRUE;
-END_IF
-ProcessEmergency := AutoControlCommand.Emergency;
-ProcessReset := AutoControlCommand.Reset;
-//IF Trig_ProcessEmergency THEN
-//	ProcessEmergency := AutoControlCommand.Emergency;
-//END_IF
+{region 'Control signal'}
+ProcessStart := Interfacex.ScadaInterface.AutoCtrlCmds.Start;
+ProcessStop := Interfacex.ScadaInterface.AutoCtrlCmds.Stop;
+ProcessEmergency := Interfacex.ScadaInterface.AutoCtrlCmds.Emergency;
+ProcessReset := Interfacex.ScadaInterface.AutoCtrlCmds.Reset;
 {endregion}
 
 
 {region 'Main State Machine'}
 CASE ProcessState OF
 	aE_ProcessState.Init:
-		//Reset all components
-		CondensePump_Press.Stop := FALSE;
-		SupplyPump_Press.Stop := FALSE;
-		Condenser_Temp.Stop := FALSE;
-		LPHeater_Temp.Stop := FALSE;
-		AirEjector_Temp.Stop := FALSE;
-		HPHeater_Temp.Stop := FALSE;
-		Turbine_Speed.Stop := FALSE;
-		Boiler_Temp.Stop := FALSE;
-			 
-		//Reset all PID Controllers
-		CondensePump_Press_PID(bReset := TRUE);
-		SupplyPump_Press_PID(bReset := TRUE);
-		Condenser_Temp_PID(bReset := TRUE);
-		LPHeater_Temp_PID(bReset := TRUE);
-		AirEjector_Temp_PID(bReset := TRUE);
-		HPHeater_Temp_PID(bReset := TRUE);
-		Turbine_Speed_PID(bReset := TRUE);
-		Boiler_Temp_PID(bReset := TRUE);
+		//Reset all components and all PID Controllers
+		Reset_StopAllComponents();
+		ResetAllPidControllers();
 
 		//Reset all flags and timers
 		flag1 := FALSE;
@@ -119,24 +106,26 @@ CASE ProcessState OF
 		END_IF
 		
 	aE_ProcessState.Enable:
-		//Start all components
-		CondensePump_Press.Start := TRUE;
-		SupplyPump_Press.Start := TRUE;
-		Condenser_Temp.Start := TRUE;
-		LPHeater_Temp.Start := TRUE;
-		AirEjector_Temp.Start := TRUE;
-		HPHeater_Temp.Start := TRUE;
-		Turbine_Speed.Start := TRUE;
-		Boiler_Temp.Start := TRUE;
+		//Start all components and unlock all Pid controllers
+		StartAllComponents();
+		UnlockAllPidControllers();
 		
 		//Next state
 		IF ProcessEmergency THEN
 			ProcessState := aE_ProcessState.Error;
 		END_IF
-		ProcessState := aE_ProcessState.Start;
+		fbttemp(IN:= TRUE, PT:=T#3S);
+		IF fbttemp.Q THEN
+			ProcessState := aE_ProcessState.Start;
+			fbttemp(IN:= FALSE);
+		END_IF
 		
 	aE_ProcessState.Start:
-		ProcessState := aE_ProcessState.SteadyState;
+		fbttemp(IN:= TRUE, PT:=T#3S);
+		IF fbttemp.Q THEN
+			ProcessState := aE_ProcessState.SteadyState;
+			fbttemp(IN:= FALSE);
+		END_IF
 		IF ProcessEmergency THEN
 			ProcessState := aE_ProcessState.Error;
 		END_IF
@@ -334,6 +323,7 @@ CASE ProcessState OF
 		 {endregion}
 		  
 		
+	
 	aE_ProcessState.SteadyState:
 		//Next State
 		IF ProcessEmergency THEN
@@ -345,62 +335,42 @@ CASE ProcessState OF
 		
 	aE_ProcessState.Stop:
 		//Reset processstop
-		ProcessStop := FALSE;
-		//Stop all components
-		CondensePump_Press.Stop := TRUE;
-		SupplyPump_Press.Stop := TRUE;
-		Condenser_Temp.Stop := TRUE;
-		LPHeater_Temp.Stop := TRUE;
-		AirEjector_Temp.Stop := TRUE;
-		HPHeater_Temp.Stop := TRUE;
-		Turbine_Speed.Stop := TRUE;
-		Boiler_Temp.Stop := TRUE;
+		//ProcessStop := FALSE;
+
 		//Next State
 		IF ProcessEmergency THEN
 			ProcessState := aE_ProcessState.Error;
 		END_IF
-		ProcessState := aE_ProcessState.Disable;
+		fbttemp(IN:= TRUE, PT:=T#3S);
+		IF fbttemp.Q THEN
+			ProcessState := aE_ProcessState.Disable;
+			fbttemp(IN:= FALSE);
+		END_IF
+		//ProcessState := aE_ProcessState.Disable;
 		
 	aE_ProcessState.Disable:
-		//Clear all start flags of components
-		CondensePump_Press.Start := FALSE;
-		SupplyPump_Press.Start := FALSE;
-		Condenser_Temp.Start := FALSE;
-		LPHeater_Temp.Start := FALSE;
-		AirEjector_Temp.Start := FALSE;
-		HPHeater_Temp.Start := FALSE;
-		Turbine_Speed.Start := FALSE;
-		Boiler_Temp.Start := FALSE;
+		//Stop all components and lock all Pid Controllers, Clear all start flags of components
+		StopAllComponents();
+		LockAllPidControllers();
+		Reset_StartAllComponents();
+		
 		//Next State
 		IF ProcessEmergency THEN
 			ProcessState := aE_ProcessState.Error;
 		END_IF
-		ProcessState := aE_ProcessState.Init;
+		fbttemp(IN:= TRUE, PT:=T#3S);
+		IF fbttemp.Q THEN
+			ProcessState := aE_ProcessState.Init;
+			fbttemp(IN:= FALSE);
+		END_IF
+		//ProcessState := aE_ProcessState.Init;
 		
 	aE_ProcessState.Error:
-//		IF ProcessEmergency THEN
-//			ProcessEmergency := FALSE;
-//		END_IF
-	 	//Stop all components
-		CondensePump_Press.Stop := TRUE;
-		SupplyPump_Press.Stop := TRUE;
-		Condenser_Temp.Stop := TRUE;
-		LPHeater_Temp.Stop := TRUE;
-		AirEjector_Temp.Stop := TRUE;
-		HPHeater_Temp.Stop := TRUE;
-		Turbine_Speed.Stop := TRUE;
-		Boiler_Temp.Stop := TRUE;
+	 	//Stop all components and clear start flags
+		StopAllComponents();
+		LockAllPidControllers();
+		Reset_StartAllComponents();
 		
-		//Clear all start flags of components
-		CondensePump_Press.Start := FALSE;
-		SupplyPump_Press.Start := FALSE;
-		Condenser_Temp.Start := FALSE;
-		LPHeater_Temp.Start := FALSE;
-		AirEjector_Temp.Start := FALSE;
-		HPHeater_Temp.Start := FALSE;
-		Turbine_Speed.Start := FALSE;
-		Boiler_Temp.Start := FALSE;
-
 		//Next State	 
 		IF ProcessReset THEN
 			ProcessState := aE_ProcessState.Reset;
@@ -413,35 +383,35 @@ END_CASE
 {endregion}
 
 {region 'Component Controllers'}
-IF (ProcessState = aE_ProcessState.Start OR ProcessState = aE_ProcessState.SteadyState OR ProcessState = aE_ProcessState.Stop) THEN 
+//IF (ProcessState = aE_ProcessState.Start OR ProcessState = aE_ProcessState.SteadyState OR ProcessState = aE_ProcessState.Stop) THEN 
 	CondensePump_Press_PID(fSetpointValue := CondensePump_Press.Setpoint,
 							fActualValue := Streams.InStream.CondensePump_Press,
-							bReset := NOT PnID.CondensePump.Cmd,
-							fCtrlCycleTime := Parameters.SampleTime,
-							fKp := Parameters.PID_CondensePump_Press.Kp,
-							fTn := Parameters.PID_CondensePump_Press.Ti,
-							fTv := Parameters.PID_CondensePump_Press.Td,
-							fTd := Parameters.PID_CondensePump_Press.Tn,
+							bReset := NOT PnID.CondensePump.Cmd OR CondensePump_Press.ResetPid,
+							fCtrlCycleTime := Interfacex.ScadaInterface.Parameters.SampleTime,
+							fKp := Interfacex.ScadaInterface.Parameters.PID_CondensePump_Press.Kp,
+							fTn := Interfacex.ScadaInterface.Parameters.PID_CondensePump_Press.Ti,
+							fTv := Interfacex.ScadaInterface.Parameters.PID_CondensePump_Press.Td,
+							fTd := Interfacex.ScadaInterface.Parameters.PID_CondensePump_Press.Tn,
 							fCtrlOutput => CondensePump_Press.ControlSignal);
 								 
 	SupplyPump_Press_PID(fSetpointValue := SupplyPump_Press.Setpoint,
 							fActualValue := Streams.InStream.SupplyPump_Press,
-							bReset := NOT PnID.SupplyPump.Cmd,
-							fCtrlCycleTime := Parameters.SampleTime,
-							fKp := Parameters.PID_SupplyPump_Press.Kp,
-							fTn := Parameters.PID_SupplyPump_Press.Ti,
-							fTv := Parameters.PID_SupplyPump_Press.Td,
-							fTd := Parameters.PID_SupplyPump_Press.Tn,
+							bReset := NOT PnID.SupplyPump.Cmd OR SupplyPump_Press.ResetPid,
+							fCtrlCycleTime := Interfacex.ScadaInterface.Parameters.SampleTime,
+							fKp := Interfacex.ScadaInterface.Parameters.PID_SupplyPump_Press.Kp,
+							fTn := Interfacex.ScadaInterface.Parameters.PID_SupplyPump_Press.Ti,
+							fTv := Interfacex.ScadaInterface.Parameters.PID_SupplyPump_Press.Td,
+							fTd := Interfacex.ScadaInterface.Parameters.PID_SupplyPump_Press.Tn,
 							fCtrlOutput => SupplyPump_Press.ControlSignal);	
 		  
 	Condenser_Temp_PID(fSetpointValue := Condenser_Temp.Setpoint,
 							fActualValue := Streams.InStream.Condenser_Temp,
-							bReset := NOT PnID.CircularPump.Cmd,
-							fCtrlCycleTime := Parameters.SampleTime,
-							fKp := Parameters.PID_Condenser_Temp.Kp,
-							fTn := Parameters.PID_Condenser_Temp.Ti,
-							fTv := Parameters.PID_Condenser_Temp.Td,
-							fTd := Parameters.PID_Condenser_Temp.Tn,
+							bReset := NOT PnID.CircularPump.Cmd OR Condenser_Temp.ResetPid,
+							fCtrlCycleTime := Interfacex.ScadaInterface.Parameters.SampleTime,
+							fKp := Interfacex.ScadaInterface.Parameters.PID_Condenser_Temp.Kp,
+							fTn := Interfacex.ScadaInterface.Parameters.PID_Condenser_Temp.Ti,
+							fTv := Interfacex.ScadaInterface.Parameters.PID_Condenser_Temp.Td,
+							fTd := Interfacex.ScadaInterface.Parameters.PID_Condenser_Temp.Tn,
 							fCtrlOutput => Condenser_Temp.ControlSignal);
 								 
 	CASE LPHeater_Temp.Switch OF 
@@ -450,12 +420,12 @@ IF (ProcessState = aE_ProcessState.Start OR ProcessState = aE_ProcessState.Stead
 		 1: 
 			  LPHeater_Temp_PID(fSetpointValue := LPHeater_Temp.Setpoint,
 						fActualValue := Streams.InStream.LPHeater_Temp,
-						bReset := NOT PnID.LPHeaterValve.Cmd,
-						fCtrlCycleTime := Parameters.SampleTime,
-						fKp := Parameters.PID_LPHeater_Temp.Kp,
-						fTn := Parameters.PID_LPHeater_Temp.Ti,
-						fTv := Parameters.PID_LPHeater_Temp.Td,
-						fTd := Parameters.PID_LPHeater_Temp.Tn,
+						bReset := NOT PnID.LPHeaterValve.Cmd OR LPHeater_Temp.ResetPid,
+						fCtrlCycleTime := Interfacex.ScadaInterface.Parameters.SampleTime,
+						fKp := Interfacex.ScadaInterface.Parameters.PID_LPHeater_Temp.Kp,
+						fTn := Interfacex.ScadaInterface.Parameters.PID_LPHeater_Temp.Ti,
+						fTv := Interfacex.ScadaInterface.Parameters.PID_LPHeater_Temp.Td,
+						fTd := Interfacex.ScadaInterface.Parameters.PID_LPHeater_Temp.Tn,
 						fCtrlOutput => LPHeater_Temp.ControlSignal);
 	END_CASE
 	
@@ -465,12 +435,12 @@ IF (ProcessState = aE_ProcessState.Start OR ProcessState = aE_ProcessState.Stead
 		1: 
 			 AirEjector_Temp_PID(fSetpointValue := AirEjector_Temp.Setpoint,
 							fActualValue := Streams.InStream.AirEjector_Temp,
-							bReset := NOT PnID.AirEjectorValve.Cmd,
-							fCtrlCycleTime := Parameters.SampleTime,
-							fKp := Parameters.PID_AirEjector_Temp.Kp,
-							fTn := Parameters.PID_AirEjector_Temp.Ti,
-							fTv := Parameters.PID_AirEjector_Temp.Td,
-							fTd := Parameters.PID_AirEjector_Temp.Tn,
+							bReset := NOT PnID.AirEjectorValve.Cmd OR AirEjector_Temp.ResetPid,
+							fCtrlCycleTime := Interfacex.ScadaInterface.Parameters.SampleTime,
+							fKp := Interfacex.ScadaInterface.Parameters.PID_AirEjector_Temp.Kp,
+							fTn := Interfacex.ScadaInterface.Parameters.PID_AirEjector_Temp.Ti,
+							fTv := Interfacex.ScadaInterface.Parameters.PID_AirEjector_Temp.Td,
+							fTd := Interfacex.ScadaInterface.Parameters.PID_AirEjector_Temp.Tn,
 							fCtrlOutput => AirEjector_Temp.ControlSignal);
 	END_CASE							 
 				
@@ -480,12 +450,12 @@ IF (ProcessState = aE_ProcessState.Start OR ProcessState = aE_ProcessState.Stead
 		1: 
 			 HPHeater_Temp_PID(fSetpointValue := HPHeater_Temp.Setpoint,
 							fActualValue := Streams.InStream.HPHeater_Temp,
-							bReset := NOT PnID.HPHeaterValve.Cmd,
-							fCtrlCycleTime := Parameters.SampleTime,
-							fKp := Parameters.PID_HPHeater_Temp.Kp,
-							fTn := Parameters.PID_HPHeater_Temp.Ti,
-							fTv := Parameters.PID_HPHeater_Temp.Td,
-							fTd := Parameters.PID_HPHeater_Temp.Tn,
+							bReset := NOT PnID.HPHeaterValve.Cmd OR HPHeater_Temp.ResetPid,
+							fCtrlCycleTime := Interfacex.ScadaInterface.Parameters.SampleTime,
+							fKp := Interfacex.ScadaInterface.Parameters.PID_HPHeater_Temp.Kp,
+							fTn := Interfacex.ScadaInterface.Parameters.PID_HPHeater_Temp.Ti,
+							fTv := Interfacex.ScadaInterface.Parameters.PID_HPHeater_Temp.Td,
+							fTd := Interfacex.ScadaInterface.Parameters.PID_HPHeater_Temp.Tn,
 							fCtrlOutput => HPHeater_Temp.ControlSignal);
 	END_CASE				 
 	
@@ -495,96 +465,212 @@ IF (ProcessState = aE_ProcessState.Start OR ProcessState = aE_ProcessState.Stead
 		1: 
 			 Turbine_Speed_PID(fSetpointValue := Turbine_Speed.Setpoint,
 							fActualValue := Streams.InStream.Turbine_Rotation,
-							bReset := NOT PnID.TurbineValve.Cmd,
-							fCtrlCycleTime := Parameters.SampleTime,
-							fKp := Parameters.PID_Turbine_Speed.Kp,
-							fTn := Parameters.PID_Turbine_Speed.Ti,
-							fTv := Parameters.PID_Turbine_Speed.Td,
-							fTd := Parameters.PID_Turbine_Speed.Tn,
+							bReset := NOT PnID.TurbineValve.Cmd OR Turbine_Speed.ResetPid,
+							fCtrlCycleTime := Interfacex.ScadaInterface.Parameters.SampleTime,
+							fKp := Interfacex.ScadaInterface.Parameters.PID_Turbine_Speed.Kp,
+							fTn := Interfacex.ScadaInterface.Parameters.PID_Turbine_Speed.Ti,
+							fTv := Interfacex.ScadaInterface.Parameters.PID_Turbine_Speed.Td,
+							fTd := Interfacex.ScadaInterface.Parameters.PID_Turbine_Speed.Tn,
 							fCtrlOutput => Turbine_Speed.ControlSignal);
 	END_CASE
 	
 	Boiler_Temp_PID(fSetpointValue := Boiler_Temp.Setpoint,
 							fActualValue := Streams.InStream.Boiler_Temp,
-							bReset := NOT (PnID.ForceFan1.Cmd AND PnID.ForceFan2.Cmd AND PnID.ForceFan3.Cmd),
-							fCtrlCycleTime := Parameters.SampleTime,
-							fKp := Parameters.PID_Boiler_Temp.Kp,
-							fTn := Parameters.PID_Boiler_Temp.Ti,
-							fTv := Parameters.PID_Boiler_Temp.Td,
-							fTd := Parameters.PID_Boiler_Temp.Tn,
+							bReset := NOT (PnID.ForceFan1.Cmd AND PnID.ForceFan2.Cmd AND PnID.ForceFan3.Cmd) OR Boiler_Temp.ResetPid,
+							fCtrlCycleTime := Interfacex.ScadaInterface.Parameters.SampleTime,
+							fKp := Interfacex.ScadaInterface.Parameters.PID_Boiler_Temp.Kp,
+							fTn := Interfacex.ScadaInterface.Parameters.PID_Boiler_Temp.Ti,
+							fTv := Interfacex.ScadaInterface.Parameters.PID_Boiler_Temp.Td,
+							fTd := Interfacex.ScadaInterface.Parameters.PID_Boiler_Temp.Tn,
 							fCtrlOutput => Boiler_Temp.ControlSignal);
 							 
+//END_IF
+//Catch trigger of manual to automatic
+CondensePump_Press_Trig(CLK := (PnID.CondensePump.Mode = aE_Mode.Auto));
+SupplyPump_Press_Trig(CLK := (PnID.SupplyPump.Mode = aE_Mode.Auto));
+Condenser_Temp_Trig(CLK := (PnID.CircularPump.Mode = aE_Mode.Auto));
+LPHeater_Temp_Trig(CLK := (PnID.LPHeaterValve.Mode = aE_Mode.Auto));
+AirEjector_Temp_Trig(CLK := (PnID.AirEjectorValve.Mode = aE_Mode.Auto));
+HPHeater_Temp_Trig(CLK := (PnID.HPHeaterValve.Mode = aE_Mode.Auto));
+Turbine_Speed_Trig(CLK := (PnID.TurbineValve.Mode = aE_Mode.Auto));
+Boiler_Temp_Trig(CLK := (PnID.ForceFan1.Mode = aE_Mode.Auto));
+
+IF PnID.CondensePump.Mode = aE_Mode.Manual THEN
+	CondensePump_Press.ResetPid := TRUE;
+END_IF
+IF PnID.SupplyPump.Mode = aE_Mode.Manual THEN
+	SupplyPump_Press.ResetPid := TRUE;
+END_IF
+IF PnID.CircularPump.Mode = aE_Mode.Manual THEN
+	Condenser_Temp.ResetPid := TRUE;
+END_IF
+IF PnID.LPHeaterValve.Mode = aE_Mode.Manual THEN
+	LPHeater_Temp.ResetPid := TRUE;
+END_IF
+IF PnID.AirEjectorValve.Mode = aE_Mode.Manual THEN
+	AirEjector_Temp.ResetPid := TRUE;
+END_IF
+IF PnID.HPHeaterValve.Mode = aE_Mode.Manual THEN
+	HPHeater_Temp.ResetPid := TRUE;
+END_IF
+IF PnID.TurbineValve.Mode = aE_Mode.Manual THEN
+	Turbine_Speed.ResetPid := TRUE;
+END_IF
+IF PnID.ForceFan1.Mode = aE_Mode.Manual THEN
+	Boiler_Temp.ResetPid := TRUE;
 END_IF
 
+IF CondensePump_Press_Trig.Q THEN
+	CondensePump_Press.ResetPid := FALSE;
+END_IF
+IF SupplyPump_Press_Trig.Q THEN
+	SupplyPump_Press.ResetPid := FALSE;
+END_IF
+IF Condenser_Temp_Trig.Q THEN
+	Condenser_Temp.ResetPid := FALSE;
+END_IF
+IF LPHeater_Temp_Trig.Q THEN
+	LPHeater_Temp.ResetPid := FALSE;
+END_IF
+IF AirEjector_Temp_Trig.Q THEN
+	AirEjector_Temp.ResetPid := FALSE;
+END_IF
+IF HPHeater_Temp_Trig.Q THEN
+	HPHeater_Temp.ResetPid := FALSE;
+END_IF
+IF Turbine_Speed_Trig.Q THEN
+	Turbine_Speed.ResetPid := FALSE;
+END_IF
+IF Boiler_Temp_Trig.Q THEN
+	Boiler_Temp.ResetPid := FALSE;
+END_IF
 {endregion}
 ]]></ST>
     </Implementation>
+    <Action Name="LockAllPidControllers" Id="{f361dba3-b7eb-4ddb-a81a-34ed9f6f4613}">
+      <Implementation>
+        <ST><![CDATA[CondensePump_Press.ResetPid := TRUE;
+SupplyPump_Press.ResetPid := TRUE;
+Condenser_Temp.ResetPid := TRUE;
+LPHeater_Temp.ResetPid := TRUE;
+AirEjector_Temp.ResetPid := TRUE;
+HPHeater_Temp.ResetPid := TRUE;
+Turbine_Speed.ResetPid := TRUE;
+Boiler_Temp.ResetPid := TRUE;]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="Reset_StartAllComponents" Id="{c4298bc5-fde3-4220-980a-0f215b7a2bc1}">
+      <Implementation>
+        <ST><![CDATA[//Clear all start flags of components
+CondensePump_Press.Start := FALSE;
+SupplyPump_Press.Start := FALSE;
+Condenser_Temp.Start := FALSE;
+LPHeater_Temp.Start := FALSE;
+AirEjector_Temp.Start := FALSE;
+HPHeater_Temp.Start := FALSE;
+Turbine_Speed.Start := FALSE;
+Boiler_Temp.Start := FALSE;
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="Reset_StopAllComponents" Id="{3a744524-85d4-4ae0-8111-cba1fb2fa1f4}">
+      <Implementation>
+        <ST><![CDATA[//Reset all components
+CondensePump_Press.Stop := FALSE;
+SupplyPump_Press.Stop := FALSE;
+Condenser_Temp.Stop := FALSE;
+LPHeater_Temp.Stop := FALSE;
+AirEjector_Temp.Stop := FALSE;
+HPHeater_Temp.Stop := FALSE;
+Turbine_Speed.Stop := FALSE;
+Boiler_Temp.Stop := FALSE;
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="ResetAllPidControllers" Id="{8216e1bb-67b8-4edd-afc5-f26fa58226e2}">
+      <Implementation>
+        <ST><![CDATA[//Reset all PID Controllers
+CondensePump_Press_PID(bReset := TRUE);
+SupplyPump_Press_PID(bReset := TRUE);
+Condenser_Temp_PID(bReset := TRUE);
+LPHeater_Temp_PID(bReset := TRUE);
+AirEjector_Temp_PID(bReset := TRUE);
+HPHeater_Temp_PID(bReset := TRUE);
+Turbine_Speed_PID(bReset := TRUE);
+Boiler_Temp_PID(bReset := TRUE);
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="StartAllComponents" Id="{00eae09a-8071-44ad-a07d-1143aaacf4bd}">
+      <Implementation>
+        <ST><![CDATA[//Start all components
+CondensePump_Press.Start := TRUE;
+SupplyPump_Press.Start := TRUE;
+Condenser_Temp.Start := TRUE;
+LPHeater_Temp.Start := TRUE;
+AirEjector_Temp.Start := TRUE;
+HPHeater_Temp.Start := TRUE;
+Turbine_Speed.Start := TRUE;
+Boiler_Temp.Start := TRUE;
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="StopAllComponents" Id="{a1f5f4a1-b053-4804-a3d0-2750b8d79bb5}">
+      <Implementation>
+        <ST><![CDATA[//Stop all components
+CondensePump_Press.Stop := TRUE;
+SupplyPump_Press.Stop := TRUE;
+Condenser_Temp.Stop := TRUE;
+LPHeater_Temp.Stop := TRUE;
+AirEjector_Temp.Stop := TRUE;
+HPHeater_Temp.Stop := TRUE;
+Turbine_Speed.Stop := TRUE;
+Boiler_Temp.Stop := TRUE;
+]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="UnlockAllPidControllers" Id="{147ad17e-894f-44f5-af06-707350d6be91}">
+      <Implementation>
+        <ST><![CDATA[CondensePump_Press.ResetPid := FALSE;
+SupplyPump_Press.ResetPid := FALSE;
+Condenser_Temp.ResetPid := FALSE;
+LPHeater_Temp.ResetPid := FALSE;
+AirEjector_Temp.ResetPid := FALSE;
+HPHeater_Temp.ResetPid := FALSE;
+Turbine_Speed.ResetPid := FALSE;
+Boiler_Temp.ResetPid := FALSE;]]></ST>
+      </Implementation>
+    </Action>
     <LineIds Name="AutoControl">
-      <LineId Id="1331" Count="0" />
-      <LineId Id="1334" Count="1" />
-      <LineId Id="1333" Count="0" />
-      <LineId Id="1298" Count="3" />
-      <LineId Id="1356" Count="0" />
-      <LineId Id="1360" Count="0" />
-      <LineId Id="1320" Count="2" />
-      <LineId Id="1094" Count="0" />
-      <LineId Id="1001" Count="0" />
-      <LineId Id="1000" Count="0" />
-      <LineId Id="894" Count="0" />
-      <LineId Id="160" Count="10" />
-      <LineId Id="1003" Count="0" />
-      <LineId Id="346" Count="0" />
-      <LineId Id="344" Count="0" />
-      <LineId Id="347" Count="6" />
-      <LineId Id="420" Count="0" />
-      <LineId Id="171" Count="0" />
-      <LineId Id="421" Count="2" />
-      <LineId Id="1031" Count="0" />
-      <LineId Id="722" Count="0" />
-      <LineId Id="172" Count="1" />
-      <LineId Id="1323" Count="2" />
-      <LineId Id="1097" Count="0" />
-      <LineId Id="174" Count="0" />
-      <LineId Id="1099" Count="0" />
-      <LineId Id="175" Count="12" />
-      <LineId Id="1337" Count="2" />
-      <LineId Id="188" Count="2" />
-      <LineId Id="1296" Count="0" />
-      <LineId Id="1341" Count="2" />
-      <LineId Id="1102" Count="0" />
-      <LineId Id="1106" Count="188" />
-      <LineId Id="1104" Count="1" />
-      <LineId Id="1295" Count="0" />
-      <LineId Id="212" Count="1" />
-      <LineId Id="1304" Count="0" />
-      <LineId Id="1345" Count="2" />
-      <LineId Id="214" Count="0" />
-      <LineId Id="1302" Count="1" />
-      <LineId Id="215" Count="1" />
-      <LineId Id="1317" Count="1" />
-      <LineId Id="1306" Count="8" />
-      <LineId Id="217" Count="0" />
-      <LineId Id="1349" Count="2" />
-      <LineId Id="1315" Count="0" />
-      <LineId Id="218" Count="11" />
-      <LineId Id="1353" Count="2" />
-      <LineId Id="230" Count="0" />
-      <LineId Id="1316" Count="0" />
-      <LineId Id="231" Count="1" />
-      <LineId Id="1326" Count="1" />
-      <LineId Id="1362" Count="9" />
-      <LineId Id="1373" Count="9" />
-      <LineId Id="1361" Count="0" />
-      <LineId Id="1383" Count="0" />
-      <LineId Id="1358" Count="1" />
-      <LineId Id="233" Count="1" />
-      <LineId Id="1384" Count="0" />
-      <LineId Id="235" Count="2" />
-      <LineId Id="239" Count="1" />
-      <LineId Id="897" Count="101" />
-      <LineId Id="896" Count="0" />
-      <LineId Id="895" Count="0" />
+      <LineId Id="1571" Count="471" />
       <LineId Id="132" Count="0" />
+    </LineIds>
+    <LineIds Name="AutoControl.LockAllPidControllers">
+      <LineId Id="1" Count="7" />
+    </LineIds>
+    <LineIds Name="AutoControl.Reset_StartAllComponents">
+      <LineId Id="2" Count="8" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="AutoControl.Reset_StopAllComponents">
+      <LineId Id="2" Count="8" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="AutoControl.ResetAllPidControllers">
+      <LineId Id="2" Count="8" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="AutoControl.StartAllComponents">
+      <LineId Id="2" Count="8" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="AutoControl.StopAllComponents">
+      <LineId Id="2" Count="8" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+    <LineIds Name="AutoControl.UnlockAllPidControllers">
+      <LineId Id="2" Count="6" />
+      <LineId Id="1" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

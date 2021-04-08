@@ -38,10 +38,16 @@
     <Compile Include="DUTs\aT_Turbine.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\ComponentInterface.TcDUT">
+    <Compile Include="DUTs\AutoCtrlCmds.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\Components.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\InStream.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\MainInterface.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="DUTs\OutStream.TcDUT">
@@ -50,15 +56,10 @@
     <Compile Include="DUTs\aS_PidParameter.TcDUT">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GVLs\AutoControlCommand.TcGVL">
+    <Compile Include="DUTs\Parameters.TcDUT">
       <SubType>Code</SubType>
-      <LinkAlways>true</LinkAlways>
     </Compile>
-    <Compile Include="GVLs\Components.TcGVL">
-      <SubType>Code</SubType>
-      <LinkAlways>true</LinkAlways>
-    </Compile>
-    <Compile Include="GVLs\Parameters.TcGVL">
+    <Compile Include="GVLs\Interfacex.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
     </Compile>
