@@ -76,10 +76,10 @@ END_VAR
       <ST><![CDATA[//Chú ý lỗi ở việc reset bộ pid
 
 {region 'Control signal'}
-ProcessStart := Interfacex.ScadaInterface.AutoCtrlCmds.Start;
-ProcessStop := Interfacex.ScadaInterface.AutoCtrlCmds.Stop;
-ProcessEmergency := Interfacex.ScadaInterface.AutoCtrlCmds.Emergency;
-ProcessReset := Interfacex.ScadaInterface.AutoCtrlCmds.Reset;
+ProcessStart := Interfacex.AutoCtrlCmds.Start;
+ProcessStop := Interfacex.AutoCtrlCmds.Stop;
+ProcessEmergency := Interfacex.AutoCtrlCmds.Emergency;
+ProcessReset := Interfacex.AutoCtrlCmds.Reset;
 {endregion}
 
 
@@ -387,31 +387,31 @@ END_CASE
 	CondensePump_Press_PID(fSetpointValue := CondensePump_Press.Setpoint,
 							fActualValue := Streams.InStream.CondensePump_Press,
 							bReset := NOT PnID.CondensePump.Cmd OR CondensePump_Press.ResetPid,
-							fCtrlCycleTime := Interfacex.ScadaInterface.Parameters.SampleTime,
-							fKp := Interfacex.ScadaInterface.Parameters.PID_CondensePump_Press.Kp,
-							fTn := Interfacex.ScadaInterface.Parameters.PID_CondensePump_Press.Ti,
-							fTv := Interfacex.ScadaInterface.Parameters.PID_CondensePump_Press.Td,
-							fTd := Interfacex.ScadaInterface.Parameters.PID_CondensePump_Press.Tn,
+							fCtrlCycleTime := Interfacex.Parameters.SampleTime,
+							fKp := Interfacex.Parameters.PID_CondensePump_Press.Kp,
+							fTn := Interfacex.Parameters.PID_CondensePump_Press.Ti,
+							fTv := Interfacex.Parameters.PID_CondensePump_Press.Td,
+							fTd := Interfacex.Parameters.PID_CondensePump_Press.Tn,
 							fCtrlOutput => CondensePump_Press.ControlSignal);
 								 
 	SupplyPump_Press_PID(fSetpointValue := SupplyPump_Press.Setpoint,
 							fActualValue := Streams.InStream.SupplyPump_Press,
 							bReset := NOT PnID.SupplyPump.Cmd OR SupplyPump_Press.ResetPid,
-							fCtrlCycleTime := Interfacex.ScadaInterface.Parameters.SampleTime,
-							fKp := Interfacex.ScadaInterface.Parameters.PID_SupplyPump_Press.Kp,
-							fTn := Interfacex.ScadaInterface.Parameters.PID_SupplyPump_Press.Ti,
-							fTv := Interfacex.ScadaInterface.Parameters.PID_SupplyPump_Press.Td,
-							fTd := Interfacex.ScadaInterface.Parameters.PID_SupplyPump_Press.Tn,
+							fCtrlCycleTime := Interfacex.Parameters.SampleTime,
+							fKp := Interfacex.Parameters.PID_SupplyPump_Press.Kp,
+							fTn := Interfacex.Parameters.PID_SupplyPump_Press.Ti,
+							fTv := Interfacex.Parameters.PID_SupplyPump_Press.Td,
+							fTd := Interfacex.Parameters.PID_SupplyPump_Press.Tn,
 							fCtrlOutput => SupplyPump_Press.ControlSignal);	
 		  
 	Condenser_Temp_PID(fSetpointValue := Condenser_Temp.Setpoint,
 							fActualValue := Streams.InStream.Condenser_Temp,
 							bReset := NOT PnID.CircularPump.Cmd OR Condenser_Temp.ResetPid,
-							fCtrlCycleTime := Interfacex.ScadaInterface.Parameters.SampleTime,
-							fKp := Interfacex.ScadaInterface.Parameters.PID_Condenser_Temp.Kp,
-							fTn := Interfacex.ScadaInterface.Parameters.PID_Condenser_Temp.Ti,
-							fTv := Interfacex.ScadaInterface.Parameters.PID_Condenser_Temp.Td,
-							fTd := Interfacex.ScadaInterface.Parameters.PID_Condenser_Temp.Tn,
+							fCtrlCycleTime := Interfacex.Parameters.SampleTime,
+							fKp := Interfacex.Parameters.PID_Condenser_Temp.Kp,
+							fTn := Interfacex.Parameters.PID_Condenser_Temp.Ti,
+							fTv := Interfacex.Parameters.PID_Condenser_Temp.Td,
+							fTd := Interfacex.Parameters.PID_Condenser_Temp.Tn,
 							fCtrlOutput => Condenser_Temp.ControlSignal);
 								 
 	CASE LPHeater_Temp.Switch OF 
@@ -421,11 +421,11 @@ END_CASE
 			  LPHeater_Temp_PID(fSetpointValue := LPHeater_Temp.Setpoint,
 						fActualValue := Streams.InStream.LPHeater_Temp,
 						bReset := NOT PnID.LPHeaterValve.Cmd OR LPHeater_Temp.ResetPid,
-						fCtrlCycleTime := Interfacex.ScadaInterface.Parameters.SampleTime,
-						fKp := Interfacex.ScadaInterface.Parameters.PID_LPHeater_Temp.Kp,
-						fTn := Interfacex.ScadaInterface.Parameters.PID_LPHeater_Temp.Ti,
-						fTv := Interfacex.ScadaInterface.Parameters.PID_LPHeater_Temp.Td,
-						fTd := Interfacex.ScadaInterface.Parameters.PID_LPHeater_Temp.Tn,
+						fCtrlCycleTime := Interfacex.Parameters.SampleTime,
+						fKp := Interfacex.Parameters.PID_LPHeater_Temp.Kp,
+						fTn := Interfacex.Parameters.PID_LPHeater_Temp.Ti,
+						fTv := Interfacex.Parameters.PID_LPHeater_Temp.Td,
+						fTd := Interfacex.Parameters.PID_LPHeater_Temp.Tn,
 						fCtrlOutput => LPHeater_Temp.ControlSignal);
 	END_CASE
 	
@@ -436,11 +436,11 @@ END_CASE
 			 AirEjector_Temp_PID(fSetpointValue := AirEjector_Temp.Setpoint,
 							fActualValue := Streams.InStream.AirEjector_Temp,
 							bReset := NOT PnID.AirEjectorValve.Cmd OR AirEjector_Temp.ResetPid,
-							fCtrlCycleTime := Interfacex.ScadaInterface.Parameters.SampleTime,
-							fKp := Interfacex.ScadaInterface.Parameters.PID_AirEjector_Temp.Kp,
-							fTn := Interfacex.ScadaInterface.Parameters.PID_AirEjector_Temp.Ti,
-							fTv := Interfacex.ScadaInterface.Parameters.PID_AirEjector_Temp.Td,
-							fTd := Interfacex.ScadaInterface.Parameters.PID_AirEjector_Temp.Tn,
+							fCtrlCycleTime := Interfacex.Parameters.SampleTime,
+							fKp := Interfacex.Parameters.PID_AirEjector_Temp.Kp,
+							fTn := Interfacex.Parameters.PID_AirEjector_Temp.Ti,
+							fTv := Interfacex.Parameters.PID_AirEjector_Temp.Td,
+							fTd := Interfacex.Parameters.PID_AirEjector_Temp.Tn,
 							fCtrlOutput => AirEjector_Temp.ControlSignal);
 	END_CASE							 
 				
@@ -451,11 +451,11 @@ END_CASE
 			 HPHeater_Temp_PID(fSetpointValue := HPHeater_Temp.Setpoint,
 							fActualValue := Streams.InStream.HPHeater_Temp,
 							bReset := NOT PnID.HPHeaterValve.Cmd OR HPHeater_Temp.ResetPid,
-							fCtrlCycleTime := Interfacex.ScadaInterface.Parameters.SampleTime,
-							fKp := Interfacex.ScadaInterface.Parameters.PID_HPHeater_Temp.Kp,
-							fTn := Interfacex.ScadaInterface.Parameters.PID_HPHeater_Temp.Ti,
-							fTv := Interfacex.ScadaInterface.Parameters.PID_HPHeater_Temp.Td,
-							fTd := Interfacex.ScadaInterface.Parameters.PID_HPHeater_Temp.Tn,
+							fCtrlCycleTime := Interfacex.Parameters.SampleTime,
+							fKp := Interfacex.Parameters.PID_HPHeater_Temp.Kp,
+							fTn := Interfacex.Parameters.PID_HPHeater_Temp.Ti,
+							fTv := Interfacex.Parameters.PID_HPHeater_Temp.Td,
+							fTd := Interfacex.Parameters.PID_HPHeater_Temp.Tn,
 							fCtrlOutput => HPHeater_Temp.ControlSignal);
 	END_CASE				 
 	
@@ -466,22 +466,22 @@ END_CASE
 			 Turbine_Speed_PID(fSetpointValue := Turbine_Speed.Setpoint,
 							fActualValue := Streams.InStream.Turbine_Rotation,
 							bReset := NOT PnID.TurbineValve.Cmd OR Turbine_Speed.ResetPid,
-							fCtrlCycleTime := Interfacex.ScadaInterface.Parameters.SampleTime,
-							fKp := Interfacex.ScadaInterface.Parameters.PID_Turbine_Speed.Kp,
-							fTn := Interfacex.ScadaInterface.Parameters.PID_Turbine_Speed.Ti,
-							fTv := Interfacex.ScadaInterface.Parameters.PID_Turbine_Speed.Td,
-							fTd := Interfacex.ScadaInterface.Parameters.PID_Turbine_Speed.Tn,
+							fCtrlCycleTime := Interfacex.Parameters.SampleTime,
+							fKp := Interfacex.Parameters.PID_Turbine_Speed.Kp,
+							fTn := Interfacex.Parameters.PID_Turbine_Speed.Ti,
+							fTv := Interfacex.Parameters.PID_Turbine_Speed.Td,
+							fTd := Interfacex.Parameters.PID_Turbine_Speed.Tn,
 							fCtrlOutput => Turbine_Speed.ControlSignal);
 	END_CASE
 	
 	Boiler_Temp_PID(fSetpointValue := Boiler_Temp.Setpoint,
 							fActualValue := Streams.InStream.Boiler_Temp,
 							bReset := NOT (PnID.ForceFan1.Cmd AND PnID.ForceFan2.Cmd AND PnID.ForceFan3.Cmd) OR Boiler_Temp.ResetPid,
-							fCtrlCycleTime := Interfacex.ScadaInterface.Parameters.SampleTime,
-							fKp := Interfacex.ScadaInterface.Parameters.PID_Boiler_Temp.Kp,
-							fTn := Interfacex.ScadaInterface.Parameters.PID_Boiler_Temp.Ti,
-							fTv := Interfacex.ScadaInterface.Parameters.PID_Boiler_Temp.Td,
-							fTd := Interfacex.ScadaInterface.Parameters.PID_Boiler_Temp.Tn,
+							fCtrlCycleTime := Interfacex.Parameters.SampleTime,
+							fKp := Interfacex.Parameters.PID_Boiler_Temp.Kp,
+							fTn := Interfacex.Parameters.PID_Boiler_Temp.Ti,
+							fTv := Interfacex.Parameters.PID_Boiler_Temp.Td,
+							fTd := Interfacex.Parameters.PID_Boiler_Temp.Tn,
 							fCtrlOutput => Boiler_Temp.ControlSignal);
 							 
 //END_IF

@@ -3,8 +3,8 @@
   <DUT Name="aT_Heater" Id="{e265f4f9-b794-4e10-8e46-4998168107cb}">
     <Declaration><![CDATA[TYPE aT_Heater :
 STRUCT
-	Temperature: LREAL;
-	Pressure: LREAL;
+	Temperature: REAL;
+	Pressure: REAL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

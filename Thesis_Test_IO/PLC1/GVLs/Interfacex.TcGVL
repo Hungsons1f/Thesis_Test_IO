@@ -4,6 +4,8 @@
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
 	ScadaInterface: MainInterface;
+	AutoCtrlCmds: AutoCtrlCmds;
+	Parameters: Parameters;
 END_VAR]]></Declaration>
   </GVL>
 </TcPlcObject>

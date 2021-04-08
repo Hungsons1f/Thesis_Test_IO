@@ -28,7 +28,7 @@ CondensePump(RunCondition := AutoControl.CondensePump_Press.Start,
 				StopCondition := AutoControl.CondensePump_Press.Stop,
 				SpeedCondition := AutoControl.CondensePump_Press.ControlSignal,
 				RunFeedback := CondensePump.Cmd,
-				Maxspeed := Interfacex.ScadaInterface.Parameters.MaxSpeed_CondensePump,//.MaxSpeed_CondensePump,
+				Maxspeed := Interfacex.Parameters.MaxSpeed_CondensePump,//.MaxSpeed_CondensePump,
 				ActualSpeed := Streams.InStream.CondensePump_Speed ,
 				Speed => Streams.OutStream.CondensePump_SetSpeed);
 {endregion}
@@ -38,7 +38,7 @@ SupplyPump(RunCondition := AutoControl.SupplyPump_Press.Start,
 				StopCondition := AutoControl.SupplyPump_Press.Stop,
 				SpeedCondition := AutoControl.SupplyPump_Press.ControlSignal,
 				RunFeedback := SupplyPump.Cmd,
-				Maxspeed := Interfacex.ScadaInterface.Parameters.MaxSpeed_SupplyPump,
+				Maxspeed := Interfacex.Parameters.MaxSpeed_SupplyPump,
 				ActualSpeed := Streams.InStream.SupplyPump_Speed,
 				Speed => Streams.OutStream.SupplyPump_SetSpeed);
 {endregion}
@@ -49,7 +49,7 @@ CircularPump(RunCondition := AutoControl.Condenser_Temp.Start,
 				StopCondition := AutoControl.Condenser_Temp.Stop,
 				SpeedCondition := AutoControl.Condenser_Temp.ControlSignal,
 				RunFeedback := CircularPump.Cmd,
-				Maxspeed := Interfacex.ScadaInterface.Parameters.MaxSpeed_CircularPump,
+				Maxspeed := Interfacex.Parameters.MaxSpeed_CircularPump,
 				ActualSpeed := Streams.InStream.CircularPump_Speed,
 				Speed => Streams.OutStream.CircularPump_SetSpeed);
 {endregion}
@@ -98,7 +98,7 @@ ForceFan1(RunCondition := AutoControl.Boiler_Temp.Start,
 				StopCondition := AutoControl.Boiler_Temp.Stop,
 				SpeedCondition := AutoControl.Boiler_Temp.ControlSignal,
 				RunFeedback := ForceFan1.Cmd,
-				Maxspeed := Interfacex.ScadaInterface.Parameters.MaxSpeed_ForceFan1,
+				Maxspeed := Interfacex.Parameters.MaxSpeed_ForceFan1,
 				ActualSpeed := Streams.InStream.ForceFan1_Speed,
 				Speed => Streams.OutStream.ForceFan1_SetSpeed);
 {endregion}
@@ -109,7 +109,7 @@ ForceFan2(RunCondition := AutoControl.Boiler_Temp.Start,
 				StopCondition := AutoControl.Boiler_Temp.Stop,
 				SpeedCondition := AutoControl.Boiler_Temp.ControlSignal,
 				RunFeedback := ForceFan2.Cmd,
-				Maxspeed := Interfacex.ScadaInterface.Parameters.MaxSpeed_ForceFan2,
+				Maxspeed := Interfacex.Parameters.MaxSpeed_ForceFan2,
 				ActualSpeed := Streams.InStream.ForceFan2_Speed,
 				Speed => Streams.OutStream.ForceFan2_SetSpeed);
 {endregion}
@@ -119,7 +119,7 @@ ForceFan3(RunCondition := AutoControl.Boiler_Temp.Start,
 				StopCondition := AutoControl.Boiler_Temp.Stop,
 				SpeedCondition := AutoControl.Boiler_Temp.ControlSignal,
 				RunFeedback := ForceFan3.Cmd,
-				Maxspeed := Interfacex.ScadaInterface.Parameters.MaxSpeed_ForceFan3,
+				Maxspeed := Interfacex.Parameters.MaxSpeed_ForceFan3,
 				ActualSpeed := Streams.InStream.ForceFan3_Speed,
 				Speed => Streams.OutStream.ForceFan3_SetSpeed);
 {endregion}
