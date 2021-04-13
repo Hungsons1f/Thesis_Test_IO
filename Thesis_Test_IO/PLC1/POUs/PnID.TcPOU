@@ -24,7 +24,6 @@ END_VAR
 //Pumps
 {region "Condense Pump"}
 CondensePump(RunCondition := AutoControl.CondensePump_Press.Start,
-				Mode:= aE_Mode.Auto,
 				StopCondition := AutoControl.CondensePump_Press.Stop,
 				SpeedCondition := AutoControl.CondensePump_Press.ControlSignal,
 				RunFeedback := CondensePump.Cmd,
@@ -34,7 +33,6 @@ CondensePump(RunCondition := AutoControl.CondensePump_Press.Start,
 {endregion}
 {region "Supply Pump"}
 SupplyPump(RunCondition := AutoControl.SupplyPump_Press.Start,
-				Mode:= aE_Mode.Auto,
 				StopCondition := AutoControl.SupplyPump_Press.Stop,
 				SpeedCondition := AutoControl.SupplyPump_Press.ControlSignal,
 				RunFeedback := SupplyPump.Cmd,
@@ -45,7 +43,6 @@ SupplyPump(RunCondition := AutoControl.SupplyPump_Press.Start,
 	 
 {region "Circular Pump"}
 CircularPump(RunCondition := AutoControl.Condenser_Temp.Start,
-				Mode:= aE_Mode.Auto,
 				StopCondition := AutoControl.Condenser_Temp.Stop,
 				SpeedCondition := AutoControl.Condenser_Temp.ControlSignal,
 				RunFeedback := CircularPump.Cmd,
@@ -58,7 +55,6 @@ CircularPump(RunCondition := AutoControl.Condenser_Temp.Start,
 //Valves
 {region "Low Pressure Heater Valve"}
 LPHeaterValve(RunCondition := AutoControl.LPHeater_Temp.Start,
-				Mode:= aE_Mode.Auto,
 				StopCondition := AutoControl.LPHeater_Temp.Stop,
 				PercentCondition := AutoControl.LPHeater_Temp.ControlSignal,
 				RunFeedback := LPHeaterValve.Cmd,
@@ -67,7 +63,6 @@ LPHeaterValve(RunCondition := AutoControl.LPHeater_Temp.Start,
 	 
 {region "Deaerator"}
 AirEjectorValve(RunCondition := AutoControl.AirEjector_Temp.Start,
-				Mode:= aE_Mode.Auto,
 				StopCondition := AutoControl.AirEjector_Temp.Stop,
 				PercentCondition := AutoControl.AirEjector_Temp.ControlSignal,
 				RunFeedback := AirEjectorValve.Cmd,
@@ -75,7 +70,6 @@ AirEjectorValve(RunCondition := AutoControl.AirEjector_Temp.Start,
 {endregion}
 {region "High Pressure Heater Valve"}
 HPHeaterValve(RunCondition := AutoControl.HPHeater_Temp.Start,
-				Mode:= aE_Mode.Auto,
 				StopCondition := AutoControl.HPHeater_Temp.Stop,
 				PercentCondition := AutoControl.HPHeater_Temp.ControlSignal,
 				RunFeedback := HPHeaterValve.Cmd,
@@ -83,7 +77,6 @@ HPHeaterValve(RunCondition := AutoControl.HPHeater_Temp.Start,
 {endregion}
 {region "Turbine Valve"}
 TurbineValve(RunCondition := AutoControl.Turbine_Speed.Start,
-				Mode:= aE_Mode.Auto,
 				StopCondition := AutoControl.Turbine_Speed.Stop,
 				PercentCondition := AutoControl.Turbine_Speed.ControlSignal,
 				RunFeedback := TurbineValve.Cmd,
@@ -94,7 +87,6 @@ TurbineValve(RunCondition := AutoControl.Turbine_Speed.Start,
 //Fans
 {region "ForceFan1"}
 ForceFan1(RunCondition := AutoControl.Boiler_Temp.Start,
-				Mode:= aE_Mode.Auto,
 				StopCondition := AutoControl.Boiler_Temp.Stop,
 				SpeedCondition := AutoControl.Boiler_Temp.ControlSignal,
 				RunFeedback := ForceFan1.Cmd,
@@ -105,7 +97,6 @@ ForceFan1(RunCondition := AutoControl.Boiler_Temp.Start,
 	 
 {region "ForceFan2"}
 ForceFan2(RunCondition := AutoControl.Boiler_Temp.Start,
-				Mode:= aE_Mode.Auto,
 				StopCondition := AutoControl.Boiler_Temp.Stop,
 				SpeedCondition := AutoControl.Boiler_Temp.ControlSignal,
 				RunFeedback := ForceFan2.Cmd,
@@ -115,7 +106,6 @@ ForceFan2(RunCondition := AutoControl.Boiler_Temp.Start,
 {endregion}
 {region "ForceFan3"}
 ForceFan3(RunCondition := AutoControl.Boiler_Temp.Start,
-				Mode:= aE_Mode.Auto,
 				StopCondition := AutoControl.Boiler_Temp.Stop,
 				SpeedCondition := AutoControl.Boiler_Temp.ControlSignal,
 				RunFeedback := ForceFan3.Cmd,
@@ -126,7 +116,17 @@ ForceFan3(RunCondition := AutoControl.Boiler_Temp.Start,
 ]]></ST>
     </Implementation>
     <LineIds Name="PnID">
-      <LineId Id="343" Count="103" />
+      <LineId Id="343" Count="4" />
+      <LineId Id="349" Count="8" />
+      <LineId Id="359" Count="9" />
+      <LineId Id="370" Count="11" />
+      <LineId Id="383" Count="7" />
+      <LineId Id="392" Count="6" />
+      <LineId Id="400" Count="6" />
+      <LineId Id="408" Count="9" />
+      <LineId Id="419" Count="9" />
+      <LineId Id="430" Count="8" />
+      <LineId Id="440" Count="6" />
       <LineId Id="219" Count="0" />
     </LineIds>
   </POU>
