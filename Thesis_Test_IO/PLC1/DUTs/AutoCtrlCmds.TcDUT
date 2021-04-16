@@ -7,6 +7,10 @@ STRUCT
 	Stop: BOOL;
 	Emergency: BOOL;
 	Reset: BOOL;
+	
+	ProcessReady: BOOL;
+	ProcessRun: BOOL;
+	ProcessFault: BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

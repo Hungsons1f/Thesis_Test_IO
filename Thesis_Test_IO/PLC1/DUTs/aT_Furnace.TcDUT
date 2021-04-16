@@ -3,6 +3,7 @@
   <DUT Name="aT_Furnace" Id="{997949e2-45b4-4824-b81d-c947afa2d329}">
     <Declaration><![CDATA[TYPE aT_Furnace :
 STRUCT
+	InPercent: REAL;
 	Temperature: REAL;
 END_STRUCT
 END_TYPE

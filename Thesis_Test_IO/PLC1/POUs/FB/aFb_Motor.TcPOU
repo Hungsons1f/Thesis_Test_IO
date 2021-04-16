@@ -3,7 +3,7 @@
   <POU Name="aFb_Motor" Id="{deea6eae-00c4-4d52-adc2-0d6a9e27c1a4}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK aFb_Motor
 VAR_INPUT
-	Mode: aE_Mode := aE_Mode.Manual;
+	Mode: aE_Mode := aE_Mode.Auto;
 	
 	//Manual
 	Start: BOOL;

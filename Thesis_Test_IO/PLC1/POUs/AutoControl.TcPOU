@@ -67,6 +67,10 @@ VAR
 	ProcessStop: BOOL;
 	ProcessEmergency: BOOL;
 	ProcessReset: BOOL;
+		 
+	ProcessReady: BOOL;
+	ProcessRun: BOOL;
+	ProcessFault: BOOL;
 	{endregion}
 	i: INT;
 	fbttemp: TON;
@@ -80,12 +84,20 @@ ProcessStart := Interfacex.AutoCtrlCmds.Start;
 ProcessStop := Interfacex.AutoCtrlCmds.Stop;
 ProcessEmergency := Interfacex.AutoCtrlCmds.Emergency;
 ProcessReset := Interfacex.AutoCtrlCmds.Reset;
+	 
+Interfacex.AutoCtrlCmds.ProcessReady := ProcessReady;
+Interfacex.AutoCtrlCmds.ProcessRun := ProcessRun;
+Interfacex.AutoCtrlCmds.ProcessFault := ProcessFault;
 {endregion}
 
 
 {region 'Main State Machine'}
 CASE ProcessState OF
 	aE_ProcessState.Init:
+		//Light
+		ProcessReady := TRUE;
+		ProcessRun := FALSE;
+		ProcessFault := FALSE;
 		//Reset all components and all PID Controllers
 		Reset_StopAllComponents();
 		ResetAllPidControllers();
@@ -106,6 +118,11 @@ CASE ProcessState OF
 		END_IF
 		
 	aE_ProcessState.Enable:
+		//Light
+		ProcessReady := FALSE;
+		ProcessRun := TRUE;
+		ProcessFault := FALSE;
+
 		//Start all components and unlock all Pid controllers
 		StartAllComponents();
 		UnlockAllPidControllers();
@@ -121,11 +138,17 @@ CASE ProcessState OF
 		END_IF
 		
 	aE_ProcessState.Start:
-		fbttemp(IN:= TRUE, PT:=T#3S);
+		fbttemp(IN:= TRUE, PT:=T#3S);												//comment this!
 		IF fbttemp.Q THEN
 			ProcessState := aE_ProcessState.SteadyState;
 			fbttemp(IN:= FALSE);
 		END_IF
+			 
+		//Light
+		ProcessReady := FALSE;
+		ProcessRun := TRUE;
+		ProcessFault := FALSE;
+
 		IF ProcessEmergency THEN
 			ProcessState := aE_ProcessState.Error;
 		END_IF
@@ -325,6 +348,11 @@ CASE ProcessState OF
 		
 	
 	aE_ProcessState.SteadyState:
+		//Light
+		ProcessReady := FALSE;
+		ProcessRun := TRUE;
+		ProcessFault := FALSE;
+
 		//Next State
 		IF ProcessEmergency THEN
 			ProcessState := aE_ProcessState.Error;
@@ -336,6 +364,10 @@ CASE ProcessState OF
 	aE_ProcessState.Stop:
 		//Reset processstop
 		//ProcessStop := FALSE;
+		//Light
+		ProcessReady := FALSE;
+		ProcessRun := TRUE;
+		ProcessFault := FALSE;
 
 		//Next State
 		IF ProcessEmergency THEN
@@ -349,6 +381,11 @@ CASE ProcessState OF
 		//ProcessState := aE_ProcessState.Disable;
 		
 	aE_ProcessState.Disable:
+		//Light
+		ProcessReady := FALSE;
+		ProcessRun := TRUE;
+		ProcessFault := FALSE;
+
 		//Stop all components and lock all Pid Controllers, Clear all start flags of components
 		StopAllComponents();
 		LockAllPidControllers();
@@ -366,6 +403,11 @@ CASE ProcessState OF
 		//ProcessState := aE_ProcessState.Init;
 		
 	aE_ProcessState.Error:
+		//Light
+		ProcessReady := FALSE;
+		ProcessRun := FALSE;
+		ProcessFault := TRUE;
+
 	 	//Stop all components and clear start flags
 		StopAllComponents();
 		LockAllPidControllers();
@@ -377,6 +419,11 @@ CASE ProcessState OF
 		END_IF
 		
 	aE_ProcessState.Reset:
+		//Light
+		ProcessReady := FALSE;
+		ProcessRun := FALSE;
+		ProcessFault := TRUE;
+
 		//Next State
 		ProcessState := aE_ProcessState.Init;
 END_CASE
@@ -642,7 +689,35 @@ Boiler_Temp.ResetPid := FALSE;]]></ST>
       </Implementation>
     </Action>
     <LineIds Name="AutoControl">
-      <LineId Id="1571" Count="471" />
+      <LineId Id="1571" Count="6" />
+      <LineId Id="2117" Count="3" />
+      <LineId Id="1578" Count="5" />
+      <LineId Id="2129" Count="0" />
+      <LineId Id="2132" Count="0" />
+      <LineId Id="2130" Count="0" />
+      <LineId Id="2133" Count="0" />
+      <LineId Id="1584" Count="19" />
+      <LineId Id="2135" Count="3" />
+      <LineId Id="2134" Count="0" />
+      <LineId Id="1604" Count="19" />
+      <LineId Id="2126" Count="0" />
+      <LineId Id="2139" Count="3" />
+      <LineId Id="2127" Count="0" />
+      <LineId Id="1624" Count="198" />
+      <LineId Id="2144" Count="3" />
+      <LineId Id="2143" Count="0" />
+      <LineId Id="1823" Count="10" />
+      <LineId Id="2149" Count="3" />
+      <LineId Id="1834" Count="12" />
+      <LineId Id="2154" Count="3" />
+      <LineId Id="2153" Count="0" />
+      <LineId Id="1847" Count="16" />
+      <LineId Id="2159" Count="3" />
+      <LineId Id="2158" Count="0" />
+      <LineId Id="1864" Count="10" />
+      <LineId Id="2164" Count="3" />
+      <LineId Id="2163" Count="0" />
+      <LineId Id="1875" Count="167" />
       <LineId Id="132" Count="0" />
     </LineIds>
     <LineIds Name="AutoControl.LockAllPidControllers">
