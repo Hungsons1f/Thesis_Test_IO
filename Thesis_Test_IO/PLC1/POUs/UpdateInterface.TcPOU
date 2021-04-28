@@ -3,6 +3,8 @@
   <POU Name="UpdateInterface" Id="{e8cb10a7-494a-4ed3-b949-ffbd33c6033c}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM UpdateInterface
 VAR
+	i: REAL := 0;
+	fbton: TON;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -43,7 +45,12 @@ Interfacex.ScadaInterface.Components.Turbine.ImmediateTemperature := Streams.InS
 Interfacex.ScadaInterface.Components.Turbine.OutTemperature := Streams.InStream.Turbine_OutTemp;
 Interfacex.ScadaInterface.Components.Turbine.HighPressure := Streams.InStream.Turbine_HighPress;
 Interfacex.ScadaInterface.Components.Turbine.ImmediatePressure := Streams.InStream.Turbine_ImmediatePress;
-Interfacex.ScadaInterface.Components.Turbine.OutPressure := Streams.InStream.Turbine_OutPress;]]></ST>
+Interfacex.ScadaInterface.Components.Turbine.OutPressure := SIN(3.14*i);//Streams.InStream.Turbine_OutPress;
+	
+fbton(IN:= NOT fbton.Q, PT:= T#100MS);
+IF (fbton.Q) THEN
+	i := i + 0.05;
+END_IF]]></ST>
     </Implementation>
     <LineIds Name="UpdateInterface">
       <LineId Id="5" Count="0" />
@@ -67,6 +74,8 @@ Interfacex.ScadaInterface.Components.Turbine.OutPressure := Streams.InStream.Tur
       <LineId Id="31" Count="0" />
       <LineId Id="33" Count="0" />
       <LineId Id="35" Count="4" />
+      <LineId Id="59" Count="1" />
+      <LineId Id="62" Count="2" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -1,5 +1,156 @@
 <?xml version="1.0"?>
 <TcSmProject xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2012/07/TcSmProject" TcSmVersion="1.0" TcVersion="3.1.4024.10">
+	<DataTypes>
+		<DataType>
+			<Name GUID="{C9ABF1FA-0936-454B-9A45-48D9D561CF99}" PersistentType="true">ComponentEvent</Name>
+			<DisplayName TxtId=""><![CDATA[Component Event]]></DisplayName>
+			<EventId>
+				<Name Id="1">Started</Name>
+				<DisplayName TxtId=""><![CDATA[Started]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">Stopped</Name>
+				<DisplayName TxtId=""><![CDATA[Stopped]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="3">ModeManual</Name>
+				<DisplayName TxtId=""><![CDATA[Mode changed to Manual]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="4">ModeAutomatic</Name>
+				<DisplayName TxtId=""><![CDATA[Mode changed to Automatic]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="5">ModeService</Name>
+				<DisplayName TxtId=""><![CDATA[Mode changed to Service]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="6">Fault</Name>
+				<DisplayName TxtId=""><![CDATA[Fault]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="7">Resetted</Name>
+				<DisplayName TxtId=""><![CDATA[Resetted]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{DF748C58-BA62-45B0-A349-615B07D77F4E}"/>
+				<Hide GUID="{2A1FEFC5-95AC-4F8F-8081-6C70417DDEC2}"/>
+				<Hide GUID="{957BE304-1C72-4308-9B9E-F1D7867934CA}"/>
+				<Hide GUID="{773F6563-6F63-4101-82D9-8DC25EE118C9}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{85DBCB14-5A0B-4C91-9F27-2B46F9BFD194}" PersistentType="true">ProcessEvent</Name>
+			<DisplayName TxtId=""><![CDATA[Process Event]]></DisplayName>
+			<EventId>
+				<Name Id="1">Initialized</Name>
+				<DisplayName TxtId=""><![CDATA[Process is Initialized]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">Enabled</Name>
+				<DisplayName TxtId=""><![CDATA[Process is Enabled]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="3">Starting</Name>
+				<DisplayName TxtId=""><![CDATA[Process is Starting]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="4">Started</Name>
+				<DisplayName TxtId=""><![CDATA[Process is Started]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="5">SteadyState</Name>
+				<DisplayName TxtId=""><![CDATA[Process is in Steady state]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="6">Stopping</Name>
+				<DisplayName TxtId=""><![CDATA[Process is Stopping]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="7">Stopped</Name>
+				<DisplayName TxtId=""><![CDATA[Process is Stopped]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="8">Disabled</Name>
+				<DisplayName TxtId=""><![CDATA[Process is Disabled]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="9">Emergency</Name>
+				<DisplayName TxtId=""><![CDATA[Emergency Stop]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="10">ErrorEmergency</Name>
+				<DisplayName TxtId=""><![CDATA[Error: Emergency stop]]></DisplayName>
+				<Severity>Error</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="11">Resetted</Name>
+				<DisplayName TxtId=""><![CDATA[Process is Resetted]]></DisplayName>
+				<Severity>Info</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{C9A306C0-5663-484F-B3A9-BD969A9F971F}"/>
+				<Hide GUID="{23869420-3867-4F5B-8382-4804312CB554}"/>
+			</Hides>
+		</DataType>
+		<DataType>
+			<Name GUID="{046D2F73-9EF3-405B-AB3E-D09872540B17}" PersistentType="true">AnalogAlarm</Name>
+			<DisplayName TxtId=""><![CDATA[Analog Alarm]]></DisplayName>
+			<EventId>
+				<Name Id="1">HiHi</Name>
+				<DisplayName TxtId=""><![CDATA[HIHI]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">Hi</Name>
+				<DisplayName TxtId=""><![CDATA[HI]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="3">Lo</Name>
+				<DisplayName TxtId=""><![CDATA[LO]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="4">LoLo</Name>
+				<DisplayName TxtId=""><![CDATA[LOLO]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+		</DataType>
+		<DataType>
+			<Name GUID="{9E341298-E87E-4301-A7EA-1A02CBF96A12}" PersistentType="true">DigitalAlarm</Name>
+			<DisplayName TxtId=""><![CDATA[Digital Alarm]]></DisplayName>
+			<EventId>
+				<Name Id="1">DOn</Name>
+				<DisplayName TxtId=""><![CDATA[ON]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<EventId>
+				<Name Id="2">DOff</Name>
+				<DisplayName TxtId=""><![CDATA[OFF]]></DisplayName>
+				<Severity>Warning</Severity>
+			</EventId>
+			<Hides>
+				<Hide GUID="{88C7B1B9-84BF-4868-9328-FC8E8BD4C402}"/>
+			</Hides>
+		</DataType>
+	</DataTypes>
 	<Project ProjectGUID="{ABD51325-B4E7-4B64-8EE6-E226310BAF30}" Target64Bit="true" ShowHideConfigurations="#x3c7">
 		<System>
 			<Licenses>

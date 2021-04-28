@@ -15,7 +15,6 @@ VAR
 	TurbineValve: aFb_Valve;
 	
 	
-
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -29,7 +28,8 @@ CondensePump(RunCondition := AutoControl.CondensePump_Press.Start,
 				RunFeedback := CondensePump.Cmd,
 				Maxspeed := Interfacex.Parameters.MaxSpeed_CondensePump,//.MaxSpeed_CondensePump,
 				ActualSpeed := Streams.InStream.CondensePump_Speed ,
-				Speed => Streams.OutStream.CondensePump_SetSpeed);
+				Speed => Streams.OutStream.CondensePump_SetSpeed,
+				DisplayName := 'Condense Pump');
 {endregion}
 {region "Supply Pump"}
 SupplyPump(RunCondition := AutoControl.SupplyPump_Press.Start,
@@ -38,7 +38,8 @@ SupplyPump(RunCondition := AutoControl.SupplyPump_Press.Start,
 				RunFeedback := SupplyPump.Cmd,
 				Maxspeed := Interfacex.Parameters.MaxSpeed_SupplyPump,
 				ActualSpeed := Streams.InStream.SupplyPump_Speed,
-				Speed => Streams.OutStream.SupplyPump_SetSpeed);
+				Speed => Streams.OutStream.SupplyPump_SetSpeed,
+				DisplayName := 'Supply Pump');
 {endregion}
 	 
 {region "Circular Pump"}
@@ -48,7 +49,8 @@ CircularPump(RunCondition := AutoControl.Condenser_Temp.Start,
 				RunFeedback := CircularPump.Cmd,
 				Maxspeed := Interfacex.Parameters.MaxSpeed_CircularPump,
 				ActualSpeed := Streams.InStream.CircularPump_Speed,
-				Speed => Streams.OutStream.CircularPump_SetSpeed);
+				Speed => Streams.OutStream.CircularPump_SetSpeed,
+				DisplayName := 'Circular Pump');
 {endregion}
 
 
@@ -58,7 +60,8 @@ LPHeaterValve(RunCondition := AutoControl.LPHeater_Temp.Start,
 				StopCondition := AutoControl.LPHeater_Temp.Stop,
 				PercentCondition := AutoControl.LPHeater_Temp.ControlSignal,
 				RunFeedback := LPHeaterValve.Cmd,
-				OpenPercent => Streams.OutStream.LPHeaterValve_SetPercent);
+				OpenPercent => Streams.OutStream.LPHeaterValve_SetPercent,
+				DisplayName := 'Low Pressure Heater Valve');
 {endregion}
 	 
 {region "Deaerator"}
@@ -66,21 +69,24 @@ AirEjectorValve(RunCondition := AutoControl.AirEjector_Temp.Start,
 				StopCondition := AutoControl.AirEjector_Temp.Stop,
 				PercentCondition := AutoControl.AirEjector_Temp.ControlSignal,
 				RunFeedback := AirEjectorValve.Cmd,
-				OpenPercent => Streams.OutStream.AirEjectorValve_SetPercent);
+				OpenPercent => Streams.OutStream.AirEjectorValve_SetPercent,
+				DisplayName := 'Deaerator Valve');
 {endregion}
 {region "High Pressure Heater Valve"}
 HPHeaterValve(RunCondition := AutoControl.HPHeater_Temp.Start,
 				StopCondition := AutoControl.HPHeater_Temp.Stop,
 				PercentCondition := AutoControl.HPHeater_Temp.ControlSignal,
 				RunFeedback := HPHeaterValve.Cmd,
-				OpenPercent => Streams.OutStream.HPHeaterValve_SetPercent);
+				OpenPercent => Streams.OutStream.HPHeaterValve_SetPercent,
+				DisplayName := 'High Pressure Heater Valve');
 {endregion}
 {region "Turbine Valve"}
 TurbineValve(RunCondition := AutoControl.Turbine_Speed.Start,
 				StopCondition := AutoControl.Turbine_Speed.Stop,
 				PercentCondition := AutoControl.Turbine_Speed.ControlSignal,
 				RunFeedback := TurbineValve.Cmd,
-				OpenPercent => Streams.OutStream.TurbineValve_SetPercent);
+				OpenPercent => Streams.OutStream.TurbineValve_SetPercent,
+				DisplayName := 'Turbine Valve');
 {endregion}
 
 
@@ -92,7 +98,8 @@ ForceFan1(RunCondition := AutoControl.Boiler_Temp.Start,
 				RunFeedback := ForceFan1.Cmd,
 				Maxspeed := Interfacex.Parameters.MaxSpeed_ForceFan1,
 				ActualSpeed := Streams.InStream.ForceFan1_Speed,
-				Speed => Streams.OutStream.ForceFan1_SetSpeed);
+				Speed => Streams.OutStream.ForceFan1_SetSpeed,
+				DisplayName := 'Force Fan 1');
 {endregion}
 	 
 {region "ForceFan2"}
@@ -102,7 +109,8 @@ ForceFan2(RunCondition := AutoControl.Boiler_Temp.Start,
 				RunFeedback := ForceFan2.Cmd,
 				Maxspeed := Interfacex.Parameters.MaxSpeed_ForceFan2,
 				ActualSpeed := Streams.InStream.ForceFan2_Speed,
-				Speed => Streams.OutStream.ForceFan2_SetSpeed);
+				Speed => Streams.OutStream.ForceFan2_SetSpeed,
+				DisplayName := 'Force Fan 2');
 {endregion}
 {region "ForceFan3"}
 ForceFan3(RunCondition := AutoControl.Boiler_Temp.Start,
@@ -111,22 +119,43 @@ ForceFan3(RunCondition := AutoControl.Boiler_Temp.Start,
 				RunFeedback := ForceFan3.Cmd,
 				Maxspeed := Interfacex.Parameters.MaxSpeed_ForceFan3,
 				ActualSpeed := Streams.InStream.ForceFan3_Speed,
-				Speed => Streams.OutStream.ForceFan3_SetSpeed);
+				Speed => Streams.OutStream.ForceFan3_SetSpeed,
+				DisplayName := 'Force Fan 3');
 {endregion}
 ]]></ST>
     </Implementation>
     <LineIds Name="PnID">
       <LineId Id="343" Count="4" />
-      <LineId Id="349" Count="8" />
-      <LineId Id="359" Count="9" />
-      <LineId Id="370" Count="11" />
-      <LineId Id="383" Count="7" />
-      <LineId Id="392" Count="6" />
-      <LineId Id="400" Count="6" />
-      <LineId Id="408" Count="9" />
-      <LineId Id="419" Count="9" />
-      <LineId Id="430" Count="8" />
-      <LineId Id="440" Count="6" />
+      <LineId Id="349" Count="5" />
+      <LineId Id="465" Count="0" />
+      <LineId Id="355" Count="2" />
+      <LineId Id="359" Count="5" />
+      <LineId Id="466" Count="0" />
+      <LineId Id="365" Count="3" />
+      <LineId Id="370" Count="5" />
+      <LineId Id="467" Count="0" />
+      <LineId Id="376" Count="5" />
+      <LineId Id="383" Count="3" />
+      <LineId Id="472" Count="0" />
+      <LineId Id="387" Count="3" />
+      <LineId Id="392" Count="3" />
+      <LineId Id="473" Count="0" />
+      <LineId Id="396" Count="2" />
+      <LineId Id="400" Count="3" />
+      <LineId Id="474" Count="0" />
+      <LineId Id="404" Count="2" />
+      <LineId Id="408" Count="3" />
+      <LineId Id="475" Count="0" />
+      <LineId Id="412" Count="5" />
+      <LineId Id="419" Count="5" />
+      <LineId Id="469" Count="0" />
+      <LineId Id="425" Count="3" />
+      <LineId Id="430" Count="5" />
+      <LineId Id="470" Count="0" />
+      <LineId Id="436" Count="2" />
+      <LineId Id="440" Count="5" />
+      <LineId Id="471" Count="0" />
+      <LineId Id="446" Count="0" />
       <LineId Id="219" Count="0" />
     </LineIds>
   </POU>

@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="AlarmManagement" Id="{f0936c20-36bf-4906-9079-9d00867141e0}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM AlarmManagement
+VAR
+	bFirstScan: BOOL := TRUE;
+	fbSource: FB_TcSourceInfo;
+	
+	fbMesInitialized: FB_TcMessage;
+	fbMesEnabled: FB_TcMessage;
+	fbMesStarting: FB_TcMessage;
+	fbMesStarted: FB_TcMessage;
+	fbMesSteadyState: FB_TcMessage;
+	fbMesStopping: FB_TcMessage;
+	fbMesStopped: FB_TcMessage;
+	fbMesDisabled: FB_TcMessage;
+	fbMesEmergency: FB_TcMessage;
+	fbMesErrorEmergency: FB_TcMessage;
+	fbMesResetted: FB_TcMessage;
+	
+	trigInitialized: F_TRIG;
+	trigEnabled: F_TRIG;
+	trigStarting: R_TRIG;
+	trigStarted: F_TRIG;
+	trigSteadyState: R_TRIG;
+	trigStopping: R_TRIG;
+	trigStopped: F_TRIG;
+	trigDisabled: F_TRIG;
+	trigEmergency: R_TRIG;
+	trigErrorEmergency: R_TRIG;
+	trigResetted: F_TRIG;
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[{region 'Process Control Message'}
+IF bFirstScan THEN
+	bFirstScan := FALSE;
+	fbSource.sName := 'Process Controller';
+	fbMesInitialized.CreateEx(TC_Events.ProcessEvent.Initialized, fbSource);
+	fbMesEnabled.CreateEx(TC_Events.ProcessEvent.Enabled, fbSource);
+	fbMesStarting.CreateEx(TC_Events.ProcessEvent.Starting, fbSource);
+	fbMesStarted.CreateEx(TC_Events.ProcessEvent.Started, fbSource);
+	fbMesSteadyState.CreateEx(TC_Events.ProcessEvent.SteadyState, fbSource);
+	fbMesStopping.CreateEx(TC_Events.ProcessEvent.Stopping, fbSource);
+	fbMesStopped.CreateEx(TC_Events.ProcessEvent.Stopped, fbSource);
+	fbMesDisabled.CreateEx(TC_Events.ProcessEvent.Disabled, fbSource);
+	fbMesEmergency.CreateEx(TC_Events.ProcessEvent.Emergency, fbSource);
+	fbMesErrorEmergency.CreateEx(TC_Events.ProcessEvent.ErrorEmergency, fbSource);
+	fbMesResetted.CreateEx(TC_Events.ProcessEvent.Resetted, fbSource);
+END_IF
+
+trigInitialized(CLK:= (AutoControl.ProcessState = aE_ProcessState.Init));
+trigEnabled(CLK:= (AutoControl.ProcessState = aE_ProcessState.Enable));
+trigStarting(CLK:= (AutoControl.ProcessState = aE_ProcessState.Start));
+trigStarted(CLK:= (AutoControl.ProcessState = aE_ProcessState.Start));
+trigSteadyState(CLK:= (AutoControl.ProcessState = aE_ProcessState.SteadyState));
+trigStopping(CLK:= (AutoControl.ProcessState = aE_ProcessState.Stop));
+trigStopped(CLK:= (AutoControl.ProcessState = aE_ProcessState.Stop));
+trigDisabled(CLK:= (AutoControl.ProcessState = aE_ProcessState.Disable));
+trigEmergency(CLK:= AutoControl.ProcessEmergency);
+trigErrorEmergency(CLK:= (AutoControl.ProcessState = aE_ProcessState.Error));
+trigResetted(CLK:= (AutoControl.ProcessState = aE_ProcessState.Reset));
+
+IF trigInitialized.Q THEN
+	fbMesInitialized.Send(0);
+END_IF
+IF trigEnabled.Q THEN
+	fbMesEnabled.Send(0);
+END_IF
+IF trigStarting.Q THEN
+	fbMesStarting.Send(0);
+END_IF
+IF trigStarted.Q THEN
+	fbMesStarted.Send(0);
+END_IF
+IF trigSteadyState.Q THEN
+	fbMesSteadyState.Send(0);
+END_IF
+IF trigStopping.Q THEN
+	fbMesStopping.Send(0);
+END_IF
+IF trigStopped.Q THEN
+	fbMesStopped.Send(0);
+END_IF
+IF trigDisabled.Q THEN
+	fbMesDisabled.Send(0);
+END_IF
+IF trigEmergency.Q THEN
+	fbMesEmergency.Send(0);
+END_IF
+IF trigErrorEmergency.Q THEN
+	fbMesErrorEmergency.Send(0);
+END_IF
+IF trigResetted.Q THEN
+	fbMesResetted.Send(0);
+END_IF
+{endregion}
+
+]]></ST>
+    </Implementation>
+    <LineIds Name="AlarmManagement">
+      <LineId Id="107" Count="0" />
+      <LineId Id="40" Count="2" />
+      <LineId Id="44" Count="1" />
+      <LineId Id="47" Count="8" />
+      <LineId Id="5" Count="0" />
+      <LineId Id="57" Count="1" />
+      <LineId Id="64" Count="9" />
+      <LineId Id="59" Count="3" />
+      <LineId Id="74" Count="29" />
+      <LineId Id="106" Count="0" />
+      <LineId Id="108" Count="0" />
+      <LineId Id="56" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

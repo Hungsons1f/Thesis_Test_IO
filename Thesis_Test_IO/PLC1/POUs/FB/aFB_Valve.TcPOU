@@ -19,6 +19,8 @@ VAR_INPUT
 	//Others
 	RunFeedback: BOOL;
 	Interlock: BOOL;
+	{attribute 'hide'}
+	DisplayName: STRING[20];
 END_VAR
 VAR_OUTPUT
 	Cmd: BOOL;
@@ -33,10 +35,57 @@ VAR
 	fbTon: TON;
 	{attribute 'hide'}
 	fbTRuntime: TON;	
+	
+	{attribute 'hide'}
+	fbSource: FB_TcSourceInfo;
+	{attribute 'hide'}
+	fbMesModeMan: FB_TcMessage;
+	{attribute 'hide'}
+	fbMesModeAuto: FB_TcMessage;
+	{attribute 'hide'}
+	fbMesModeServ: FB_TcMessage;
+	{attribute 'hide'}
+	fbMesStart: FB_TcMessage;
+	{attribute 'hide'}
+	fbMesStop: FB_TcMessage;
+	{attribute 'hide'}
+	fbMesReset: FB_TcMessage;
+	{attribute 'hide'}
+	fbMesFault: FB_TcMessage;
+	
+	{attribute 'hide'}
+	bFirstScan: BOOL := TRUE;
+	{attribute 'hide'}
+	trigModeMan: R_TRIG;
+	{attribute 'hide'}
+	trigModeAuto: R_TRIG;
+	{attribute 'hide'}
+	trigModeServ: R_TRIG;
+	{attribute 'hide'}
+	trigStart: R_TRIG;
+	{attribute 'hide'}
+	trigStop: R_TRIG;
+	{attribute 'hide'}
+	trigReset: R_TRIG;
+	{attribute 'hide'}
+	trigFault: R_TRIG;
+
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE Mode OF 
+      <ST><![CDATA[IF bFirstScan THEN
+	bFirstScan := FALSE;
+	fbSource.sName := DisplayName;
+	fbMesModeMan.CreateEx(TC_Events.ComponentEvent.ModeManual, fbSource);
+	fbMesModeAuto.CreateEx(TC_Events.ComponentEvent.ModeAutomatic, fbSource);
+	fbMesModeServ.CreateEx(TC_Events.ComponentEvent.ModeService, fbSource);
+	fbMesStart.CreateEx(TC_Events.ComponentEvent.Started, fbSource);
+	fbMesStop.CreateEx(TC_Events.ComponentEvent.Stopped, fbSource);
+	fbMesReset.CreateEx(TC_Events.ComponentEvent.Resetted, fbSource);
+	fbMesFault.CreateEx(TC_Events.ComponentEvent.Fault, fbSource);
+END_IF
+
+CASE Mode OF 
 	aE_Mode.Manual: 
 		Cmd := (Cmd OR Start) AND NOT Stop AND NOT Fault AND NOT Interlock;
 		IF Cmd THEN
@@ -79,9 +128,41 @@ IF Cmd THEN
 	END_IF
 ELSE
 	Runtime:= 0;
+END_IF
+
+trigModeMan(CLK:= (Mode = aE_Mode.Manual));
+trigModeAuto(CLK:= (Mode = aE_Mode.Auto));
+trigModeServ(CLK:= (Mode = aE_Mode.Service));
+trigStart(CLK:= Start);
+trigStop(CLK := Stop);
+trigReset(CLK := Reset1);
+trigFault(CLK := Fault);
+
+IF trigModeMan.Q THEN
+	fbMesModeMan.Send(0);
+END_IF
+IF trigModeAuto.Q THEN
+	fbMesModeAuto.Send(0);
+END_IF
+IF trigModeServ.Q THEN
+	fbMesModeServ.Send(0);
+END_IF
+IF trigStart.Q THEN
+	fbMesStart.Send(0);
+END_IF
+IF trigStop.Q THEN
+	fbMesStop.Send(0);
+END_IF
+IF trigReset.Q THEN
+	fbMesReset.Send(0);
+END_IF
+IF trigFault.Q THEN
+	fbMesFault.Send(0);
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="aFB_Valve">
+      <LineId Id="226" Count="9" />
+      <LineId Id="224" Count="1" />
       <LineId Id="37" Count="2" />
       <LineId Id="134" Count="4" />
       <LineId Id="41" Count="1" />
@@ -97,6 +178,8 @@ END_IF]]></ST>
       <LineId Id="9" Count="0" />
       <LineId Id="144" Count="8" />
       <LineId Id="143" Count="0" />
+      <LineId Id="237" Count="28" />
+      <LineId Id="236" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

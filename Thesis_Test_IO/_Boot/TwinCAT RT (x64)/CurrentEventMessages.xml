@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<TcEventSources Version="2">
+	<Source>
+		<GUID>{C9ABF1FA-0936-454B-9A45-48D9D561CF99}</GUID>
+		<Name LcId="1033">Component Event</Name>
+		<Event>
+			<Id>1</Id>
+			<Message LcId="1033">Started</Message>
+		</Event>
+		<Event>
+			<Id>2</Id>
+			<Message LcId="1033">Stopped</Message>
+		</Event>
+		<Event>
+			<Id>3</Id>
+			<Message LcId="1033">Mode changed to Manual</Message>
+		</Event>
+		<Event>
+			<Id>4</Id>
+			<Message LcId="1033">Mode changed to Automatic</Message>
+		</Event>
+		<Event>
+			<Id>5</Id>
+			<Message LcId="1033">Mode changed to Service</Message>
+		</Event>
+		<Event>
+			<Id>6</Id>
+			<Message LcId="1033">Fault</Message>
+		</Event>
+		<Event>
+			<Id>7</Id>
+			<Message LcId="1033">Resetted</Message>
+		</Event>
+	</Source>
+</TcEventSources>

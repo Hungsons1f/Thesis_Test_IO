@@ -21,6 +21,8 @@ VAR_INPUT
 	Interlock: BOOL;
 	Maxspeed: REAL:= 1500;
 	ActualSpeed: REAL;
+	{attribute 'hide'}
+	DisplayName: STRING[20];
 END_VAR
 VAR_OUTPUT
 	Cmd: BOOL;
@@ -35,10 +37,57 @@ VAR
 	fbTon: TON;
 	{attribute 'hide'}
 	fbTRuntime: TON;
+	
+	{attribute 'hide'}
+	fbSource: FB_TcSourceInfo;
+	{attribute 'hide'}
+	fbMesModeMan: FB_TcMessage;
+	{attribute 'hide'}
+	fbMesModeAuto: FB_TcMessage;
+	{attribute 'hide'}
+	fbMesModeServ: FB_TcMessage;
+	{attribute 'hide'}
+	fbMesStart: FB_TcMessage;
+	{attribute 'hide'}
+	fbMesStop: FB_TcMessage;
+	{attribute 'hide'}
+	fbMesReset: FB_TcMessage;
+	{attribute 'hide'}
+	fbMesFault: FB_TcMessage;
+	
+	{attribute 'hide'}
+	bFirstScan: BOOL := TRUE;
+	{attribute 'hide'}
+	trigModeMan: R_TRIG;
+	{attribute 'hide'}
+	trigModeAuto: R_TRIG;
+	{attribute 'hide'}
+	trigModeServ: R_TRIG;
+	{attribute 'hide'}
+	trigStart: R_TRIG;
+	{attribute 'hide'}
+	trigStop: R_TRIG;
+	{attribute 'hide'}
+	trigReset: R_TRIG;
+	{attribute 'hide'}
+	trigFault: R_TRIG;
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE Mode OF 
+      <ST><![CDATA[IF bFirstScan THEN
+	bFirstScan := FALSE;
+	fbSource.sName := DisplayName;
+	fbMesModeMan.CreateEx(TC_Events.ComponentEvent.ModeManual, fbSource);
+	fbMesModeAuto.CreateEx(TC_Events.ComponentEvent.ModeAutomatic, fbSource);
+	fbMesModeServ.CreateEx(TC_Events.ComponentEvent.ModeService, fbSource);
+	fbMesStart.CreateEx(TC_Events.ComponentEvent.Started, fbSource);
+	fbMesStop.CreateEx(TC_Events.ComponentEvent.Stopped, fbSource);
+	fbMesReset.CreateEx(TC_Events.ComponentEvent.Resetted, fbSource);
+	fbMesFault.CreateEx(TC_Events.ComponentEvent.Fault, fbSource);
+END_IF
+
+CASE Mode OF 
 	aE_Mode.Manual: 
 		Cmd := (Cmd OR Start) AND NOT Stop AND NOT Fault AND NOT Interlock;
 		IF Cmd THEN
@@ -81,9 +130,45 @@ IF Cmd THEN
 	END_IF
 ELSE
 	Runtime:= 0;
+END_IF
+
+trigModeMan(CLK:= (Mode = aE_Mode.Manual));
+trigModeAuto(CLK:= (Mode = aE_Mode.Auto));
+trigModeServ(CLK:= (Mode = aE_Mode.Service));
+trigStart(CLK:= Start);
+trigStop(CLK := Stop);
+trigReset(CLK := Reset1);
+trigFault(CLK := Fault);
+
+IF trigModeMan.Q THEN
+	fbMesModeMan.Send(0);
+END_IF
+IF trigModeAuto.Q THEN
+	fbMesModeAuto.Send(0);
+END_IF
+IF trigModeServ.Q THEN
+	fbMesModeServ.Send(0);
+END_IF
+IF trigStart.Q THEN
+	fbMesStart.Send(0);
+END_IF
+IF trigStop.Q THEN
+	fbMesStop.Send(0);
+END_IF
+IF trigReset.Q THEN
+	fbMesReset.Send(0);
+END_IF
+IF trigFault.Q THEN
+	fbMesFault.Send(0);
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="aFb_Motor">
+      <LineId Id="397" Count="0" />
+      <LineId Id="402" Count="0" />
+      <LineId Id="461" Count="0" />
+      <LineId Id="404" Count="6" />
+      <LineId Id="400" Count="0" />
+      <LineId Id="398" Count="0" />
       <LineId Id="48" Count="2" />
       <LineId Id="322" Count="1" />
       <LineId Id="325" Count="1" />
@@ -112,6 +197,24 @@ END_IF]]></ST>
       <LineId Id="337" Count="0" />
       <LineId Id="340" Count="1" />
       <LineId Id="334" Count="0" />
+      <LineId Id="414" Count="0" />
+      <LineId Id="413" Count="0" />
+      <LineId Id="431" Count="5" />
+      <LineId Id="438" Count="0" />
+      <LineId Id="437" Count="0" />
+      <LineId Id="439" Count="1" />
+      <LineId Id="442" Count="1" />
+      <LineId Id="441" Count="0" />
+      <LineId Id="445" Count="1" />
+      <LineId Id="444" Count="0" />
+      <LineId Id="448" Count="1" />
+      <LineId Id="447" Count="0" />
+      <LineId Id="451" Count="1" />
+      <LineId Id="450" Count="0" />
+      <LineId Id="454" Count="1" />
+      <LineId Id="453" Count="0" />
+      <LineId Id="457" Count="1" />
+      <LineId Id="456" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
