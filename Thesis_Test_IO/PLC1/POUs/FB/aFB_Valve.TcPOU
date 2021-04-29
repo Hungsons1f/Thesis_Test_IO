@@ -20,7 +20,7 @@ VAR_INPUT
 	RunFeedback: BOOL;
 	Interlock: BOOL;
 	{attribute 'hide'}
-	DisplayName: STRING[20];
+	DisplayName: STRING[30];
 END_VAR
 VAR_OUTPUT
 	Cmd: BOOL;

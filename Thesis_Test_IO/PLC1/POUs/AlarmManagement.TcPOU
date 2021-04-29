@@ -3,6 +3,7 @@
   <POU Name="AlarmManagement" Id="{f0936c20-36bf-4906-9079-9d00867141e0}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM AlarmManagement
 VAR
+{region 'Process Control Message'}
 	bFirstScan: BOOL := TRUE;
 	fbSource: FB_TcSourceInfo;
 	
@@ -29,6 +30,185 @@ VAR
 	trigEmergency: R_TRIG;
 	trigErrorEmergency: R_TRIG;
 	trigResetted: F_TRIG;
+{endregion}
+	
+{region 'Process Alarm'}
+	bFirstScan2: BOOL := TRUE;
+	fbSLPHeaterTemp: FB_TcSourceInfo;
+	fbSLPHeaterPress: FB_TcSourceInfo;
+	fbSDeaeratorTemp: FB_TcSourceInfo;
+	fbSHPHeaterTemp: FB_TcSourceInfo;
+	fbSHPHeaterPress: FB_TcSourceInfo;
+	fbSBoilerTemp: FB_TcSourceInfo;
+	fbSCondenserTemp: FB_TcSourceInfo;
+	fbSTurbineTemp: FB_TcSourceInfo;
+	fbSTurbinePress: FB_TcSourceInfo;
+	fbSTurbineRotation: FB_TcSourceInfo;
+	
+	fbAlLPHeaterTempHIHI: FB_TcAlarm;
+	fbAlLPHeaterTempHI: FB_TcAlarm;
+	fbAlLPHeaterTempLO: FB_TcAlarm;
+	fbAlLPHeaterTempLOLO: FB_TcAlarm;
+	fbAlLPHeaterPressHIHI: FB_TcAlarm;
+	fbAlLPHeaterPressHI: FB_TcAlarm;
+	fbAlLPHeaterPressLO: FB_TcAlarm;
+	fbAlLPHeaterPressLOLO: FB_TcAlarm;
+	fbAlDeaeratorTempHIHI: FB_TcAlarm;
+	fbAlDeaeratorTempHI: FB_TcAlarm;
+	fbAlDeaeratorTempLO: FB_TcAlarm;
+	fbAlDeaeratorTempLOLO: FB_TcAlarm;
+	fbAlHPHeaterTempHIHI: FB_TcAlarm;
+	fbAlHPHeaterTempHI: FB_TcAlarm;
+	fbAlHPHeaterTempLO: FB_TcAlarm;
+	fbAlHPHeaterTempLOLO: FB_TcAlarm;
+	fbAlHPHeaterPressHIHI: FB_TcAlarm;
+	fbAlHPHeaterPressHI: FB_TcAlarm;
+	fbAlHPHeaterPressLO: FB_TcAlarm;
+	fbAlHPHeaterPressLOLO: FB_TcAlarm;
+	fbAlBoilerTempHIHI: FB_TcAlarm;
+	fbAlBoilerTempHI: FB_TcAlarm;
+	fbAlBoilerTempLO: FB_TcAlarm;
+	fbAlBoilerTempLOLO: FB_TcAlarm;
+	fbAlCondenserTempHIHI: FB_TcAlarm;
+	fbAlCondenserTempHI: FB_TcAlarm;
+	fbAlCondenserTempLO: FB_TcAlarm;
+	fbAlCondenserTempLOLO: FB_TcAlarm;
+	fbAlTurbineTempHIHI: FB_TcAlarm;
+	fbAlTurbineTempHI: FB_TcAlarm;
+	fbAlTurbineTempLO: FB_TcAlarm;
+	fbAlTurbineTempLOLO: FB_TcAlarm;
+	fbAlTurbinePressHIHI: FB_TcAlarm;
+	fbAlTurbinePressHI: FB_TcAlarm;
+	fbAlTurbinePressLO: FB_TcAlarm;
+	fbAlTurbinePressLOLO: FB_TcAlarm;
+	fbAlTurbineRotationHIHI: FB_TcAlarm;
+	fbAlTurbineRotationHI: FB_TcAlarm;
+	fbAlTurbineRotationLO: FB_TcAlarm;
+	fbAlTurbineRotationLOLO: FB_TcAlarm;
+
+	trigRLPHTempHIHI: R_TRIG;
+	trigRLPHTempHI: R_TRIG;
+	trigRLPHTempLO: R_TRIG;
+	trigRLPHTempLOLO: R_TRIG;
+	trigRLPHPressHIHI: R_TRIG;
+	trigRLPHPressHI: R_TRIG;
+	trigRLPHPressLO: R_TRIG;
+	trigRLPHPressLOLO: R_TRIG;
+	trigRDeaerTempHIHI: R_TRIG;
+	trigRDeaerTempHI: R_TRIG;
+	trigRDeaerTempLO: R_TRIG;
+	trigRDeaerTempLOLO: R_TRIG;
+	trigRHPHTempHIHI: R_TRIG;
+	trigRHPHTempHI: R_TRIG;
+	trigRHPHTempLO: R_TRIG;
+	trigRHPHTempLOLO: R_TRIG;
+	trigRHPHPressHIHI: R_TRIG;
+	trigRHPHPressHI: R_TRIG;
+	trigRHPHPressLO: R_TRIG;
+	trigRHPHPressLOLO: R_TRIG;
+	trigRBoiTempHIHI: R_TRIG;
+	trigRBoiTempHI: R_TRIG;
+	trigRBoiTempLO: R_TRIG;
+	trigRBoiTempLOLO: R_TRIG;
+	trigRConTempHIHI: R_TRIG;
+	trigRConTempHI: R_TRIG;
+	trigRConTempLO: R_TRIG;
+	trigRConTempLOLO: R_TRIG;
+	trigRTurTempHIHI: R_TRIG;
+	trigRTurTempHI: R_TRIG;
+	trigRTurTempLO: R_TRIG;
+	trigRTurTempLOLO: R_TRIG;
+	trigRTurPressHIHI: R_TRIG;
+	trigRTurPressHI: R_TRIG;
+	trigRTurPressLO: R_TRIG;
+	trigRTurPressLOLO: R_TRIG;
+	trigRTurRotHIHI: R_TRIG;
+	trigRTurRotHI: R_TRIG;
+	trigRTurRotLO: R_TRIG;
+	trigRTurRotLOLO: R_TRIG;
+	
+	trigFLPHTempHIHI: R_TRIG;
+	trigFLPHTempHI: R_TRIG;
+	trigFLPHTempLO: R_TRIG;
+	trigFLPHTempLOLO: R_TRIG;
+	trigFLPHPressHIHI: R_TRIG;
+	trigFLPHPressHI: R_TRIG;
+	trigFLPHPressLO: R_TRIG;
+	trigFLPHPressLOLO: R_TRIG;
+	trigFDeaerTempHIHI: R_TRIG;
+	trigFDeaerTempHI: R_TRIG;
+	trigFDeaerTempLO: R_TRIG;
+	trigFDeaerTempLOLO: R_TRIG;
+	trigFHPHTempHIHI: R_TRIG;
+	trigFHPHTempHI: R_TRIG;
+	trigFHPHTempLO: R_TRIG;
+	trigFHPHTempLOLO: R_TRIG;
+	trigFHPHPressHIHI: R_TRIG;
+	trigFHPHPressHI: R_TRIG;
+	trigFHPHPressLO: R_TRIG;
+	trigFHPHPressLOLO: R_TRIG;
+	trigFBoiTempHIHI: R_TRIG;
+	trigFBoiTempHI: R_TRIG;
+	trigFBoiTempLO: R_TRIG;
+	trigFBoiTempLOLO: R_TRIG;
+	trigFConTempHIHI: R_TRIG;
+	trigFConTempHI: R_TRIG;
+	trigFConTempLO: R_TRIG;
+	trigFConTempLOLO: R_TRIG;
+	trigFTurTempHIHI: R_TRIG;
+	trigFTurTempHI: R_TRIG;
+	trigFTurTempLO: R_TRIG;
+	trigFTurTempLOLO: R_TRIG;
+	trigFTurPressHIHI: R_TRIG;
+	trigFTurPressHI: R_TRIG;
+	trigFTurPressLO: R_TRIG;
+	trigFTurPressLOLO: R_TRIG;
+	trigFTurRotHIHI: R_TRIG;
+	trigFTurRotHI: R_TRIG;
+	trigFTurRotLO: R_TRIG;
+	trigFTurRotLOLO: R_TRIG;
+	
+	bCfLPHeaterTempHIHI: BOOL;
+	bCfLPHeaterTempHI: BOOL;
+	bCfLPHeaterTempLO: BOOL;
+	bCfLPHeaterTempLOLO: BOOL;
+	bCfLPHeaterPressHIHI: BOOL;
+	bCfLPHeaterPressHI: BOOL;
+	bCfLPHeaterPressLO: BOOL;
+	bCfLPHeaterPressLOLO: BOOL;
+	bCfDeaeratorTempHIHI: BOOL;
+	bCfDeaeratorTempHI: BOOL;
+	bCfDeaeratorTempLO: BOOL;
+	bCfDeaeratorTempLOLO: BOOL;
+	bCfHPHeaterTempHIHI: BOOL;
+	bCfHPHeaterTempHI: BOOL;
+	bCfHPHeaterTempLO: BOOL;
+	bCfHPHeaterTempLOLO: BOOL;
+	bCfHPHeaterPressHIHI: BOOL;
+	bCfHPHeaterPressHI: BOOL;
+	bCfHPHeaterPressLO: BOOL;
+	bCfHPHeaterPressLOLO: BOOL;
+	bCfBoilerTempHIHI: BOOL;
+	bCfBoilerTempHI: BOOL;
+	bCfBoilerTempLO: BOOL;
+	bCfBoilerTempLOLO: BOOL;
+	bCfCondenserTempHIHI: BOOL;
+	bCfCondenserTempHI: BOOL;
+	bCfCondenserTempLO: BOOL;
+	bCfCondenserTempLOLO: BOOL;
+	bCfTurbineTempHIHI: BOOL;
+	bCfTurbineTempHI: BOOL;
+	bCfTurbineTempLO: BOOL;
+	bCfTurbineTempLOLO: BOOL;
+	bCfTurbinePressHIHI: BOOL;
+	bCfTurbinePressHI: BOOL;
+	bCfTurbinePressLO: BOOL;
+	bCfTurbinePressLOLO: BOOL;
+	bCfTurbineRotationHIHI: BOOL;
+	bCfTurbineRotationHI: BOOL;
+	bCfTurbineRotationLO: BOOL;
+	bCfTurbineRotationLOLO: BOOL;
+{endregion}
 
 END_VAR
 ]]></Declaration>
@@ -97,6 +277,552 @@ IF trigResetted.Q THEN
 END_IF
 {endregion}
 
+{region 'Process Alarm'}
+
+IF bFirstScan2 THEN
+	bFirstScan2 := FALSE;
+	fbSLPHeaterTemp.sName := 'LP Heater Temperature';
+	fbSLPHeaterPress.sName := 'LP Heater Pressure';
+	fbSDeaeratorTemp.sName := 'Deaerator Temperature';
+	fbSHPHeaterTemp.sName := 'HP Heater Temperature';
+	fbSHPHeaterPress.sName := 'HP Heater Pressure';
+	fbSBoilerTemp.sName := 'Boiler Temperature';
+	fbSCondenserTemp.sName := 'Condenser Temperature';
+	fbSTurbineTemp.sName := 'Turbine Temperature';
+	fbSTurbinePress.sName := 'Turbine Pressure';
+	fbSTurbineRotation.sName := 'Turbine Speed';
+	
+	fbAlLPHeaterTempHIHI.CreateEx(TC_Events.AnalogAlarm.HiHi, TRUE,fbSLPHeaterTemp);
+	fbAlLPHeaterTempHI.CreateEx(TC_Events.AnalogAlarm.Hi, TRUE,fbSLPHeaterTemp);
+	fbAlLPHeaterTempLO.CreateEx(TC_Events.AnalogAlarm.Lo, TRUE,fbSLPHeaterTemp);
+	fbAlLPHeaterTempLOLO.CreateEx(TC_Events.AnalogAlarm.LoLo, TRUE,fbSLPHeaterTemp);
+	fbAlLPHeaterPressHIHI.CreateEx(TC_Events.AnalogAlarm.HiHi, TRUE,fbSLPHeaterPress);
+	fbAlLPHeaterPressHI.CreateEx(TC_Events.AnalogAlarm.Hi, TRUE,fbSLPHeaterPress);
+	fbAlLPHeaterPressLO.CreateEx(TC_Events.AnalogAlarm.Lo, TRUE,fbSLPHeaterPress);
+	fbAlLPHeaterPressLOLO.CreateEx(TC_Events.AnalogAlarm.LoLo, TRUE,fbSLPHeaterPress);
+	fbAlDeaeratorTempHIHI.CreateEx(TC_Events.AnalogAlarm.HiHi, TRUE,fbSDeaeratorTemp);
+	fbAlDeaeratorTempHI.CreateEx(TC_Events.AnalogAlarm.Hi, TRUE,fbSDeaeratorTemp);
+	fbAlDeaeratorTempLO.CreateEx(TC_Events.AnalogAlarm.Lo, TRUE,fbSDeaeratorTemp);
+	fbAlDeaeratorTempLOLO.CreateEx(TC_Events.AnalogAlarm.LoLo, TRUE,fbSDeaeratorTemp);
+	fbAlHPHeaterTempHIHI.CreateEx(TC_Events.AnalogAlarm.HiHi, TRUE,fbSHPHeaterTemp);
+	fbAlHPHeaterTempHI.CreateEx(TC_Events.AnalogAlarm.Hi, TRUE,fbSHPHeaterTemp);
+	fbAlHPHeaterTempLO.CreateEx(TC_Events.AnalogAlarm.Lo, TRUE,fbSHPHeaterTemp);
+	fbAlHPHeaterTempLOLO.CreateEx(TC_Events.AnalogAlarm.LoLo, TRUE,fbSHPHeaterTemp);
+	fbAlHPHeaterPressHIHI.CreateEx(TC_Events.AnalogAlarm.HiHi, TRUE,fbSHPHeaterPress);
+	fbAlHPHeaterPressHI.CreateEx(TC_Events.AnalogAlarm.Hi, TRUE,fbSHPHeaterPress);
+	fbAlHPHeaterPressLO.CreateEx(TC_Events.AnalogAlarm.Lo, TRUE,fbSHPHeaterPress);
+	fbAlHPHeaterPressLOLO.CreateEx(TC_Events.AnalogAlarm.LoLo, TRUE,fbSHPHeaterPress);
+	fbAlBoilerTempHIHI.CreateEx(TC_Events.AnalogAlarm.HiHi, TRUE,fbSBoilerTemp);
+	fbAlBoilerTempHI.CreateEx(TC_Events.AnalogAlarm.Hi, TRUE,fbSBoilerTemp);
+	fbAlBoilerTempLO.CreateEx(TC_Events.AnalogAlarm.Lo, TRUE,fbSBoilerTemp);
+	fbAlBoilerTempLOLO.CreateEx(TC_Events.AnalogAlarm.LoLo, TRUE,fbSBoilerTemp);
+	fbAlCondenserTempHIHI.CreateEx(TC_Events.AnalogAlarm.HiHi, TRUE,fbSCondenserTemp);
+	fbAlCondenserTempHI.CreateEx(TC_Events.AnalogAlarm.Hi, TRUE,fbSCondenserTemp);
+	fbAlCondenserTempLO.CreateEx(TC_Events.AnalogAlarm.Lo, TRUE,fbSCondenserTemp);
+	fbAlCondenserTempLOLO.CreateEx(TC_Events.AnalogAlarm.LoLo, TRUE,fbSCondenserTemp);
+	fbAlTurbineTempHIHI.CreateEx(TC_Events.AnalogAlarm.HiHi, TRUE,fbSTurbineTemp);
+	fbAlTurbineTempHI.CreateEx(TC_Events.AnalogAlarm.Hi, TRUE,fbSTurbineTemp);
+	fbAlTurbineTempLO.CreateEx(TC_Events.AnalogAlarm.Lo, TRUE,fbSTurbineTemp);
+	fbAlTurbineTempLOLO.CreateEx(TC_Events.AnalogAlarm.LoLo, TRUE,fbSTurbineTemp);
+	fbAlTurbinePressHIHI.CreateEx(TC_Events.AnalogAlarm.HiHi, TRUE,fbSTurbinePress);
+	fbAlTurbinePressHI.CreateEx(TC_Events.AnalogAlarm.Hi, TRUE,fbSTurbinePress);
+	fbAlTurbinePressLO.CreateEx(TC_Events.AnalogAlarm.Lo, TRUE,fbSTurbinePress);
+	fbAlTurbinePressLOLO.CreateEx(TC_Events.AnalogAlarm.LoLo, TRUE,fbSTurbinePress);
+	fbAlTurbineRotationHIHI.CreateEx(TC_Events.AnalogAlarm.HiHi, TRUE,fbSTurbineRotation);
+	fbAlTurbineRotationHI.CreateEx(TC_Events.AnalogAlarm.Hi, TRUE,fbSTurbineRotation);
+	fbAlTurbineRotationLO.CreateEx(TC_Events.AnalogAlarm.Lo, TRUE,fbSTurbineRotation);
+	fbAlTurbineRotationLOLO.CreateEx(TC_Events.AnalogAlarm.LoLo, TRUE,fbSTurbineRotation);
+
+END_IF
+
+IF AutoControl.ProcessState = aE_ProcessState.SteadyState THEN	
+	trigRLPHTempHIHI(CLK := (Streams.InStream.LPHeater_Temp > (AlarmLimit.alLPHeaterTemp.HIHI)));
+	trigRLPHTempHI(CLK := (Streams.InStream.LPHeater_Temp > (AlarmLimit.alLPHeaterTemp.HI)));
+	trigRLPHTempLO(CLK := (Streams.InStream.LPHeater_Temp < (AlarmLimit.alLPHeaterTemp.LO)));
+	trigRLPHTempLOLO(CLK := (Streams.InStream.LPHeater_Temp < (AlarmLimit.alLPHeaterTemp.lolo)));
+	trigRLPHPressHIHI(CLK := (Streams.InStream.LPHeater_Press > (AlarmLimit.alLPHeaterPress.HIHI)));
+	trigRLPHPressHI(CLK := (Streams.InStream.LPHeater_Press > (AlarmLimit.alLPHeaterPress.HI)));
+	trigRLPHPressLO(CLK := (Streams.InStream.LPHeater_Press < (AlarmLimit.alLPHeaterPress.lo)));
+	trigRLPHPressLOLO(CLK := (Streams.InStream.LPHeater_Press < (AlarmLimit.alLPHeaterPress.LOLO)));
+	trigRDeaerTempHIHI(CLK := (Streams.InStream.AirEjector_Temp > (AlarmLimit.alDeaeratorTemp.HIHI)));
+	trigRDeaerTempHI(CLK := (Streams.InStream.AirEjector_Temp > (AlarmLimit.alDeaeratorTemp.HI)));
+	trigRDeaerTempLO(CLK := (Streams.InStream.AirEjector_Temp < (AlarmLimit.alDeaeratorTemp.lo)));
+	trigRDeaerTempLOLO(CLK := (Streams.InStream.AirEjector_Temp < (AlarmLimit.alDeaeratorTemp.LOLO)));
+	trigRHPHTempHIHI(CLK := (Streams.InStream.HPHeater_Temp > (AlarmLimit.alHPHeaterTemp.HIHI)));
+	trigRHPHTempHI(CLK := (Streams.InStream.HPHeater_Temp > (AlarmLimit.alHPHeaterTemp.HI)));
+	trigRHPHTempLO(CLK := (Streams.InStream.HPHeater_Temp < (AlarmLimit.alHPHeaterTemp.LO)));
+	trigRHPHTempLOLO(CLK := (Streams.InStream.HPHeater_Temp < (AlarmLimit.alHPHeaterTemp.LOLO)));
+	trigRHPHPressHIHI(CLK := (Streams.InStream.HPHeater_Press > (AlarmLimit.alHPHeaterPress.HIHI)));
+	trigRHPHPressHI(CLK := (Streams.InStream.HPHeater_Press > (AlarmLimit.alHPHeaterPress.HI)));
+	trigRHPHPressLO(CLK := (Streams.InStream.HPHeater_Press < (AlarmLimit.alHPHeaterPress.LO)));
+	trigRHPHPressLOLO(CLK := (Streams.InStream.HPHeater_Press < (AlarmLimit.alHPHeaterPress.LOLO)));
+	trigRBoiTempHIHI(CLK := (Streams.InStream.Boiler_Temp > (AlarmLimit.alBoilerTemp.HIHI)));
+	trigRBoiTempHI(CLK := (Streams.InStream.Boiler_Temp > (AlarmLimit.alBoilerTemp.HI)));
+	trigRBoiTempLO(CLK := (Streams.InStream.Boiler_Temp < (AlarmLimit.alBoilerTemp.LO)));
+	trigRBoiTempLOLO(CLK := (Streams.InStream.Boiler_Temp < (AlarmLimit.alBoilerTemp.LOLO)));
+	trigRConTempHIHI(CLK := (Streams.InStream.Condenser_Temp > (AlarmLimit.alCondenserTemp.HIHI)));
+	trigRConTempHI(CLK := (Streams.InStream.Condenser_Temp > (AlarmLimit.alCondenserTemp.HI)));
+	trigRConTempLO(CLK := (Streams.InStream.Condenser_Temp < (AlarmLimit.alCondenserTemp.LO)));
+	trigRConTempLOLO(CLK := (Streams.InStream.Condenser_Temp < (AlarmLimit.alCondenserTemp.LOLO)));
+	trigRTurTempHIHI(CLK := (Streams.InStream.Turbine_OutTemp > (AlarmLimit.alTurbineTemp.HIHI)));
+	trigRTurTempHI(CLK := (Streams.InStream.Turbine_OutTemp > (AlarmLimit.alTurbineTemp.HI)));
+	trigRTurTempLO(CLK := (Streams.InStream.Turbine_OutTemp < (AlarmLimit.alTurbineTemp.LO)));
+	trigRTurTempLOLO(CLK := (Streams.InStream.Turbine_OutTemp < (AlarmLimit.alTurbineTemp.LOLO)));
+	trigRTurPressHIHI(CLK := (Streams.InStream.Turbine_OutPress > (AlarmLimit.alTurbinePress.HIHI)));
+	trigRTurPressHI(CLK := (Streams.InStream.Turbine_OutPress > (AlarmLimit.alTurbinePress.HI)));
+	trigRTurPressLO(CLK := (Streams.InStream.Turbine_OutPress < (AlarmLimit.alTurbinePress.LO)));
+	trigRTurPressLOLO(CLK := (Streams.InStream.Turbine_OutPress < (AlarmLimit.alTurbinePress.LOLO)));
+	trigRTurRotHIHI(CLK := (Streams.InStream.Turbine_Rotation > (AlarmLimit.alTurbineRotation.HIHI)));
+	trigRTurRotHI(CLK := (Streams.InStream.Turbine_Rotation > (AlarmLimit.alTurbineRotation.HI)));
+	trigRTurRotLO(CLK := (Streams.InStream.Turbine_Rotation < (AlarmLimit.alTurbineRotation.LO)));
+	trigRTurRotLOLO(CLK := (Streams.InStream.Turbine_Rotation < (AlarmLimit.alTurbineRotation.LOLO)));
+	
+	trigFLPHTempHIHI(CLK := (Streams.InStream.LPHeater_Temp < (AlarmLimit.alLPHeaterTemp.HIHI - AlarmLimit.alLPHeaterTemp.Deadband)));
+	trigFLPHTempHI(CLK := (Streams.InStream.LPHeater_Temp < (AlarmLimit.alLPHeaterTemp.HI - AlarmLimit.alLPHeaterTemp.Deadband)));
+	trigFLPHTempLO(CLK := (Streams.InStream.LPHeater_Temp > (AlarmLimit.alLPHeaterTemp.LO - AlarmLimit.alLPHeaterTemp.Deadband)));
+	trigFLPHTempLOLO(CLK := (Streams.InStream.LPHeater_Temp > (AlarmLimit.alLPHeaterTemp.LOLO - AlarmLimit.alLPHeaterTemp.Deadband)));
+	trigFLPHPressHIHI(CLK := (Streams.InStream.LPHeater_Press < (AlarmLimit.alLPHeaterPress.HIHI - AlarmLimit.alLPHeaterPress.Deadband)));
+	trigFLPHPressHI(CLK := (Streams.InStream.LPHeater_Press < (AlarmLimit.alLPHeaterPress.HI - AlarmLimit.alLPHeaterPress.Deadband)));
+	trigFLPHPressLO(CLK := (Streams.InStream.LPHeater_Press > (AlarmLimit.alLPHeaterPress.LO - AlarmLimit.alLPHeaterPress.Deadband)));
+	trigFLPHPressLOLO(CLK := (Streams.InStream.LPHeater_Press > (AlarmLimit.alLPHeaterPress.LOLO - AlarmLimit.alLPHeaterPress.Deadband)));
+	trigFDeaerTempHIHI(CLK := (Streams.InStream.AirEjector_Temp < (AlarmLimit.alDeaeratorTemp.HIHI - AlarmLimit.alDeaeratorTemp.Deadband)));
+	trigFDeaerTempHI(CLK := (Streams.InStream.AirEjector_Temp < (AlarmLimit.alDeaeratorTemp.HI - AlarmLimit.alDeaeratorTemp.Deadband)));
+	trigFDeaerTempLO(CLK := (Streams.InStream.AirEjector_Temp > (AlarmLimit.alDeaeratorTemp.LO - AlarmLimit.alDeaeratorTemp.Deadband)));
+	trigFDeaerTempLOLO(CLK := (Streams.InStream.AirEjector_Temp > (AlarmLimit.alDeaeratorTemp.LOLO - AlarmLimit.alDeaeratorTemp.Deadband)));
+	trigFHPHTempHIHI(CLK := (Streams.InStream.HPHeater_Temp < (AlarmLimit.alHPHeaterTemp.HIHI - AlarmLimit.alHPHeaterTemp.Deadband)));
+	trigFHPHTempHI(CLK := (Streams.InStream.HPHeater_Temp < (AlarmLimit.alHPHeaterTemp.HI - AlarmLimit.alHPHeaterTemp.Deadband)));
+	trigFHPHTempLO(CLK := (Streams.InStream.HPHeater_Temp > (AlarmLimit.alHPHeaterTemp.LO - AlarmLimit.alHPHeaterTemp.Deadband)));
+	trigFHPHTempLOLO(CLK := (Streams.InStream.HPHeater_Temp > (AlarmLimit.alHPHeaterTemp.LOLO - AlarmLimit.alHPHeaterTemp.Deadband)));
+	trigFHPHPressHIHI(CLK := (Streams.InStream.HPHeater_Press < (AlarmLimit.alHPHeaterPress.HIHI - AlarmLimit.alHPHeaterPress.Deadband)));
+	trigFHPHPressHI(CLK := (Streams.InStream.HPHeater_Press < (AlarmLimit.alHPHeaterPress.HI - AlarmLimit.alHPHeaterPress.Deadband)));
+	trigFHPHPressLO(CLK := (Streams.InStream.HPHeater_Press > (AlarmLimit.alHPHeaterPress.LO - AlarmLimit.alHPHeaterPress.Deadband)));
+	trigFHPHPressLOLO(CLK := (Streams.InStream.HPHeater_Press > (AlarmLimit.alHPHeaterPress.LOLO - AlarmLimit.alHPHeaterPress.Deadband)));
+	trigFBoiTempHIHI(CLK := (Streams.InStream.Boiler_Temp < (AlarmLimit.alBoilerTemp.HIHI - AlarmLimit.alBoilerTemp.Deadband)));
+	trigFBoiTempHI(CLK := (Streams.InStream.Boiler_Temp < (AlarmLimit.alBoilerTemp.HI - AlarmLimit.alBoilerTemp.Deadband)));
+	trigFBoiTempLO(CLK := (Streams.InStream.Boiler_Temp > (AlarmLimit.alBoilerTemp.LO - AlarmLimit.alBoilerTemp.Deadband)));
+	trigFBoiTempLOLO(CLK := (Streams.InStream.Boiler_Temp > (AlarmLimit.alBoilerTemp.LOLO - AlarmLimit.alBoilerTemp.Deadband)));
+	trigFConTempHIHI(CLK := (Streams.InStream.Condenser_Temp < (AlarmLimit.alCondenserTemp.HIHI - AlarmLimit.alCondenserTemp.Deadband)));
+	trigFConTempHI(CLK := (Streams.InStream.Condenser_Temp < (AlarmLimit.alCondenserTemp.HI - AlarmLimit.alCondenserTemp.Deadband)));
+	trigFConTempLO(CLK := (Streams.InStream.Condenser_Temp > (AlarmLimit.alCondenserTemp.LO - AlarmLimit.alCondenserTemp.Deadband)));
+	trigFConTempLOLO(CLK := (Streams.InStream.Condenser_Temp > (AlarmLimit.alCondenserTemp.LOLO - AlarmLimit.alCondenserTemp.Deadband)));
+	trigFTurTempHIHI(CLK := (Streams.InStream.Turbine_OutTemp < (AlarmLimit.alTurbineTemp.HIHI - AlarmLimit.alTurbineTemp.Deadband)));
+	trigFTurTempHI(CLK := (Streams.InStream.Turbine_OutTemp < (AlarmLimit.alTurbineTemp.HI - AlarmLimit.alTurbineTemp.Deadband)));
+	trigFTurTempLO(CLK := (Streams.InStream.Turbine_OutTemp > (AlarmLimit.alTurbineTemp.LO - AlarmLimit.alTurbineTemp.Deadband)));
+	trigFTurTempLOLO(CLK := (Streams.InStream.Turbine_OutTemp > (AlarmLimit.alTurbineTemp.LOLO - AlarmLimit.alTurbineTemp.Deadband)));
+	trigFTurPressHIHI(CLK := (Streams.InStream.Turbine_OutPress < (AlarmLimit.alTurbinePress.HIHI - AlarmLimit.alTurbinePress.Deadband)));
+	trigFTurPressHI(CLK := (Streams.InStream.Turbine_OutPress < (AlarmLimit.alTurbinePress.HI - AlarmLimit.alTurbinePress.Deadband)));
+	trigFTurPressLO(CLK := (Streams.InStream.Turbine_OutPress > (AlarmLimit.alTurbinePress.LO - AlarmLimit.alTurbinePress.Deadband)));
+	trigFTurPressLOLO(CLK := (Streams.InStream.Turbine_OutPress > (AlarmLimit.alTurbinePress.LOLO - AlarmLimit.alTurbinePress.Deadband)));
+	trigFTurRotHIHI(CLK := (Streams.InStream.Turbine_Rotation < (AlarmLimit.alTurbineRotation.HIHI - AlarmLimit.alTurbineRotation.Deadband)));
+	trigFTurRotHI(CLK := (Streams.InStream.Turbine_Rotation < (AlarmLimit.alTurbineRotation.HI - AlarmLimit.alTurbineRotation.Deadband)));
+	trigFTurRotLO(CLK := (Streams.InStream.Turbine_Rotation > (AlarmLimit.alTurbineRotation.LO - AlarmLimit.alTurbineRotation.Deadband)));
+	trigFTurRotLOLO(CLK := (Streams.InStream.Turbine_Rotation > (AlarmLimit.alTurbineRotation.LOLO - AlarmLimit.alTurbineRotation.Deadband)));
+
+	IF trigRLPHTempHIHI.Q THEN
+		fbAlLPHeaterTempHIHI.Raise(0);
+	END_IF
+	IF trigRLPHTempHI.Q THEN
+		fbAlLPHeaterTempHI.Raise(0);
+	END_IF
+	IF trigRLPHTempLO.Q THEN
+		fbAlLPHeaterTempLO.Raise(0);
+	END_IF
+	IF trigRLPHTempLOLO.Q THEN
+		fbAlLPHeaterTempLOLO.Raise(0);
+	END_IF
+	IF trigRLPHPressHIHI.Q THEN
+		fbAlLPHeaterPressHIHI.Raise(0);
+	END_IF
+	IF trigRLPHPressHI.Q THEN
+		fbAlLPHeaterPressHI.Raise(0);
+	END_IF
+	IF trigRLPHPressLO.Q THEN
+		fbAlLPHeaterPressLO.Raise(0);
+	END_IF
+	IF trigRLPHPressLOLO.Q THEN
+		fbAlLPHeaterPressLOLO.Raise(0);
+	END_IF
+	IF trigRDeaerTempHIHI.Q THEN
+		fbAlDeaeratorTempHIHI.Raise(0);
+	END_IF
+	IF trigRDeaerTempHI.Q THEN
+		fbAlDeaeratorTempHI.Raise(0);
+	END_IF
+	IF trigRDeaerTempLO.Q THEN
+		fbAlDeaeratorTempLO.Raise(0);
+	END_IF
+	IF trigRDeaerTempLOLO.Q THEN
+		fbAlDeaeratorTempLOLO.Raise(0);
+	END_IF
+	IF trigRHPHTempHIHI.Q THEN
+		fbAlHPHeaterTempHIHI.Raise(0);
+	END_IF
+	IF trigRHPHTempHI.Q THEN
+		fbAlHPHeaterTempHI.Raise(0);
+	END_IF
+	IF trigRHPHTempLO.Q THEN
+		fbAlHPHeaterTempLO.Raise(0);
+	END_IF
+	IF trigRHPHTempLOLO.Q THEN
+		fbAlHPHeaterTempLOLO.Raise(0);
+	END_IF
+	IF trigRHPHPressHIHI.Q THEN
+		fbAlHPHeaterPressHIHI.Raise(0);
+	END_IF
+	IF trigRHPHPressHI.Q THEN
+		fbAlHPHeaterPressHI.Raise(0);
+	END_IF
+	IF trigRHPHPressLO.Q THEN
+		fbAlHPHeaterPressLO.Raise(0);
+	END_IF
+	IF trigRHPHPressLOLO.Q THEN
+		fbAlHPHeaterPressLOLO.Raise(0);
+	END_IF
+	IF trigRBoiTempHIHI.Q THEN
+		fbAlBoilerTempHIHI.Raise(0);
+	END_IF
+	IF trigRBoiTempHI.Q THEN
+		fbAlBoilerTempHI.Raise(0);
+	END_IF
+	IF trigRBoiTempLO.Q THEN
+		fbAlBoilerTempLO.Raise(0);
+	END_IF
+	IF trigRBoiTempLOLO.Q THEN
+		fbAlBoilerTempLOLO.Raise(0);
+	END_IF
+	IF trigRConTempHIHI.Q THEN
+		fbAlCondenserTempHIHI.Raise(0);
+	END_IF
+	IF trigRConTempHI.Q THEN
+		fbAlCondenserTempHI.Raise(0);
+	END_IF
+	IF trigRConTempLO.Q THEN
+		fbAlCondenserTempLO.Raise(0);
+	END_IF
+	IF trigRConTempLOLO.Q THEN
+		fbAlCondenserTempLOLO.Raise(0);
+	END_IF
+	IF trigRTurTempHIHI.Q THEN
+		fbAlTurbineTempHIHI.Raise(0);
+	END_IF
+	IF trigRTurTempHI.Q THEN
+		fbAlTurbineTempHI.Raise(0);
+	END_IF
+	IF trigRTurTempLO.Q THEN
+		fbAlTurbineTempLO.Raise(0);
+	END_IF
+	IF trigRTurTempLOLO.Q THEN
+		fbAlTurbineTempLOLO.Raise(0);
+	END_IF
+	IF trigRTurPressHIHI.Q THEN
+		fbAlTurbinePressHIHI.Raise(0);
+	END_IF
+	IF trigRTurPressHI.Q THEN
+		fbAlTurbinePressHI.Raise(0);
+	END_IF
+	IF trigRTurPressLO.Q THEN
+		fbAlTurbinePressLO.Raise(0);
+	END_IF
+	IF trigRTurPressLOLO.Q THEN
+		fbAlTurbinePressLOLO.Raise(0);
+	END_IF
+	IF trigRTurRotHIHI.Q THEN
+		fbAlTurbineRotationHIHI.Raise(0);
+	END_IF
+	IF trigRTurRotHI.Q THEN
+		fbAlTurbineRotationHI.Raise(0);
+	END_IF
+	IF trigRTurRotLO.Q THEN
+		fbAlTurbineRotationLO.Raise(0);
+	END_IF
+	IF trigRTurRotLOLO.Q THEN
+		fbAlTurbineRotationLOLO.Raise(0);
+	END_IF
+
+	IF trigFLPHTempHIHI.Q THEN
+		fbAlLPHeaterTempHIHI.Clear(0, TRUE);
+	END_IF
+	IF trigFLPHTempHI.Q THEN
+		fbAlLPHeaterTempHI.Clear(0, TRUE);
+	END_IF
+	IF trigFLPHTempLO.Q THEN
+		fbAlLPHeaterTempLO.Clear(0, TRUE);
+	END_IF
+	IF trigFLPHTempLOLO.Q THEN
+		fbAlLPHeaterTempLOLO.Clear(0, TRUE);
+	END_IF
+	IF trigFLPHPressHIHI.Q THEN
+		fbAlLPHeaterPressHIHI.Clear(0, TRUE);
+	END_IF
+	IF trigFLPHPressHI.Q THEN
+		fbAlLPHeaterPressHI.Clear(0, TRUE);
+	END_IF
+	IF trigFLPHPressLO.Q THEN
+		fbAlLPHeaterPressLO.Clear(0, TRUE);
+	END_IF
+	IF trigFLPHPressLOLO.Q THEN
+		fbAlLPHeaterPressLOLO.Clear(0, TRUE);
+	END_IF
+	IF trigFDeaerTempHIHI.Q THEN
+		fbAlDeaeratorTempHIHI.Clear(0, TRUE);
+	END_IF
+	IF trigFDeaerTempHI.Q THEN
+		fbAlDeaeratorTempHI.Clear(0, TRUE);
+	END_IF
+	IF trigFDeaerTempLO.Q THEN
+		fbAlDeaeratorTempLO.Clear(0, TRUE);
+	END_IF
+	IF trigFDeaerTempLOLO.Q THEN
+		fbAlDeaeratorTempLOLO.Clear(0, TRUE);
+	END_IF
+	IF trigFHPHTempHIHI.Q THEN
+		fbAlHPHeaterTempHIHI.Clear(0, TRUE);
+	END_IF
+	IF trigFHPHTempHI.Q THEN
+		fbAlHPHeaterTempHI.Clear(0, TRUE);
+	END_IF
+	IF trigFHPHTempLO.Q THEN
+		fbAlHPHeaterTempLO.Clear(0, TRUE);
+	END_IF
+	IF trigFHPHTempLOLO.Q THEN
+		fbAlHPHeaterTempLOLO.Clear(0, TRUE);
+	END_IF
+	IF trigFHPHPressHIHI.Q THEN
+		fbAlHPHeaterPressHIHI.Clear(0, TRUE);
+	END_IF
+	IF trigFHPHPressHI.Q THEN
+		fbAlHPHeaterPressHI.Clear(0, TRUE);
+	END_IF
+	IF trigFHPHPressLO.Q THEN
+		fbAlHPHeaterPressLO.Clear(0, TRUE);
+	END_IF
+	IF trigFHPHPressLOLO.Q THEN
+		fbAlHPHeaterPressLOLO.Clear(0, TRUE);
+	END_IF
+	IF trigFBoiTempHIHI.Q THEN
+		fbAlBoilerTempHIHI.Clear(0, TRUE);
+	END_IF
+	IF trigFBoiTempHI.Q THEN
+		fbAlBoilerTempHI.Clear(0, TRUE);
+	END_IF
+	IF trigFBoiTempLO.Q THEN
+		fbAlBoilerTempLO.Clear(0, TRUE);
+	END_IF
+	IF trigFBoiTempLOLO.Q THEN
+		fbAlBoilerTempLOLO.Clear(0, TRUE);
+	END_IF
+	IF trigFConTempHIHI.Q THEN
+		fbAlCondenserTempHIHI.Clear(0, TRUE);
+	END_IF
+	IF trigFConTempHI.Q THEN
+		fbAlCondenserTempHI.Clear(0, TRUE);
+	END_IF
+	IF trigFConTempLO.Q THEN
+		fbAlCondenserTempLO.Clear(0, TRUE);
+	END_IF
+	IF trigFConTempLOLO.Q THEN
+		fbAlCondenserTempLOLO.Clear(0, TRUE);
+	END_IF
+	IF trigFTurTempHIHI.Q THEN
+		fbAlTurbineTempHIHI.Clear(0, TRUE);
+	END_IF
+	IF trigFTurTempHI.Q THEN
+		fbAlTurbineTempHI.Clear(0, TRUE);
+	END_IF
+	IF trigFTurTempLO.Q THEN
+		fbAlTurbineTempLO.Clear(0, TRUE);
+	END_IF
+	IF trigFTurTempLOLO.Q THEN
+		fbAlTurbineTempLOLO.Clear(0, TRUE);
+	END_IF
+	IF trigFTurPressHIHI.Q THEN
+		fbAlTurbinePressHIHI.Clear(0, TRUE);
+	END_IF
+	IF trigFTurPressHI.Q THEN
+		fbAlTurbinePressHI.Clear(0, TRUE);
+	END_IF
+	IF trigFTurPressLO.Q THEN
+		fbAlTurbinePressLO.Clear(0, TRUE);
+	END_IF
+	IF trigFTurPressLOLO.Q THEN
+		fbAlTurbinePressLOLO.Clear(0, TRUE);
+	END_IF
+	IF trigFTurRotHIHI.Q THEN
+		fbAlTurbineRotationHIHI.Clear(0, TRUE);
+	END_IF
+	IF trigFTurRotHI.Q THEN
+		fbAlTurbineRotationHI.Clear(0, TRUE);
+	END_IF
+	IF trigFTurRotLO.Q THEN
+		fbAlTurbineRotationLO.Clear(0, TRUE);
+	END_IF
+	IF trigFTurRotLOLO.Q THEN
+		fbAlTurbineRotationLOLO.Clear(0, TRUE);
+	END_IF
+	
+	IF bCfLPHeaterTempHIHI THEN
+		bCfLPHeaterTempHIHI := FALSE;
+		fbAlLPHeaterTempHIHI.Confirm(0);
+	END_IF
+	IF bCfLPHeaterTempHI THEN
+		bCfLPHeaterTempHI := FALSE;
+		fbAlLPHeaterTempHI.Confirm(0);
+	END_IF
+	IF bCfLPHeaterTempLO THEN
+		bCfLPHeaterTempLO := FALSE;
+		fbAlLPHeaterTempLO.Confirm(0);
+	END_IF
+	IF bCfLPHeaterTempLOLO THEN
+		bCfLPHeaterTempLOLO := FALSE;
+		fbAlLPHeaterTempLOLO.Confirm(0);
+	END_IF
+	IF bCfLPHeaterPressHIHI THEN
+		bCfLPHeaterPressHIHI := FALSE;
+		fbAlLPHeaterPressHIHI.Confirm(0);
+	END_IF
+	IF bCfLPHeaterPressHI THEN
+		bCfLPHeaterPressHI := FALSE;
+		fbAlLPHeaterPressHI.Confirm(0);
+	END_IF
+	IF bCfLPHeaterPressLO THEN
+		bCfLPHeaterPressLO := FALSE;
+		fbAlLPHeaterPressLO.Confirm(0);
+	END_IF
+	IF bCfLPHeaterPressLOLO THEN
+		bCfLPHeaterPressLOLO := FALSE;
+		fbAlLPHeaterPressLOLO.Confirm(0);
+	END_IF
+	IF bCfDeaeratorTempHIHI THEN
+		bCfDeaeratorTempHIHI := FALSE;
+		fbAlDeaeratorTempHIHI.Confirm(0);
+	END_IF
+	IF bCfDeaeratorTempHI THEN
+		bCfDeaeratorTempHI := FALSE;
+		fbAlDeaeratorTempHI.Confirm(0);
+	END_IF
+	IF bCfDeaeratorTempLO THEN
+		bCfDeaeratorTempLO := FALSE;
+		fbAlDeaeratorTempLO.Confirm(0);
+	END_IF
+	IF bCfDeaeratorTempLOLO THEN
+		bCfDeaeratorTempLOLO := FALSE;
+		fbAlDeaeratorTempLOLO.Confirm(0);
+	END_IF
+	IF bCfHPHeaterTempHIHI THEN
+		bCfHPHeaterTempHIHI := FALSE;
+		fbAlHPHeaterTempHIHI.Confirm(0);
+	END_IF
+	IF bCfHPHeaterTempHI THEN
+		bCfHPHeaterTempHI := FALSE;
+		fbAlHPHeaterTempHI.Confirm(0);
+	END_IF
+	IF bCfHPHeaterTempLO THEN
+		bCfHPHeaterTempLO := FALSE;
+		fbAlHPHeaterTempLO.Confirm(0);
+	END_IF
+	IF bCfHPHeaterTempLOLO THEN
+		bCfHPHeaterTempLOLO := FALSE;
+		fbAlHPHeaterTempLOLO.Confirm(0);
+	END_IF
+	IF bCfHPHeaterPressHIHI THEN
+		bCfHPHeaterPressHIHI := FALSE;
+		fbAlHPHeaterPressHIHI.Confirm(0);
+	END_IF
+	IF bCfHPHeaterPressHI THEN
+		bCfHPHeaterPressHI := FALSE;
+		fbAlHPHeaterPressHI.Confirm(0);
+	END_IF
+	IF bCfHPHeaterPressLO THEN
+		bCfHPHeaterPressLO := FALSE;
+		fbAlHPHeaterPressLO.Confirm(0);
+	END_IF
+	IF bCfHPHeaterPressLOLO THEN
+		bCfHPHeaterPressLOLO := FALSE;
+		fbAlHPHeaterPressLOLO.Confirm(0);
+	END_IF
+	IF bCfBoilerTempHIHI THEN
+		bCfBoilerTempHIHI := FALSE;
+		fbAlBoilerTempHIHI.Confirm(0);
+	END_IF
+	IF bCfBoilerTempHI THEN
+		bCfBoilerTempHI := FALSE;
+		fbAlBoilerTempHI.Confirm(0);
+	END_IF
+	IF bCfBoilerTempLO THEN
+		bCfBoilerTempLO := FALSE;
+		fbAlBoilerTempLO.Confirm(0);
+	END_IF
+	IF bCfBoilerTempLOLO THEN
+		bCfBoilerTempLOLO := FALSE;
+		fbAlBoilerTempLOLO.Confirm(0);
+	END_IF
+	IF bCfCondenserTempHIHI THEN
+		bCfCondenserTempHIHI := FALSE;
+		fbAlCondenserTempHIHI.Confirm(0);
+	END_IF
+	IF bCfCondenserTempHI THEN
+		bCfCondenserTempHI := FALSE;
+		fbAlCondenserTempHI.Confirm(0);
+	END_IF
+	IF bCfCondenserTempLO THEN
+		bCfCondenserTempLO := FALSE;
+		fbAlCondenserTempLO.Confirm(0);
+	END_IF
+	IF bCfCondenserTempLOLO THEN
+		bCfCondenserTempLOLO := FALSE;
+		fbAlCondenserTempLOLO.Confirm(0);
+	END_IF
+	IF bCfTurbineTempHIHI THEN
+		bCfTurbineTempHIHI := FALSE;
+		fbAlTurbineTempHIHI.Confirm(0);
+	END_IF
+	IF bCfTurbineTempHI THEN
+		bCfTurbineTempHI := FALSE;
+		fbAlTurbineTempHI.Confirm(0);
+	END_IF
+	IF bCfTurbineTempLO THEN
+		bCfTurbineTempLO := FALSE;
+		fbAlTurbineTempLO.Confirm(0);
+	END_IF
+	IF bCfTurbineTempLOLO THEN
+		bCfTurbineTempLOLO := FALSE;
+		fbAlTurbineTempLOLO.Confirm(0);
+	END_IF
+	IF bCfTurbinePressHIHI THEN
+		bCfTurbinePressHIHI := FALSE;
+		fbAlTurbinePressHIHI.Confirm(0);
+	END_IF
+	IF bCfTurbinePressHI THEN
+		bCfTurbinePressHI := FALSE;
+		fbAlTurbinePressHI.Confirm(0);
+	END_IF
+	IF bCfTurbinePressLO THEN
+		bCfTurbinePressLO := FALSE;
+		fbAlTurbinePressLO.Confirm(0);
+	END_IF
+	IF bCfTurbinePressLOLO THEN
+		bCfTurbinePressLOLO := FALSE;
+		fbAlTurbinePressLOLO.Confirm(0);
+	END_IF
+	IF bCfTurbineRotationHIHI THEN
+		bCfTurbineRotationHIHI := FALSE;
+		fbAlTurbineRotationHIHI.Confirm(0);
+	END_IF
+	IF bCfTurbineRotationHI THEN
+		bCfTurbineRotationHI := FALSE;
+		fbAlTurbineRotationHI.Confirm(0);
+	END_IF
+	IF bCfTurbineRotationLO THEN
+		bCfTurbineRotationLO := FALSE;
+		fbAlTurbineRotationLO.Confirm(0);
+	END_IF
+	IF bCfTurbineRotationLOLO THEN
+		bCfTurbineRotationLOLO := FALSE;
+		fbAlTurbineRotationLOLO.Confirm(0);
+	END_IF
+
+END_IF	
+{endregion}
 ]]></ST>
     </Implementation>
     <LineIds Name="AlarmManagement">
@@ -110,8 +836,33 @@ END_IF
       <LineId Id="59" Count="3" />
       <LineId Id="74" Count="29" />
       <LineId Id="106" Count="0" />
+      <LineId Id="1221" Count="0" />
       <LineId Id="108" Count="0" />
-      <LineId Id="56" Count="0" />
+      <LineId Id="1223" Count="0" />
+      <LineId Id="228" Count="0" />
+      <LineId Id="464" Count="1" />
+      <LineId Id="469" Count="8" />
+      <LineId Id="468" Count="0" />
+      <LineId Id="466" Count="0" />
+      <LineId Id="648" Count="38" />
+      <LineId Id="229" Count="1" />
+      <LineId Id="227" Count="0" />
+      <LineId Id="222" Count="0" />
+      <LineId Id="770" Count="0" />
+      <LineId Id="688" Count="69" />
+      <LineId Id="778" Count="0" />
+      <LineId Id="759" Count="8" />
+      <LineId Id="779" Count="240" />
+      <LineId Id="777" Count="0" />
+      <LineId Id="1020" Count="1" />
+      <LineId Id="1061" Count="0" />
+      <LineId Id="1063" Count="0" />
+      <LineId Id="1062" Count="0" />
+      <LineId Id="1065" Count="155" />
+      <LineId Id="1064" Count="0" />
+      <LineId Id="214" Count="0" />
+      <LineId Id="1225" Count="0" />
+      <LineId Id="1224" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

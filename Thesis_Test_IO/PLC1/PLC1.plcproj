@@ -26,6 +26,9 @@
     <Compile Include="DUTs\aE_State.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\aS_AnalogAlarm.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\aS_AutoControl.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -58,6 +61,10 @@
     </Compile>
     <Compile Include="DUTs\Parameters.TcDUT">
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GVLs\AlarmLimit.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
     </Compile>
     <Compile Include="GVLs\Interfacex.TcGVL">
       <SubType>Code</SubType>

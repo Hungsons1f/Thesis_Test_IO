@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <GVL Name="AlarmLimit" Id="{0f6c2689-6c25-49ad-9ea2-124ebf75ff2e}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	alLPHeaterTemp: aS_AnalogAlarm := (HIHI:= 160, HI:= 150, LO:= 130, LOLO:= 120, Deadband:= 5);
+	alLPHeaterPress: aS_AnalogAlarm := (HIHI:= 34, HI:= 31, LO:= 25, LOLO:= 22, Deadband:= 1);
+	alDeaeratorTemp: aS_AnalogAlarm := (HIHI:= 220, HI:= 210, LO:= 190, LOLO:= 180, Deadband:= 5);
+	alHPHeaterTemp: aS_AnalogAlarm := (HIHI:= 315, HI:= 305, LO:= 285, LOLO:= 275, Deadband:= 5);
+	alHPHeaterPress: aS_AnalogAlarm := (HIHI:= 315, HI:= 305, LO:= 285, LOLO:= 275, Deadband:= 5);
+	alBoilerTemp: aS_AnalogAlarm := (HIHI:= 585, HI:= 575, LO:= 555, LOLO:= 545, Deadband:= 5);
+	alCondenserTemp: aS_AnalogAlarm := (HIHI:= 70, HI:= 55, LO:= 30, LOLO:= 20, Deadband:= 5);
+	alTurbineTemp: aS_AnalogAlarm := (HIHI:= 170, HI:= 160, LO:= 140, LOLO:= 130, Deadband:= 5);
+	alTurbinePress: aS_AnalogAlarm := (HIHI:= 0.2, HI:= 0.1, LO:= 0.02, LOLO:= 0.01, Deadband:= 0.005);
+	alTurbineRotation: aS_AnalogAlarm := (HIHI:= 3020, HI:= 3010, LO:= 2990, LOLO:= 2980, Deadband:= 5);
+
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

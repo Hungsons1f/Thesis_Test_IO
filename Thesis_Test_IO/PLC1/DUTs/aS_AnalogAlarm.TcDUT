@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <DUT Name="aS_AnalogAlarm" Id="{17efecf2-f00c-4de0-ad2f-f9fb71c1ebb7}">
+    <Declaration><![CDATA[TYPE aS_AnalogAlarm :
+STRUCT
+	HIHI: REAL;
+	HI: REAL;
+	LO: REAL;
+	LOLO: REAL;
+	Deadband: REAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
