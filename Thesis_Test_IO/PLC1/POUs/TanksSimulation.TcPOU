@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="TanksSimulation" Id="{c46e3ad6-3c2c-4e43-9ba2-dcd67fb724f8}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM TanksSimulation
+VAR_INPUT
+	bStart AT %I* : BOOL;
+	bEmerNC AT %I*: BOOL;
+	bHI AT %I*: BOOL;
+	bLO AT %I*: BOOL;
+END_VAR	
+VAR_OUTPUT
+	bMotor1 AT %Q*: BOOL;
+	bMotor2 AT %Q*: BOOL;
+	bRun AT %Q*: BOOL;
+	bErr AT %Q*: BOOL;
+END_VAR
+VAR
+	bStateOn: BOOL := FALSE;
+	bStateErr: BOOL := FALSE;
+	trigStateOn: R_TRIG;
+	bFirstScan: BOOL;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[trigStateOn(CLK:= bStart);
+IF trigStateOn.Q THEN
+	IF bStateOn THEN
+		bStateOn := FALSE;
+	ELSE
+		bStateOn := TRUE;
+		bStateErr := FALSE;
+		bMotor2 := TRUE;
+	END_IF
+END_IF
+
+IF NOT bEmerNC THEN
+	bStateErr := TRUE;
+	bStateOn := FALSE;
+END_IF
+
+IF bStateOn THEN 
+	IF NOT bHI THEN
+		bMotor1:= FALSE;
+		bMotor2:= TRUE;
+	END_IF
+	
+	IF bLO THEN
+		bMotor1:= TRUE;
+		bMotor2:= FALSE;
+	END_IF
+ELSE
+	bMotor1:= FALSE;
+	bMotor2:= FALSE;
+END_IF
+
+bRun := bStateOn;
+bErr := bStateErr;
+]]></ST>
+    </Implementation>
+    <LineIds Name="TanksSimulation">
+      <LineId Id="5" Count="0" />
+      <LineId Id="21" Count="1" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="26" Count="1" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="32" Count="1" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="54" Count="8" />
+      <LineId Id="69" Count="2" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="31" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

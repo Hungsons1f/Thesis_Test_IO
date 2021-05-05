@@ -95,6 +95,9 @@
     <Compile Include="POUs\PnID.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\TanksSimulation.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\UpdateInterface.TcPOU">
       <SubType>Code</SubType>
     </Compile>
