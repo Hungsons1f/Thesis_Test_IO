@@ -1,0 +1,119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="PostMqtt" Id="{8ae6097d-367d-412a-94f9-869abab8b27d}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM PostMqtt
+VAR
+	fbMqttClient : FB_IotMqttClient;
+	bFirstScan : BOOL := TRUE;
+	hrErrorOccurred : HRESULT; 
+	fbJsonWriter: FB_JsonSaxWriter; 
+	
+	//stValue: stMqttVal;
+	
+	(* published message *)
+	sTopicPub : STRING(255) := 'IPC/ProcessData';
+	sPayloadPub : STRING(1000);
+	fbTimer : TON;
+
+//	(* received message *)
+//	bSubscribed : BOOL;
+//	sTopicSub : STRING(255) := 'EK9160/EK-537E06/Stream1/Json/Tx/Data';
+//	{attribute 'TcEncoding':='UTF-8'}
+//	sTopicRcv : STRING(255);
+//	{attribute 'TcEncoding':='UTF-8'}
+//	sPayloadSub : STRING(255);
+//	fbMessageQueue : FB_IotMqttMessageQueue;
+//	fbMessage : FB_IotMqttMessage;
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF bFirstScan THEN
+	bFirstScan := FALSE;
+	fbMqttClient.sHostName:= '127.0.0.1';
+	fbMqttClient.nHostPort:= 1883;
+	fbMqttClient.sClientId:= 'mqtt'; 
+	fbMqttClient.sTopicPrefix:= ''; 
+	//fbMqttClient.ipMessageQueue := fbMessageQueue;
+END_IF
+
+fbMqttClient.Execute(TRUE);
+IF fbMqttClient.bError THEN
+	hrErrorOccurred := fbMqttClient.hrErrorCode;
+END_IF
+
+IF fbMqttClient.bConnected THEN
+//	//Subcribe
+//	IF NOT bSubscribed THEN
+//		bSubscribed := fbMqttClient.Subscribe(sTopic:=sTopicSub, eQoS:=TcIotMqttQos.AtMostOnceDelivery);
+//		IF fbMqttClient.bError THEN
+//			hrErrorOccurred := fbMqttClient.hrErrorCode;
+//		END_IF
+//	END_IF
+	
+	//Publish
+	fbTimer(IN:= NOT fbTimer.Q, PT:= T#1S);
+	IF fbTimer.Q THEN // publish new payload every second
+		WriteJson();
+		fbMqttClient.Publish(	sTopic:= sTopicPub, 
+								pPayload:= ADR(sPayloadPub), nPayloadSize:= LEN2(ADR(sPayloadPub))+1, 
+								eQoS:= TcIotMqttQos.AtMostOnceDelivery, bRetain:= FALSE, bQueue:= FALSE );
+		IF fbMqttClient.bError THEN
+			hrErrorOccurred := fbMqttClient.hrErrorCode;
+		END_IF
+	END_IF
+END_IF
+
+////Get the subcribe message whenever available
+//IF fbMessageQueue.nQueuedMessages > 0 THEN
+//	IF fbMessageQueue.Dequeue(fbMessage:=fbMessage) THEN
+//		fbMessage.GetTopic(pTopic:=ADR(sTopicRcv), nTopicSize:=SIZEOF(sTopicRcv) );
+//		fbMessage.GetPayload(pPayload:=ADR(sPayloadSub), nPayloadSize:=SIZEOF(sPayloadSub), bSetNullTermination:=FALSE);
+//	END_IF
+//END_IF
+
+
+IF GVL.bLocalGot THEN
+	GVL.bLocalGot := FALSE;
+	GVL.bRemotePosted := TRUE;
+END_IF
+]]></ST>
+    </Implementation>
+    <Action Name="WriteJson" Id="{c348af4f-714f-4c44-946a-6418946cbce8}">
+      <Implementation>
+        <ST><![CDATA[fbJsonWriter.StartObject();
+fbJsonWriter.AddKey('Values');
+//	fbJsonWriter.StartObject();
+//	fbJsonWriter.AddKey('Slave 2 (EL2004).Channel 1.Output');
+//	fbJsonWriter.AddBool(stValue.Output1);
+//	fbJsonWriter.AddKey('Slave 2 (EL2004).Channel 2.Output');
+//	fbJsonWriter.AddBool(stValue.Output2);
+//	fbJsonWriter.AddKey('Slave 2 (EL2004).Channel 3.Output');
+//	fbJsonWriter.AddBool(stValue.Output3);
+//	fbJsonWriter.AddKey('Slave 2 (EL2004).Channel 4.Output');
+//	fbJsonWriter.AddBool(stValue.Output4);
+//	fbJsonWriter.EndObject();
+fbJsonWriter.AddKey('MetaData');
+	fbJsonWriter.StartObject();
+	fbJsonWriter.EndObject();
+fbJsonWriter.EndObject();
+sPayloadPub:= fbJsonWriter.GetDocument();
+fbJsonWriter.ResetDocument();
+]]></ST>
+      </Implementation>
+    </Action>
+    <LineIds Name="PostMqtt">
+      <LineId Id="39" Count="42" />
+      <LineId Id="37" Count="1" />
+      <LineId Id="8" Count="0" />
+      <LineId Id="6" Count="1" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="PostMqtt.WriteJson">
+      <LineId Id="5" Count="0" />
+      <LineId Id="8" Count="16" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -32,6 +32,9 @@
     <Compile Include="DUTs\aS_AutoControl.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\aS_DBField.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\aT_Furnace.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -62,6 +65,9 @@
     <Compile Include="DUTs\Parameters.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\test.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GVLs\AlarmLimit.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
@@ -73,6 +79,9 @@
     <Compile Include="GVLs\Streams.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
+    </Compile>
+    <Compile Include="PlcDBTask.TcTTO">
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
@@ -89,10 +98,10 @@
     <Compile Include="POUs\FB\aFB_Valve.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\MAIN.TcPOU">
+    <Compile Include="POUs\PnID.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\PnID.TcPOU">
+    <Compile Include="POUs\SaveDatabase.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\TanksSimulation.TcPOU">
@@ -121,6 +130,10 @@
     <PlaceholderReference Include="Tc2_Utilities">
       <DefaultResolution>Tc2_Utilities, * (Beckhoff Automation GmbH)</DefaultResolution>
       <Namespace>Tc2_Utilities</Namespace>
+    </PlaceholderReference>
+    <PlaceholderReference Include="Tc3_Database">
+      <DefaultResolution>Tc3_Database, * (Beckhoff Automation GmbH)</DefaultResolution>
+      <Namespace>Tc3_Database</Namespace>
     </PlaceholderReference>
     <PlaceholderReference Include="Tc3_EventLogger">
       <DefaultResolution>Tc3_EventLogger, * (Beckhoff Automation GmbH)</DefaultResolution>

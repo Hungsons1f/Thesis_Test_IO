@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="UpdateSync" Id="{371b6f83-f6ba-4f92-8b18-b694f0c61b1c}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM UpdateSync
+VAR
+	fbSqlDatabase : FB_SQLDatabaseEvt(sNetID := '', tTimeout := T#5S);
+	fbSqlCommand : FB_SQLCommandEvt(sNetID := '', tTimeout := T#5S);
+	myDBID: UDINT := 1;		
+	sTableName: STRING := 'Data';	
+	sCmd: STRING(1000);			
+		
+	tcMessage1 : I_TcMessage;
+	tcMessage2 : I_TcMessage;
+
+	bFirstScan: BOOL := TRUE;
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF (bFirstScan) THEN
+	IF fbSqlDatabase.Connect(myDBID) THEN
+		bFirstScan := FALSE;
+		IF fbSqlDatabase.bError THEN
+			tcMessage1:= fbSqlDatabase.ipTcResult;
+			bFirstScan := TRUE;
+		END_IF
+	END_IF
+END_IF
+
+IF GVL.bRemotePosted THEN
+	CreateUpdate();		
+		
+	IF fbSqlDatabase.CreateCmd(ADR(fbSqlCommand)) THEN  
+		IF fbSqlDatabase.bError THEN
+			tcMessage1:= fbSqlDatabase.ipTcResult;
+		END_IF
+	END_IF
+		
+	IF fbSQLCommand.Execute(ADR(sCmd), LEN(sCmd)) THEN	
+		IF fbSQLCommand.bError THEN
+			tcMessage2 := fbSQLCommand.ipTcResult;
+		END_IF
+		
+		GVL.bRemotePosted := FALSE;
+		gvl.blocalUpdated := TRUE;
+		GVL.bReExecute := TRUE;
+		GVL.bMeasure := FALSE;
+	END_IF
+END_IF
+]]></ST>
+    </Implementation>
+    <Action Name="CreateUpdate" Id="{e2f37293-3273-4d2f-b926-840df63bdc59}">
+      <Implementation>
+        <ST><![CDATA[sCmd := 'UPDATE ';
+sCmd := concat(sCmd, sTableName);
+sCmd := concat(sCmd, ' SET Sync=');
+sCmd := concat(sCmd, BOOL_TO_STRING(TRUE));
+sCmd := concat(sCmd, ' WHERE Id=');
+sCmd := concat(sCmd, LINT_TO_STRING(GVL.aReadStruct.Id));
+]]></ST>
+      </Implementation>
+    </Action>
+    <LineIds Name="UpdateSync">
+      <LineId Id="19" Count="9" />
+      <LineId Id="30" Count="12" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="44" Count="1" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="46" Count="2" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="UpdateSync.CreateUpdate">
+      <LineId Id="2" Count="5" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

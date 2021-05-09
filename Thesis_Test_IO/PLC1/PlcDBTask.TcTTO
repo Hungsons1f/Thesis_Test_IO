@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <Task Name="PlcDBTask" Id="{51f41650-5dd9-4bd8-8118-2b66ea9012d2}">
+    <!--CycleTime in micro seconds.-->
+    <CycleTime>1000</CycleTime>
+    <Priority>21</Priority>
+    <PouCall>
+      <Name>SaveDatabase</Name>
+    </PouCall>
+    <TaskFBGuid>{ab0fc89f-2db7-4472-ab2c-16e7c72b1f72}</TaskFBGuid>
+    <Fb_init>{cd8ee3a3-635d-4fef-9226-bc52d066f01b}</Fb_init>
+    <Fb_exit>{9f54d41d-9998-463e-8737-1cc26b03d9b5}</Fb_exit>
+    <CycleUpdate>{36443bba-ba2f-4b3a-8cb3-9bab3206df23}</CycleUpdate>
+    <PostCycleUpdate>{a91d3545-2fa2-4aa3-8641-f0e151850167}</PostCycleUpdate>
+  </Task>
+</TcPlcObject>

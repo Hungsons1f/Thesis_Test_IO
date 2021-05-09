@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <GVL Name="GVL" Id="{a0632168-d703-45be-bc12-46c3facd4cda}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	bRemotePosted: BOOL := FALSE;	//Trạng thái đã đẩy lên RemoteDB
+	bLocalGot: BOOL:= FALSE;		//Trạng thái đã đọc từ LocalDB
+	blocalUpdated: BOOL:= TRUE;	//Trạng thái đã phản hồi LocalDB
+	bReExecute: BOOL;
+	bMeasure: BOOL;			//Biến để debug
+	aReadStruct : aS_DBField;		//Biến lưu dữ liệu tạm từ LocalDB
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

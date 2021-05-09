@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <Task Name="PlcTask" Id="{2798162e-481b-4ae0-98c8-4e496d1ecee8}">
+    <!--CycleTime in micro seconds.-->
+    <CycleTime>10000</CycleTime>
+    <Priority>22</Priority>
+    <PouCall>
+      <Name>ReadDatabase</Name>
+    </PouCall>
+    <PouCall>
+      <Name>PostMqtt</Name>
+    </PouCall>
+    <PouCall>
+      <Name>UpdateSync</Name>
+    </PouCall>
+    <TaskFBGuid>{8b078d97-c0a6-4869-b54d-d93a16a45f73}</TaskFBGuid>
+    <Fb_init>{da8622d9-090a-496b-a581-ea6139d8c3e8}</Fb_init>
+    <Fb_exit>{d6ac6ad2-e61b-484e-ae16-3cd92127fbc5}</Fb_exit>
+    <CycleUpdate>{16c8df0d-3621-428b-83d0-1a380cc6cd5c}</CycleUpdate>
+    <PostCycleUpdate>{c77ce349-33e6-4c6b-b61c-9e95f4b72c55}</PostCycleUpdate>
+  </Task>
+</TcPlcObject>

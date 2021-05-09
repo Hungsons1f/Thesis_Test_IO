@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="SaveDatabase" Id="{06944aa8-c996-4e22-9874-5e83ff9218ca}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM SaveDatabase
+VAR
+	fbPLCDBWrite : FB_PLCDBWriteEvt (sNetID := '', tTimeout := T#5S);
+	myDBID : UDINT:=1;
+	sMyTableName : T_MaxString:='Data';
+	ColumnNames : ARRAY [0..25] OF STRING(50);
+	insertData : aS_DBField;
+	tcMessage : I_TcMessage;
+	
+	//Các biến tạo timestamp
+	systime: GETSYSTEMTIME;
+	currentTime: T_FILETIME;
+	timestring: string;
+	
+	bFirstScan: BOOL;
+	bExecute: BOOL;
+	fbTon: TON;
+	iID: LINT;
+	
+	testdata: test;
+	testcol: ARRAY [0..2] OF STRING(50);
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF NOT bFirstScan THEN
+	bFirstScan := TRUE;
+	InitColumnNames();
+END_IF
+
+fbTon(IN:= NOT fbTon.Q, PT:= T#1S);	
+IF fbTon.Q THEN
+	UpdateData();
+	bExecute := TRUE;
+END_IF
+
+IF bExecute AND bFirstScan THEN
+	//UpdateData();
+	IF fbPLCDBWrite.WriteStruct(
+		hDBID:= myDBID,
+		sTableName:= sMyTableName,
+		pRecord:= ADR(insertData),
+		cbRecord:= SIZEOF(insertData),
+		pColumnNames:= ADR(ColumnNames) ,
+		cbColumnNames:= SIZEOF(ColumnNames)
+	)
+	THEN
+		IF fbPLCDBWrite.bError THEN
+			tcMessage := fbPLCDBWrite.ipTcResult;
+		ELSE
+			iId := iId + 1;
+			bExecute:= FALSE;
+		END_IF
+	END_IF	
+	
+END_IF
+]]></ST>
+    </Implementation>
+    <Action Name="InitColumnNames" Id="{ca3a8eb2-aaef-4de3-a6b7-45fc2a26e24a}">
+      <Implementation>
+        <ST><![CDATA[ColumnNames[0] := 'Id';
+ColumnNames[1] := 'Sync';
+ColumnNames[2] := 'Timestamp';
+
+ColumnNames[3] := 'FurTemp';
+ColumnNames[4] := 'FurInper';
+ColumnNames[5] := 'LphTemp';
+ColumnNames[6] := 'LphPress';
+ColumnNames[7] := 'LphInpress';
+ColumnNames[8] := 'LphInflow';
+ColumnNames[9] := 'DeaTemp';
+ColumnNames[10] := 'DeaPress';
+ColumnNames[11] := 'HphTemp';
+ColumnNames[12] := 'HphPress';
+ColumnNames[13] := 'HphInpress';
+ColumnNames[14] := 'HphInflow';
+ColumnNames[15] := 'BoiTemp';
+ColumnNames[16] := 'BoiPress';
+ColumnNames[17] := 'ConTemp';
+ColumnNames[18] := 'ConInflow';
+ColumnNames[19] := 'TurHtemp';
+ColumnNames[20] := 'TurItemp';
+ColumnNames[21] := 'TurLtemp';
+ColumnNames[22] := 'TurHpress';
+ColumnNames[23] := 'TurIpress';
+ColumnNames[24] := 'TurLpress';
+ColumnNames[25] := 'TurSpeed';]]></ST>
+      </Implementation>
+    </Action>
+    <Action Name="UpdateData" Id="{ee102ece-0353-4bcb-bb58-75f20df150bc}">
+      <Implementation>
+        <ST><![CDATA[systime(timeLoDW => currentTime.dwLowDateTime, timeHiDW => currentTime.dwHighDateTime);	
+timestring:= DT_TO_STRING(FILETIME_TO_DT(currentTime));
+timestring:= delete(timestring, 3, 1);
+timestring:= replace(timestring, ' ', 1, 11);
+
+insertData.Id := iID;
+insertData.Sync := FALSE;
+insertData.Timestamp:= FILETIME_TO_DT(currentTime);
+insertData.FurTemp:= Interfacex.ScadaInterface.Components.Furnace.Temperature;
+insertData.FurInper:= Interfacex.ScadaInterface.Components.Furnace.InPercent;
+insertData.LphTemp:= Interfacex.ScadaInterface.Components.LPHeater.Temperature;
+insertData.LphPress:= Interfacex.ScadaInterface.Components.LPHeater.Pressure;
+insertData.LphInpress:= Interfacex.ScadaInterface.Components.LPHeater.InPressure;
+insertData.LphInflow:= Interfacex.ScadaInterface.Components.LPHeater.InFlow;
+insertData.DeaTemp:= Interfacex.ScadaInterface.Components.Deaerator.Temperature;
+insertData.DeaPress:= Interfacex.ScadaInterface.Components.Deaerator.Pressure;
+insertData.HphTemp:= Interfacex.ScadaInterface.Components.HPHeater.Temperature;
+insertData.HphPress:= Interfacex.ScadaInterface.Components.HPHeater.Pressure;
+insertData.HphInpress:= Interfacex.ScadaInterface.Components.HPHeater.InPressure;
+insertData.HphInflow:= Interfacex.ScadaInterface.Components.HPHeater.InFlow;
+insertData.BoiTemp:= Interfacex.ScadaInterface.Components.Boiler.Temperature;
+insertData.BoiPress:= Interfacex.ScadaInterface.Components.Boiler.Pressure;
+insertData.ConTemp:= Interfacex.ScadaInterface.Components.Condenser.Temperature;
+insertData.ConInflow:= Interfacex.ScadaInterface.Components.Condenser.InFlow;
+insertData.TurHtemp:= Interfacex.ScadaInterface.Components.Turbine.HighTemperature;
+insertData.TurItemp:= Interfacex.ScadaInterface.Components.Turbine.ImmediateTemperature;
+insertData.TurLtemp:= Interfacex.ScadaInterface.Components.Turbine.OutTemperature;
+insertData.TurHpress:= Interfacex.ScadaInterface.Components.Turbine.HighPressure;
+insertData.TurIpress:= Interfacex.ScadaInterface.Components.Turbine.ImmediatePressure;
+insertData.TurLpress:= Interfacex.ScadaInterface.Components.Turbine.OutPressure;
+insertData.TurSpeed:= Interfacex.ScadaInterface.Components.Turbine.Rotation;
+]]></ST>
+      </Implementation>
+    </Action>
+    <LineIds Name="SaveDatabase">
+      <LineId Id="5" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="29" Count="1" />
+      <LineId Id="124" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="70" Count="1" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="122" Count="0" />
+      <LineId Id="44" Count="10" />
+      <LineId Id="67" Count="1" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="26" Count="0" />
+    </LineIds>
+    <LineIds Name="SaveDatabase.InitColumnNames">
+      <LineId Id="1" Count="0" />
+      <LineId Id="29" Count="1" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="6" Count="21" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="SaveDatabase.UpdateData">
+      <LineId Id="1" Count="0" />
+      <LineId Id="3" Count="2" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="6" Count="25" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -5,19 +5,19 @@
     <CycleTime>100000</CycleTime>
     <Priority>20</Priority>
     <PouCall>
+      <Name>AutoControl</Name>
+    </PouCall>
+    <PouCall>
       <Name>PnID</Name>
     </PouCall>
     <PouCall>
-      <Name>UpdateInterface</Name>
-    </PouCall>
-    <PouCall>
-      <Name>AutoControl</Name>
+      <Name>TanksSimulation</Name>
     </PouCall>
     <PouCall>
       <Name>AlarmManagement</Name>
     </PouCall>
     <PouCall>
-      <Name>TanksSimulation</Name>
+      <Name>UpdateInterface</Name>
     </PouCall>
     <TaskFBGuid>{15b0e27a-5835-409f-940d-a4bf383a00f4}</TaskFBGuid>
     <Fb_init>{d347acfc-5290-4d37-85df-ce3f785df001}</Fb_init>

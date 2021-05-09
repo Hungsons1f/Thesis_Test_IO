@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <POU Name="ReadDatabase" Id="{40873ef1-4987-4e05-9b6f-35fd1ade55b5}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM ReadDatabase
+VAR
+	fbSqlDatabase : FB_SQLDatabaseEvt(sNetID := '', tTimeout := T#5S);
+	fbSqlCommand : FB_SQLCommandEvt(sNetID := '', tTimeout := T#5S);
+	fbSqlResult: FB_SQLResultEvt(sNetID:='', tTimeout := T#5S);
+	myDBID: UDINT := 1;			
+	sTableName: STRING := 'Data';	
+	sCmd: STRING(1000);			
+
+	//Các biến ghi thông báo lỗi	
+	tcMessage1 : I_TcMessage;
+	tcMessage2 : I_TcMessage;
+	tcMessage3 : I_TcMessage;
+	tcMessage4 : I_TcMessage;
+	
+	//Các biến điều khiển
+	bFirstScan: BOOL := TRUE;		//Biến báo trạng thái đầu
+	bExecute: bool;			//Biến cho phép gửi lệnh SQL
+	iId: LINT := 1;			//Biến đếm số lượng bản ghi đã lưu
+	bRead: BOOL:= FALSE;		//Biến báo đã đọc được bản ghi
+	fbTon: TON;
+
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF (bFirstScan) THEN
+	IF fbSqlDatabase.Connect(myDBID) THEN
+		bFirstScan := FALSE;
+		IF fbSqlDatabase.bError THEN
+			tcMessage1:= fbSqlDatabase.ipTcResult;
+			bFirstScan := TRUE;
+		END_IF
+	END_IF
+END_IF
+
+fbTon(IN:= NOT fbTon.Q, PT:= T#4000MS);	
+IF fbTon.Q THEN
+	bExecute := TRUE;			
+END_IF
+
+IF (bExecute OR GVL.bReExecute) AND NOT bFirstScan AND GVL.blocalUpdated THEN
+	GVL.bMeasure:= TRUE;	
+	CreateSelect();			
+		
+	IF fbSqlDatabase.CreateCmd(ADR(fbSqlCommand)) THEN	
+		IF fbSqlDatabase.bError THEN
+			tcMessage2:= fbSqlDatabase.ipTcResult;
+		END_IF
+	END_IF
+		
+	IF NOT bRead THEN 	
+		IF fbSQLCommand.ExecuteDataReturn(ADR(sCmd), LEN(sCmd), ADR(fbSqlResult)) THEN	
+			IF fbSQLCommand.bError THEN
+				tcMessage3 := fbSQLCommand.ipTcResult;
+			END_IF
+			bRead:= TRUE;
+		END_IF
+	ELSE
+		IF fbSqlResult.Read(0, 1, ADR(GVL.aReadStruct), SIZEOF(GVL.aReadStruct), FALSE, TRUE) THEN	
+			IF fbSqlResult.bError THEN
+				tcMessage4:= fbSqlResult.ipTcResult;
+			END_IF
+			bRead:= FALSE;	
+			bExecute:= FALSE;
+			GVL.bReExecute:= FALSE;
+	
+			IF GVL.aReadStruct.Id <> 0 THEN 
+				GVL.blocalUpdated:= FALSE;
+				GVL.bLocalGot:= TRUE;
+			END_IF
+		END_IF
+	END_IF
+END_IF
+]]></ST>
+    </Implementation>
+    <Action Name="CreateSelect" Id="{edbcea4b-1faa-4fba-9171-281922cb77fa}">
+      <Implementation>
+        <ST><![CDATA[sCmd := 'SELECT * FROM ';
+sCmd := concat(sCmd, sTableName);
+sCmd := concat(sCmd, ' WHERE Sync=0 LIMIT 1'); 
+]]></ST>
+      </Implementation>
+    </Action>
+    <LineIds Name="ReadDatabase">
+      <LineId Id="30" Count="14" />
+      <LineId Id="47" Count="23" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="72" Count="6" />
+      <LineId Id="5" Count="0" />
+    </LineIds>
+    <LineIds Name="ReadDatabase.CreateSelect">
+      <LineId Id="2" Count="2" />
+      <LineId Id="1" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

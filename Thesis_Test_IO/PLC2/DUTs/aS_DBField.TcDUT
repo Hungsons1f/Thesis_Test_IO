@@ -1,0 +1,36 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
+  <DUT Name="aS_DBField" Id="{1c7f6040-98b6-4a19-aa95-daa22b5c5afd}">
+    <Declaration><![CDATA[TYPE aS_DBField :
+STRUCT
+	Id: LINT;
+	Sync: BOOL;
+	Timestamp: DT;
+	FurTemp: REAL;
+	FurInper: REAL;
+	LphTemp: REAL;
+	LphPress: REAL;
+	LphInpress: REAL;
+	LphInflow: REAL;
+	DeaTemp: REAL;
+	DeaPress: REAL;
+	HphTemp: REAL;
+	HphPress: REAL;
+	HphInpress: REAL;
+	HphInflow: REAL;
+	BoiTemp: REAL;
+	BoiPress: REAL;
+	ConTemp: REAL;
+	ConInflow: REAL;
+	TurHtemp: REAL;
+	TurItemp: REAL;
+	TurLtemp: REAL;
+	TurHpress: REAL;
+	TurIpress: REAL;
+	TurLpress: REAL;
+	TurSpeed: REAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
