@@ -15,6 +15,7 @@
     <Implicit_KindOfTask>{658b072d-5c12-41b6-a469-39bbdfac823c}</Implicit_KindOfTask>
     <Implicit_Jitter_Distribution>{c18aec39-9000-4cdf-b895-4ed581a01d18}</Implicit_Jitter_Distribution>
     <LibraryReferences>{b0738bc5-2767-4ef6-8b27-23a95c62abda}</LibraryReferences>
+    <Released>false</Released>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="DUTs\aS_DBField.TcDUT">

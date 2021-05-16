@@ -47,33 +47,36 @@ Interfacex.ScadaInterface.Components.TurbineValve := PnID.TurbineValve;
 //Interfacex.ScadaInterface.Components.Turbine.ImmediatePressure := Streams.InStream.Turbine_ImmediatePress;
 //Interfacex.ScadaInterface.Components.Turbine.OutPressure := SIN(3.14*i);//Streams.InStream.Turbine_OutPress;
 	
-Interfacex.ScadaInterface.Components.Furnace.Temperature := SIN(3.14*i);
-Interfacex.ScadaInterface.Components.Furnace.InPercent := 2;
-Interfacex.ScadaInterface.Components.LPHeater.Temperature := 3.5;
-Interfacex.ScadaInterface.Components.LPHeater.Pressure := 3;
-Interfacex.ScadaInterface.Components.LPHeater.InPressure := 4;
-Interfacex.ScadaInterface.Components.LPHeater.InFlow := 5;
-Interfacex.ScadaInterface.Components.Deaerator.Temperature := 6;
-Interfacex.ScadaInterface.Components.Deaerator.Pressure := 7;
-Interfacex.ScadaInterface.Components.HPHeater.Temperature := 8;
-Interfacex.ScadaInterface.Components.HPHeater.Pressure := 9;
-Interfacex.ScadaInterface.Components.HPHeater.InPressure := 10;
-Interfacex.ScadaInterface.Components.HPHeater.InFlow := 11;
-Interfacex.ScadaInterface.Components.Boiler.Temperature := 12;
-Interfacex.ScadaInterface.Components.Boiler.Pressure := 13;
-Interfacex.ScadaInterface.Components.Condenser.Temperature := 14;
-Interfacex.ScadaInterface.Components.Condenser.InFlow := 15;
-Interfacex.ScadaInterface.Components.Turbine.Rotation := 16;
-Interfacex.ScadaInterface.Components.Turbine.HighTemperature := 17;
-Interfacex.ScadaInterface.Components.Turbine.ImmediateTemperature := 18;
-Interfacex.ScadaInterface.Components.Turbine.OutTemperature := 19;
-Interfacex.ScadaInterface.Components.Turbine.HighPressure := 20;
-Interfacex.ScadaInterface.Components.Turbine.ImmediatePressure := 21;
-Interfacex.ScadaInterface.Components.Turbine.OutPressure := SIN(3.14*i);//Streams.InStream.Turbine_OutPress;
+Interfacex.ScadaInterface.Components.Furnace.Temperature := i * 1600;
+Interfacex.ScadaInterface.Components.Furnace.InPercent := i*100;
+Interfacex.ScadaInterface.Components.LPHeater.Temperature := i*160;
+Interfacex.ScadaInterface.Components.LPHeater.Pressure := i*36;
+Interfacex.ScadaInterface.Components.LPHeater.InPressure := i*50;
+Interfacex.ScadaInterface.Components.LPHeater.InFlow := i*36;
+Interfacex.ScadaInterface.Components.Deaerator.Temperature := i*250;
+Interfacex.ScadaInterface.Components.Deaerator.Pressure := i*36;
+Interfacex.ScadaInterface.Components.HPHeater.Temperature := i*320;
+Interfacex.ScadaInterface.Components.HPHeater.Pressure := i*320;
+Interfacex.ScadaInterface.Components.HPHeater.InPressure := i*36;
+Interfacex.ScadaInterface.Components.HPHeater.InFlow := i*50;
+Interfacex.ScadaInterface.Components.Boiler.Temperature := i*600;
+Interfacex.ScadaInterface.Components.Boiler.Pressure := i*260;
+Interfacex.ScadaInterface.Components.Condenser.Temperature := i*70;
+Interfacex.ScadaInterface.Components.Condenser.InFlow := i*100;
+Interfacex.ScadaInterface.Components.Turbine.Rotation := i*3600;
+Interfacex.ScadaInterface.Components.Turbine.HighTemperature := i*620;
+Interfacex.ScadaInterface.Components.Turbine.ImmediateTemperature := i*400;
+Interfacex.ScadaInterface.Components.Turbine.OutTemperature := i*180;
+Interfacex.ScadaInterface.Components.Turbine.HighPressure := i*60;
+Interfacex.ScadaInterface.Components.Turbine.ImmediatePressure := i*60;
+Interfacex.ScadaInterface.Components.Turbine.OutPressure := i*1;//Streams.InStream.Turbine_OutPress;
 
 fbton(IN:= NOT fbton.Q, PT:= T#100MS);
 IF (fbton.Q) THEN
 	i := i + 0.05;
+	IF i > 1 THEN
+		i := 0;
+	END_IF
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="UpdateInterface">
@@ -105,7 +108,9 @@ END_IF]]></ST>
       <LineId Id="77" Count="19" />
       <LineId Id="70" Count="0" />
       <LineId Id="60" Count="0" />
-      <LineId Id="62" Count="2" />
+      <LineId Id="62" Count="1" />
+      <LineId Id="104" Count="2" />
+      <LineId Id="64" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

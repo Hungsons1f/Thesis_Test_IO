@@ -171,6 +171,9 @@
 				<Task Id="4" Priority="21" CycleTime="10000" AmsPort="351" AdtTasks="true">
 					<Name>PlcDBTask</Name>
 				</Task>
+				<Task Id="5" Priority="22" CycleTime="10000" AmsPort="352" AdtTasks="true">
+					<Name>PlcTask1</Name>
+				</Task>
 			</Tasks>
 		</System>
 		<Plc>
@@ -246,6 +249,26 @@
 					<TaskPouOids>
 						<TaskPouOid Prio="20" OTCID="#x08502001"/>
 						<TaskPouOid Prio="21" OTCID="#x08502002"/>
+					</TaskPouOids>
+				</Instance>
+			</Project>
+			<Project GUID="{D3D97C4A-489F-42F5-9047-6C37B60F1AC5}" Name="PLC2" PrjFilePath="PLC2\PLC2.plcproj" TmcFilePath="PLC2\PLC2.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
+				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="PLC2\PLC2.tmc">
+					<Name>PLC2 Instance</Name>
+					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
+					<Contexts>
+						<Context>
+							<Id NeedCalleeCall="true">0</Id>
+							<Name>PlcTask</Name>
+							<ManualConfig>
+								<OTCID>#x02010050</OTCID>
+							</ManualConfig>
+							<Priority>22</Priority>
+							<CycleTime>1000000</CycleTime>
+						</Context>
+					</Contexts>
+					<TaskPouOids>
+						<TaskPouOid Prio="22" OTCID="#x08502041"/>
 					</TaskPouOids>
 				</Instance>
 			</Project>

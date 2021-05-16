@@ -8,11 +8,9 @@ VAR
 	hrErrorOccurred : HRESULT; 
 	fbJsonWriter: FB_JsonSaxWriter; 
 	
-	//stValue: stMqttVal;
-	
 	(* published message *)
 	sTopicPub : STRING(255) := 'IPC/ProcessData';
-	sPayloadPub : STRING(1000);
+	sPayloadPub : STRING(5000);
 	fbTimer : TON;
 
 //	(* received message *)
@@ -31,9 +29,11 @@ END_VAR
       <ST><![CDATA[IF bFirstScan THEN
 	bFirstScan := FALSE;
 	fbMqttClient.sHostName:= '127.0.0.1';
-	fbMqttClient.nHostPort:= 1883;
+	fbMqttClient.nHostPort:= 8883;
 	fbMqttClient.sClientId:= 'mqtt'; 
 	fbMqttClient.sTopicPrefix:= ''; 
+	fbMqttClient.stTLS.sCA:= 'C:\TwinCAT\3.1\Config\certs\rootCA.pem';
+	fbMqttClient.stTLS.bNoServerCertCheck:= TRUE;
 	//fbMqttClient.ipMessageQueue := fbMessageQueue;
 END_IF
 
@@ -42,7 +42,7 @@ IF fbMqttClient.bError THEN
 	hrErrorOccurred := fbMqttClient.hrErrorCode;
 END_IF
 
-IF fbMqttClient.bConnected THEN
+IF fbMqttClient.bConnected AND GVL.bLocalGot THEN
 //	//Subcribe
 //	IF NOT bSubscribed THEN
 //		bSubscribed := fbMqttClient.Subscribe(sTopic:=sTopicSub, eQoS:=TcIotMqttQos.AtMostOnceDelivery);
@@ -52,15 +52,17 @@ IF fbMqttClient.bConnected THEN
 //	END_IF
 	
 	//Publish
-	fbTimer(IN:= NOT fbTimer.Q, PT:= T#1S);
-	IF fbTimer.Q THEN // publish new payload every second
-		WriteJson();
-		fbMqttClient.Publish(	sTopic:= sTopicPub, 
-								pPayload:= ADR(sPayloadPub), nPayloadSize:= LEN2(ADR(sPayloadPub))+1, 
-								eQoS:= TcIotMqttQos.AtMostOnceDelivery, bRetain:= FALSE, bQueue:= FALSE );
-		IF fbMqttClient.bError THEN
-			hrErrorOccurred := fbMqttClient.hrErrorCode;
-		END_IF
+	WriteJson();
+	fbMqttClient.Publish(	sTopic:= sTopicPub, 
+							pPayload:= ADR(sPayloadPub), nPayloadSize:= LEN2(ADR(sPayloadPub))+1, 
+							eQoS:= TcIotMqttQos.AtMostOnceDelivery, bRetain:= FALSE, bQueue:= FALSE );
+	GVL.bLocalGot := FALSE;
+	GVL.bRemotePosted := TRUE;
+
+	IF fbMqttClient.bError THEN
+		hrErrorOccurred := fbMqttClient.hrErrorCode;
+		GVL.bLocalGot := TRUE;
+		GVL.bRemotePosted := FALSE;
 	END_IF
 END_IF
 
@@ -73,37 +75,88 @@ END_IF
 //END_IF
 
 
-IF GVL.bLocalGot THEN
-	GVL.bLocalGot := FALSE;
-	GVL.bRemotePosted := TRUE;
-END_IF
+//IF GVL.bLocalGot THEN
+//	GVL.bLocalGot := FALSE;
+//	GVL.bRemotePosted := TRUE;
+//END_IF
 ]]></ST>
     </Implementation>
     <Action Name="WriteJson" Id="{c348af4f-714f-4c44-946a-6418946cbce8}">
       <Implementation>
         <ST><![CDATA[fbJsonWriter.StartObject();
-fbJsonWriter.AddKey('Values');
-//	fbJsonWriter.StartObject();
-//	fbJsonWriter.AddKey('Slave 2 (EL2004).Channel 1.Output');
-//	fbJsonWriter.AddBool(stValue.Output1);
-//	fbJsonWriter.AddKey('Slave 2 (EL2004).Channel 2.Output');
-//	fbJsonWriter.AddBool(stValue.Output2);
-//	fbJsonWriter.AddKey('Slave 2 (EL2004).Channel 3.Output');
-//	fbJsonWriter.AddBool(stValue.Output3);
-//	fbJsonWriter.AddKey('Slave 2 (EL2004).Channel 4.Output');
-//	fbJsonWriter.AddBool(stValue.Output4);
-//	fbJsonWriter.EndObject();
-fbJsonWriter.AddKey('MetaData');
+fbJsonWriter.AddKey('Timestamp');
+fbJsonWriter.AddDateTime(GVL.aReadStruct.Timestamp);
+
+fbJsonWriter.AddKey('ProcessData');
+	fbJsonWriter.StartObject();
+	fbJsonWriter.AddKey('FurTemp');
+	fbJsonWriter.AddReal(GVL.aReadStruct.FurTemp);
+	fbJsonWriter.AddKey('FurInper');
+	fbJsonWriter.AddReal(GVL.aReadStruct.FurInper);
+	fbJsonWriter.AddKey('LphTemp');
+	fbJsonWriter.AddReal(GVL.aReadStruct.LphTemp);
+	fbJsonWriter.AddKey('LphPress');
+	fbJsonWriter.AddReal(GVL.aReadStruct.LphPress);
+	fbJsonWriter.AddKey('LphInpress');
+	fbJsonWriter.AddReal(GVL.aReadStruct.LphInpress);
+	fbJsonWriter.AddKey('LphInflow');
+	fbJsonWriter.AddReal(GVL.aReadStruct.LphInflow);
+	fbJsonWriter.AddKey('DeaTemp');
+	fbJsonWriter.AddReal(GVL.aReadStruct.DeaTemp);
+	fbJsonWriter.AddKey('DeaPress');
+	fbJsonWriter.AddReal(GVL.aReadStruct.DeaPress);
+	fbJsonWriter.AddKey('HphTemp');
+	fbJsonWriter.AddReal(GVL.aReadStruct.HphTemp);
+	fbJsonWriter.AddKey('HphPress');
+	fbJsonWriter.AddReal(GVL.aReadStruct.HphPress);
+	fbJsonWriter.AddKey('HphInpress');
+	fbJsonWriter.AddReal(GVL.aReadStruct.HphInpress);
+	fbJsonWriter.AddKey('HphInflow');
+	fbJsonWriter.AddReal(GVL.aReadStruct.HphInflow);
+	fbJsonWriter.AddKey('BoiTemp');
+	fbJsonWriter.AddReal(GVL.aReadStruct.BoiTemp);
+	fbJsonWriter.AddKey('BoiPress');
+	fbJsonWriter.AddReal(GVL.aReadStruct.BoiPress);
+	fbJsonWriter.AddKey('ConTemp');
+	fbJsonWriter.AddReal(GVL.aReadStruct.ConTemp);
+	fbJsonWriter.AddKey('ConInflow');
+	fbJsonWriter.AddReal(GVL.aReadStruct.ConInflow);
+	fbJsonWriter.AddKey('TurHtemp');
+	fbJsonWriter.AddReal(GVL.aReadStruct.TurHtemp);
+	fbJsonWriter.AddKey('TurItemp');
+	fbJsonWriter.AddReal(GVL.aReadStruct.TurItemp);
+	fbJsonWriter.AddKey('TurLtemp');
+	fbJsonWriter.AddReal(GVL.aReadStruct.TurLtemp);
+	fbJsonWriter.AddKey('TurHpress');
+	fbJsonWriter.AddReal(GVL.aReadStruct.TurHpress);
+	fbJsonWriter.AddKey('TurIpress');
+	fbJsonWriter.AddReal(GVL.aReadStruct.TurIpress);
+	fbJsonWriter.AddKey('TurLpress');
+	fbJsonWriter.AddReal(GVL.aReadStruct.TurLpress);
+	fbJsonWriter.AddKey('TurSpeed');
+	fbJsonWriter.AddReal(GVL.aReadStruct.TurSpeed);
+	fbJsonWriter.EndObject();
+fbJsonWriter.AddKey('ComponentStatus');
 	fbJsonWriter.StartObject();
 	fbJsonWriter.EndObject();
 fbJsonWriter.EndObject();
-sPayloadPub:= fbJsonWriter.GetDocument();
+fbJsonWriter.CopyDocument(sPayloadPub, SIZEOF(sPayloadPub));
 fbJsonWriter.ResetDocument();
 ]]></ST>
       </Implementation>
     </Action>
     <LineIds Name="PostMqtt">
-      <LineId Id="39" Count="42" />
+      <LineId Id="39" Count="5" />
+      <LineId Id="139" Count="0" />
+      <LineId Id="154" Count="0" />
+      <LineId Id="45" Count="17" />
+      <LineId Id="65" Count="3" />
+      <LineId Id="111" Count="1" />
+      <LineId Id="110" Count="0" />
+      <LineId Id="69" Count="1" />
+      <LineId Id="108" Count="1" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="73" Count="8" />
       <LineId Id="37" Count="1" />
       <LineId Id="8" Count="0" />
       <LineId Id="6" Count="1" />
@@ -112,7 +165,57 @@ fbJsonWriter.ResetDocument();
     </LineIds>
     <LineIds Name="PostMqtt.WriteJson">
       <LineId Id="5" Count="0" />
-      <LineId Id="8" Count="16" />
+      <LineId Id="81" Count="1" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="54" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="56" Count="0" />
+      <LineId Id="32" Count="0" />
+      <LineId Id="58" Count="0" />
+      <LineId Id="33" Count="0" />
+      <LineId Id="57" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="35" Count="0" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="61" Count="0" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="62" Count="0" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="63" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="42" Count="0" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="69" Count="0" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="47" Count="0" />
+      <LineId Id="72" Count="0" />
+      <LineId Id="48" Count="0" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="49" Count="0" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="50" Count="0" />
+      <LineId Id="75" Count="0" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="18" Count="6" />
       <LineId Id="1" Count="0" />
     </LineIds>
   </POU>

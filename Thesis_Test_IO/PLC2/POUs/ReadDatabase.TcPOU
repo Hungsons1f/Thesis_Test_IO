@@ -36,7 +36,7 @@ END_VAR
 	END_IF
 END_IF
 
-fbTon(IN:= NOT fbTon.Q, PT:= T#4000MS);	
+fbTon(IN:= NOT fbTon.Q, PT:= T#1000MS);	
 IF fbTon.Q THEN
 	bExecute := TRUE;			
 END_IF
