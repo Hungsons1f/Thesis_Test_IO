@@ -29,6 +29,76 @@ STRUCT
 	TurIpress: REAL;
 	TurLpress: REAL;
 	TurSpeed: REAL;
+	
+	PconMode: BYTE;
+	PconRun: BOOL;
+	PconVal: REAL;
+	PconTime: DINT;
+	PconAtime: DINT;
+	PconFault: BOOL;
+	
+	PsupMode: BYTE;
+	PsupRun: BOOL;
+	PsupVal: REAL;
+	PsupTime: DINT;
+	PsupAtime: DINT;
+	PsupFault: BOOL;
+	
+	PcirMode: BYTE;
+	PcirRun: BOOL;
+	PcirVal: REAL;
+	PcirTime: DINT;
+	PcirAtime: DINT;
+	PcirFault: BOOL;
+	
+	F1Mode: BYTE;
+	F1Run: BOOL;
+	F1Val: REAL;
+	F1Time: DINT;
+	F1Atime: DINT;
+	F1Fault: BOOL;
+	
+	F2Mode: BYTE;
+	F2Run: BOOL;
+	F2Val: REAL;
+	F2Time: DINT;
+	F2Atime: DINT;
+	F2Fault: BOOL;
+	
+	F3Mode: BYTE;
+	F3Run: BOOL;
+	F3Val: REAL;
+	F3Time: DINT;
+	F3Atime: DINT;
+	F3Fault: BOOL;
+	
+	VlphMode: BYTE;
+	VlphRun: BOOL;
+	VlphVal: REAL;
+	VlphTime: DINT;
+	VlphAtime: DINT;
+	VlphFault: BOOL;
+	
+	VdeaMode: BYTE;
+	VdeaRun: BOOL;
+	VdeaVal: REAL;
+	VdeaTime: DINT;
+	VdeaAtime: DINT;
+	VdeaFault: BOOL;
+	
+	VhphMode: BYTE;
+	VhphRun: BOOL;
+	VhphVal: REAL;
+	VhphTime: DINT;
+	VhphAtime: DINT;
+	VhphFault: BOOL;
+	
+	VturMode: BYTE;
+	VturRun: BOOL;
+	VturVal: REAL;
+	VturTime: DINT;
+	VturAtime: DINT;
+	VturFault: BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

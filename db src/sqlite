@@ -1,0 +1,98 @@
+CREATE table Data (
+	Id BIGINT primary key,
+	Sync BOOLEAN,
+	Timestamp DATETIME,
+	FurTemp REAL,
+	FurInper REAL,
+	LphTemp REAL,
+	LphPress REAL,
+	LphInpress REAL,
+	LphInflow REAL,
+	DeaTemp REAL,
+	DeaPress REAL,
+	HphTemp REAL,
+	HphPress REAL,
+	HphInpress REAL,
+	HphInflow REAL,
+	BoiTemp REAL,
+	BoiPress REAL,
+	ConTemp REAL,
+	ConInflow REAL,
+	TurHtemp REAL,
+	TurItemp REAL,
+	TurLtemp REAL,
+	TurHpress REAL,
+	TurIpress REAL,
+	TurLpress REAL,
+	TurSpeed REAL,
+);
+
+alter table Data add column PconMode TINYINT;
+alter table Data add column PconRun BOOLEAN;
+alter table Data add column PconVal REAL;
+alter table Data add column PconTime INT;
+alter table Data add column PconAtime INT;
+alter table Data add column PconFault BOOLEAN;
+
+alter table Data add column PsupMode TINYINT;
+alter table Data add column PsupRun BOOLEAN;
+alter table Data add column PsupVal REAL;
+alter table Data add column PsupTime INT;
+alter table Data add column PsupAtime INT;
+alter table Data add column PsupFault BOOLEAN;
+
+alter table Data add column PcirMode TINYINT;
+alter table Data add column PcirRun BOOLEAN;
+alter table Data add column PcirVal REAL;
+alter table Data add column PcirTime INT;
+alter table Data add column PcirAtime INT;
+alter table Data add column PcirFault BOOLEAN;
+
+alter table Data add column F1Mode TINYINT;
+alter table Data add column F1Run BOOLEAN;
+alter table Data add column F1Val REAL;
+alter table Data add column F1Time INT;
+alter table Data add column F1Atime INT;
+alter table Data add column F1Fault BOOLEAN;
+
+alter table Data add column F2Mode TINYINT;
+alter table Data add column F2Run BOOLEAN;
+alter table Data add column F2Val REAL;
+alter table Data add column F2Time INT;
+alter table Data add column F2Atime INT;
+alter table Data add column F2Fault BOOLEAN;
+
+alter table Data add column F3Mode TINYINT;
+alter table Data add column F3Run BOOLEAN;
+alter table Data add column F3Val REAL;
+alter table Data add column F3Time INT;
+alter table Data add column F3Atime INT;
+alter table Data add column F3Fault BOOLEAN;
+
+alter table Data add column VlphMode TINYINT;
+alter table Data add column VlphRun BOOLEAN;
+alter table Data add column VlphVal REAL;
+alter table Data add column VlphTime INT;
+alter table Data add column VlphAtime INT;
+alter table Data add column VlphFault BOOLEAN;
+
+alter table Data add column VdeaMode TINYINT;
+alter table Data add column VdeaRun BOOLEAN;
+alter table Data add column VdeaVal REAL;
+alter table Data add column VdeaTime INT;
+alter table Data add column VdeaAtime INT;
+alter table Data add column VdeaFault BOOLEAN;
+
+alter table Data add column VhphMode TINYINT;
+alter table Data add column VhphRun BOOLEAN;
+alter table Data add column VhphVal REAL;
+alter table Data add column VhphTime INT;
+alter table Data add column VhphAtime INT;
+alter table Data add column VhphFault BOOLEAN;
+
+alter table Data add column VturMode TINYINT;
+alter table Data add column VturRun BOOLEAN;
+alter table Data add column VturVal REAL;
+alter table Data add column VturTime INT;
+alter table Data add column VturAtime INT;
+alter table Data add column VturFault BOOLEAN;

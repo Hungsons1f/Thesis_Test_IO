@@ -10,7 +10,7 @@ VAR
 	
 	(* published message *)
 	sTopicPub : STRING(255) := 'IPC/ProcessData';
-	sPayloadPub : STRING(5000);
+	sPayloadPub : STRING(6000);
 	fbTimer : TON;
 
 //	(* received message *)
@@ -136,8 +136,138 @@ fbJsonWriter.AddKey('ProcessData');
 	fbJsonWriter.AddKey('TurSpeed');
 	fbJsonWriter.AddReal(GVL.aReadStruct.TurSpeed);
 	fbJsonWriter.EndObject();
+	
 fbJsonWriter.AddKey('ComponentStatus');
 	fbJsonWriter.StartObject();
+	fbJsonWriter.AddKey('PconMode');
+	fbJsonWriter.AddUdint(GVL.aReadStruct.PconMode);
+	fbJsonWriter.AddKey('PconRun');
+	fbJsonWriter.AddBool(GVL.aReadStruct.PconRun);
+	fbJsonWriter.AddKey('PconVal');
+	fbJsonWriter.AddReal(GVL.aReadStruct.PconVal);
+	fbJsonWriter.AddKey('PconTime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.PconTime);
+	fbJsonWriter.AddKey('PconAtime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.PconAtime);
+	fbJsonWriter.AddKey('PconFault');
+	
+	fbJsonWriter.AddBool(GVL.aReadStruct.PconFault);
+	fbJsonWriter.AddKey('PsupMode');
+	fbJsonWriter.AddUdint(GVL.aReadStruct.PsupMode);
+	fbJsonWriter.AddKey('PsupRun');
+	fbJsonWriter.AddBool(GVL.aReadStruct.PsupRun);
+	fbJsonWriter.AddKey('PsupVal');
+	fbJsonWriter.AddReal(GVL.aReadStruct.PsupVal);
+	fbJsonWriter.AddKey('PsupTime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.PsupTime);
+	fbJsonWriter.AddKey('PsupAtime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.PsupAtime);
+	fbJsonWriter.AddKey('PsupFault');
+	fbJsonWriter.AddBool(GVL.aReadStruct.PsupFault);
+
+	fbJsonWriter.AddKey('PcirMode');
+	fbJsonWriter.AddUdint(GVL.aReadStruct.PcirMode);
+	fbJsonWriter.AddKey('PcirRun');
+	fbJsonWriter.AddBool(GVL.aReadStruct.PcirRun);
+	fbJsonWriter.AddKey('PcirVal');
+	fbJsonWriter.AddReal(GVL.aReadStruct.PcirVal);
+	fbJsonWriter.AddKey('PcirTime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.PcirTime);
+	fbJsonWriter.AddKey('PcirAtime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.PcirAtime);
+	fbJsonWriter.AddKey('PcirFault');
+	fbJsonWriter.AddBool(GVL.aReadStruct.PcirFault);
+
+	fbJsonWriter.AddKey('F1Mode');
+	fbJsonWriter.AddUdint(GVL.aReadStruct.F1Mode);
+	fbJsonWriter.AddKey('F1Run');
+	fbJsonWriter.AddBool(GVL.aReadStruct.F1Run);
+	fbJsonWriter.AddKey('F1Val');
+	fbJsonWriter.AddReal(GVL.aReadStruct.F1Val);
+	fbJsonWriter.AddKey('F1Time');
+	fbJsonWriter.AddDint(GVL.aReadStruct.F1Time);
+	fbJsonWriter.AddKey('F1Atime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.F1Atime);
+	fbJsonWriter.AddKey('F1Fault');
+	fbJsonWriter.AddBool(GVL.aReadStruct.F1Fault);
+
+	fbJsonWriter.AddKey('F2Mode');
+	fbJsonWriter.AddUdint(GVL.aReadStruct.F2Mode);
+	fbJsonWriter.AddKey('F2Run');
+	fbJsonWriter.AddBool(GVL.aReadStruct.F2Run);
+	fbJsonWriter.AddKey('F2Val');
+	fbJsonWriter.AddReal(GVL.aReadStruct.F2Val);
+	fbJsonWriter.AddKey('F2Time');
+	fbJsonWriter.AddDint(GVL.aReadStruct.F2Time);
+	fbJsonWriter.AddKey('F2Atime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.F2Atime);
+	fbJsonWriter.AddKey('F2Fault');
+	fbJsonWriter.AddBool(GVL.aReadStruct.F2Fault);
+
+	fbJsonWriter.AddKey('F3Mode');
+	fbJsonWriter.AddUdint(GVL.aReadStruct.F3Mode);
+	fbJsonWriter.AddKey('F3Run');
+	fbJsonWriter.AddBool(GVL.aReadStruct.F3Run);
+	fbJsonWriter.AddKey('F3Val');
+	fbJsonWriter.AddReal(GVL.aReadStruct.F3Val);
+	fbJsonWriter.AddKey('F3Time');
+	fbJsonWriter.AddDint(GVL.aReadStruct.F3Time);
+	fbJsonWriter.AddKey('F3Atime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.F3Atime);
+	fbJsonWriter.AddKey('F3Fault');
+	fbJsonWriter.AddBool(GVL.aReadStruct.F3Fault);
+
+	fbJsonWriter.AddKey('VlphMode');
+	fbJsonWriter.AddUdint(GVL.aReadStruct.VlphMode);
+	fbJsonWriter.AddKey('VlphRun');
+	fbJsonWriter.AddBool(GVL.aReadStruct.VlphRun);
+	fbJsonWriter.AddKey('VlphVal');
+	fbJsonWriter.AddReal(GVL.aReadStruct.VlphVal);
+	fbJsonWriter.AddKey('VlphTime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.VlphTime);
+	fbJsonWriter.AddKey('VlphAtime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.VlphAtime);
+	fbJsonWriter.AddKey('VlphFault');
+	fbJsonWriter.AddBool(GVL.aReadStruct.VlphFault);
+
+	fbJsonWriter.AddKey('VdeaMode');
+	fbJsonWriter.AddUdint(GVL.aReadStruct.VdeaMode);
+	fbJsonWriter.AddKey('VdeaRun');
+	fbJsonWriter.AddBool(GVL.aReadStruct.VdeaRun);
+	fbJsonWriter.AddKey('VdeaVal');
+	fbJsonWriter.AddReal(GVL.aReadStruct.VdeaVal);
+	fbJsonWriter.AddKey('VdeaTime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.VdeaTime);
+	fbJsonWriter.AddKey('VdeaAtime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.VdeaAtime);
+	fbJsonWriter.AddKey('VdeaFault');
+	fbJsonWriter.AddBool(GVL.aReadStruct.VdeaFault);
+
+	fbJsonWriter.AddKey('VhphMode');
+	fbJsonWriter.AddUdint(GVL.aReadStruct.VhphMode);
+	fbJsonWriter.AddKey('VhphRun');
+	fbJsonWriter.AddBool(GVL.aReadStruct.VhphRun);
+	fbJsonWriter.AddKey('VhphVal');
+	fbJsonWriter.AddReal(GVL.aReadStruct.VhphVal);
+	fbJsonWriter.AddKey('VhphTime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.VhphTime);
+	fbJsonWriter.AddKey('VhphAtime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.VhphAtime);
+	fbJsonWriter.AddKey('VhphFault');
+	fbJsonWriter.AddBool(GVL.aReadStruct.VhphFault);
+
+	fbJsonWriter.AddKey('VturMode');
+	fbJsonWriter.AddUdint(GVL.aReadStruct.VturMode);
+	fbJsonWriter.AddKey('VturRun');
+	fbJsonWriter.AddBool(GVL.aReadStruct.VturRun);
+	fbJsonWriter.AddKey('VturVal');
+	fbJsonWriter.AddReal(GVL.aReadStruct.VturVal);
+	fbJsonWriter.AddKey('VturTime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.VturTime);
+	fbJsonWriter.AddKey('VturAtime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.VturAtime);
+	fbJsonWriter.AddKey('VturFault');
+	fbJsonWriter.AddBool(GVL.aReadStruct.VturFault);
 	fbJsonWriter.EndObject();
 fbJsonWriter.EndObject();
 fbJsonWriter.CopyDocument(sPayloadPub, SIZEOF(sPayloadPub));
@@ -215,7 +345,18 @@ fbJsonWriter.ResetDocument();
       <LineId Id="75" Count="0" />
       <LineId Id="51" Count="0" />
       <LineId Id="76" Count="0" />
-      <LineId Id="18" Count="6" />
+      <LineId Id="18" Count="0" />
+      <LineId Id="113" Count="0" />
+      <LineId Id="19" Count="1" />
+      <LineId Id="85" Count="1" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="92" Count="6" />
+      <LineId Id="114" Count="0" />
+      <LineId Id="99" Count="0" />
+      <LineId Id="101" Count="11" />
+      <LineId Id="115" Count="103" />
+      <LineId Id="21" Count="3" />
       <LineId Id="1" Count="0" />
     </LineIds>
   </POU>

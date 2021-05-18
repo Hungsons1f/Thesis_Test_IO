@@ -6,7 +6,7 @@ VAR
 	fbPLCDBWrite : FB_PLCDBWriteEvt (sNetID := '', tTimeout := T#5S);
 	myDBID : UDINT:=1;
 	sMyTableName : T_MaxString:='Data';
-	ColumnNames : ARRAY [0..25] OF STRING(50);
+	ColumnNames : ARRAY [0..85] OF STRING(50);
 	insertData : aS_DBField;
 	tcMessage : I_TcMessage;
 	
@@ -19,9 +19,6 @@ VAR
 	bExecute: BOOL;
 	fbTon: TON;
 	iID: LINT;
-	
-	testdata: test;
-	testcol: ARRAY [0..2] OF STRING(50);
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -86,7 +83,77 @@ ColumnNames[21] := 'TurLtemp';
 ColumnNames[22] := 'TurHpress';
 ColumnNames[23] := 'TurIpress';
 ColumnNames[24] := 'TurLpress';
-ColumnNames[25] := 'TurSpeed';]]></ST>
+ColumnNames[25] := 'TurSpeed';
+
+ColumnNames[26] := 'PconMode';
+ColumnNames[27] := 'PconRun';
+ColumnNames[28] := 'PconVal';
+ColumnNames[29] := 'PconTime';
+ColumnNames[30] := 'PconAtime';
+ColumnNames[31] := 'PconFault';
+
+ColumnNames[32] := 'PsupMode';
+ColumnNames[33] := 'PsupRun';
+ColumnNames[34] := 'PsupVal';
+ColumnNames[35] := 'PsupTime';
+ColumnNames[36] := 'PsupAtime';
+ColumnNames[37] := 'PsupFault';
+
+ColumnNames[38] := 'PcirMode';
+ColumnNames[39] := 'PcirRun';
+ColumnNames[40] := 'PcirVal';
+ColumnNames[41] := 'PcirTime';
+ColumnNames[42] := 'PcirAtime';
+ColumnNames[43] := 'PcirFault';
+
+ColumnNames[44] := 'F1Mode';
+ColumnNames[45] := 'F1Run';
+ColumnNames[46] := 'F1Val';
+ColumnNames[47] := 'F1Time';
+ColumnNames[48] := 'F1Atime';
+ColumnNames[49] := 'F1Fault';
+
+ColumnNames[50] := 'F2Mode';
+ColumnNames[51] := 'F2Run';
+ColumnNames[52] := 'F2Val';
+ColumnNames[53] := 'F2Time';
+ColumnNames[54] := 'F2Atime';
+ColumnNames[55] := 'F2Fault';
+
+ColumnNames[56] := 'F3Mode';
+ColumnNames[57] := 'F3Run';
+ColumnNames[58] := 'F3Val';
+ColumnNames[59] := 'F3Time';
+ColumnNames[60] := 'F3Atime';
+ColumnNames[61] := 'F3Fault';
+
+ColumnNames[62] := 'VlphMode';
+ColumnNames[63] := 'VlphRun';
+ColumnNames[64] := 'VlphVal';
+ColumnNames[65] := 'VlphTime';
+ColumnNames[66] := 'VlphAtime';
+ColumnNames[67] := 'VlphFault';
+
+ColumnNames[68] := 'VdeaMode';
+ColumnNames[69] := 'VdeaRun';
+ColumnNames[70] := 'VdeaVal';
+ColumnNames[71] := 'VdeaTime';
+ColumnNames[72] := 'VdeaAtime';
+ColumnNames[73] := 'VdeaFault';
+
+ColumnNames[74] := 'VhphMode';
+ColumnNames[75] := 'VhphRun';
+ColumnNames[76] := 'VhphVal';
+ColumnNames[77] := 'VhphTime';
+ColumnNames[78] := 'VhphAtime';
+ColumnNames[79] := 'VhphFault';
+
+ColumnNames[80] := 'VturMode';
+ColumnNames[81] := 'VturRun';
+ColumnNames[82] := 'VturVal';
+ColumnNames[83] := 'VturTime';
+ColumnNames[84] := 'VturAtime';
+ColumnNames[85] := 'VturFault';]]></ST>
       </Implementation>
     </Action>
     <Action Name="UpdateData" Id="{ee102ece-0353-4bcb-bb58-75f20df150bc}">
@@ -122,7 +189,76 @@ insertData.TurHpress:= Interfacex.ScadaInterface.Components.Turbine.HighPressure
 insertData.TurIpress:= Interfacex.ScadaInterface.Components.Turbine.ImmediatePressure;
 insertData.TurLpress:= Interfacex.ScadaInterface.Components.Turbine.OutPressure;
 insertData.TurSpeed:= Interfacex.ScadaInterface.Components.Turbine.Rotation;
-]]></ST>
+
+insertData.PconMode:= INT_TO_BYTE(Interfacex.ScadaInterface.Components.CondensePump.Mode); 
+insertData.PconRun:= Interfacex.ScadaInterface.Components.CondensePump.RunFeedback;
+insertData.PconVal:= Interfacex.ScadaInterface.Components.CondensePump.ActualSpeed;
+insertData.PconTime:= Interfacex.ScadaInterface.Components.CondensePump.Runtime;
+insertData.PconAtime:= Interfacex.ScadaInterface.Components.CondensePump.AccRuntime;
+insertData.PconFault:= Interfacex.ScadaInterface.Components.CondensePump.Fault;
+
+insertData.PsupMode:= INT_TO_BYTE(Interfacex.ScadaInterface.Components.SupplyPump.Mode); 
+insertData.PsupRun:= Interfacex.ScadaInterface.Components.SupplyPump.RunFeedback;
+insertData.PsupVal:= Interfacex.ScadaInterface.Components.SupplyPump.ActualSpeed;
+insertData.PsupTime:= Interfacex.ScadaInterface.Components.SupplyPump.Runtime;
+insertData.PsupAtime:= Interfacex.ScadaInterface.Components.SupplyPump.AccRuntime;
+insertData.PsupFault:= Interfacex.ScadaInterface.Components.SupplyPump.Fault;
+
+insertData.PcirMode:= INT_TO_BYTE(Interfacex.ScadaInterface.Components.CircularPump.Mode); 
+insertData.PcirRun:= Interfacex.ScadaInterface.Components.CircularPump.RunFeedback;
+insertData.PcirVal:= Interfacex.ScadaInterface.Components.CircularPump.ActualSpeed;
+insertData.PcirTime:= Interfacex.ScadaInterface.Components.CircularPump.Runtime;
+insertData.PcirAtime:= Interfacex.ScadaInterface.Components.CircularPump.AccRuntime;
+insertData.PcirFault:= Interfacex.ScadaInterface.Components.CircularPump.Fault;
+
+insertData.F1Mode:= INT_TO_BYTE(Interfacex.ScadaInterface.Components.ForceFan1.Mode); 
+insertData.F1Run:= Interfacex.ScadaInterface.Components.ForceFan1.RunFeedback;
+insertData.F1Val:= Interfacex.ScadaInterface.Components.ForceFan1.ActualSpeed;
+insertData.F1Time:= Interfacex.ScadaInterface.Components.ForceFan1.Runtime;
+insertData.F1Atime:= Interfacex.ScadaInterface.Components.ForceFan1.AccRuntime;
+insertData.F1Fault:= Interfacex.ScadaInterface.Components.ForceFan1.Fault;
+
+insertData.F2Mode:= INT_TO_BYTE(Interfacex.ScadaInterface.Components.ForceFan2.Mode); 
+insertData.F2Run:= Interfacex.ScadaInterface.Components.ForceFan2.RunFeedback;
+insertData.F2Val:= Interfacex.ScadaInterface.Components.ForceFan2.ActualSpeed;
+insertData.F2Time:= Interfacex.ScadaInterface.Components.ForceFan2.Runtime;
+insertData.F2Atime:= Interfacex.ScadaInterface.Components.ForceFan2.AccRuntime;
+insertData.F2Fault:= Interfacex.ScadaInterface.Components.ForceFan2.Fault;
+
+insertData.F3Mode:= INT_TO_BYTE(Interfacex.ScadaInterface.Components.ForceFan3.Mode); 
+insertData.F3Run:= Interfacex.ScadaInterface.Components.ForceFan3.RunFeedback;
+insertData.F3Val:= Interfacex.ScadaInterface.Components.ForceFan3.ActualSpeed;
+insertData.F3Time:= Interfacex.ScadaInterface.Components.ForceFan3.Runtime;
+insertData.F3Atime:= Interfacex.ScadaInterface.Components.ForceFan3.AccRuntime;
+insertData.F3Fault:= Interfacex.ScadaInterface.Components.ForceFan3.Fault;
+
+insertData.VlphMode:= INT_TO_BYTE(Interfacex.ScadaInterface.Components.LPHValve.Mode); 
+insertData.VlphRun:= Interfacex.ScadaInterface.Components.LPHValve.RunFeedback;
+insertData.VlphVal:= Interfacex.ScadaInterface.Components.LPHValve.OpenPercent;
+insertData.VlphTime:= Interfacex.ScadaInterface.Components.LPHValve.Runtime;
+insertData.VlphAtime:= Interfacex.ScadaInterface.Components.LPHValve.AccRuntime;
+insertData.VlphFault:= Interfacex.ScadaInterface.Components.LPHValve.Fault;
+
+insertData.VdeaMode:= INT_TO_BYTE(Interfacex.ScadaInterface.Components.AirEjValve.Mode); 
+insertData.VdeaRun:= Interfacex.ScadaInterface.Components.AirEjValve.RunFeedback;
+insertData.VdeaVal:= Interfacex.ScadaInterface.Components.AirEjValve.OpenPercent;
+insertData.VdeaTime:= Interfacex.ScadaInterface.Components.AirEjValve.Runtime;
+insertData.VdeaAtime:= Interfacex.ScadaInterface.Components.AirEjValve.AccRuntime;
+insertData.VdeaFault:= Interfacex.ScadaInterface.Components.AirEjValve.Fault;
+
+insertData.VhphMode:= INT_TO_BYTE(Interfacex.ScadaInterface.Components.HPHValve.Mode); 
+insertData.VhphRun:= Interfacex.ScadaInterface.Components.HPHValve.RunFeedback;
+insertData.VhphVal:= Interfacex.ScadaInterface.Components.HPHValve.OpenPercent;
+insertData.VhphTime:= Interfacex.ScadaInterface.Components.HPHValve.Runtime;
+insertData.VhphAtime:= Interfacex.ScadaInterface.Components.HPHValve.AccRuntime;
+insertData.VhphFault:= Interfacex.ScadaInterface.Components.HPHValve.Fault;
+
+insertData.VturMode:= INT_TO_BYTE(Interfacex.ScadaInterface.Components.TurbineValve.Mode); 
+insertData.VturRun:= Interfacex.ScadaInterface.Components.TurbineValve.RunFeedback;
+insertData.VturVal:= Interfacex.ScadaInterface.Components.TurbineValve.OpenPercent;
+insertData.VturTime:= Interfacex.ScadaInterface.Components.TurbineValve.Runtime;
+insertData.VturAtime:= Interfacex.ScadaInterface.Components.TurbineValve.AccRuntime;
+insertData.VturFault:= Interfacex.ScadaInterface.Components.TurbineValve.Fault;]]></ST>
       </Implementation>
     </Action>
     <LineIds Name="SaveDatabase">
@@ -152,13 +288,53 @@ insertData.TurSpeed:= Interfacex.ScadaInterface.Components.Turbine.Rotation;
       <LineId Id="28" Count="0" />
       <LineId Id="6" Count="21" />
       <LineId Id="2" Count="0" />
+      <LineId Id="32" Count="5" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="39" Count="5" />
+      <LineId Id="38" Count="0" />
+      <LineId Id="46" Count="5" />
+      <LineId Id="45" Count="0" />
+      <LineId Id="53" Count="5" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="60" Count="5" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="67" Count="5" />
+      <LineId Id="66" Count="0" />
+      <LineId Id="74" Count="5" />
+      <LineId Id="73" Count="0" />
+      <LineId Id="81" Count="5" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="88" Count="5" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="95" Count="5" />
+      <LineId Id="94" Count="0" />
     </LineIds>
     <LineIds Name="SaveDatabase.UpdateData">
       <LineId Id="1" Count="0" />
       <LineId Id="3" Count="2" />
       <LineId Id="32" Count="0" />
       <LineId Id="6" Count="25" />
+      <LineId Id="33" Count="0" />
       <LineId Id="2" Count="0" />
+      <LineId Id="34" Count="4" />
+      <LineId Id="40" Count="5" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="47" Count="5" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="54" Count="5" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="61" Count="5" />
+      <LineId Id="60" Count="0" />
+      <LineId Id="68" Count="5" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="75" Count="5" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="82" Count="5" />
+      <LineId Id="81" Count="0" />
+      <LineId Id="89" Count="5" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="96" Count="5" />
+      <LineId Id="95" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
