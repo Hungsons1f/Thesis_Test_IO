@@ -138,11 +138,11 @@ CASE ProcessState OF
 		END_IF
 		
 	aE_ProcessState.Start:
-		fbttemp(IN:= TRUE, PT:=T#3S);												//comment this!
-		IF fbttemp.Q THEN
-			ProcessState := aE_ProcessState.SteadyState;
-			fbttemp(IN:= FALSE);
-		END_IF
+//		fbttemp(IN:= TRUE, PT:=T#3S);												//comment this!
+//		IF fbttemp.Q THEN
+//			ProcessState := aE_ProcessState.SteadyState;
+//			fbttemp(IN:= FALSE);
+//		END_IF
 			 
 		//Light
 		ProcessReady := FALSE;
@@ -153,195 +153,195 @@ CASE ProcessState OF
 			ProcessState := aE_ProcessState.Error;
 		END_IF
 	{region 'aa'}
-//		CASE StartState OF 
-//			0:  //Start state 0: increase condense pump pressure to 5 bar, supply pump pressure to 30 bar
-//				//Assign setpoint
-//				CondensePump_Press.Setpoint := 5;		//5 bar, pid control
-//				SupplyPump_Press.Setpoint := 30;		//10 bar, pid control
-//				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
-//				LPHeater_Temp.Setpoint := 100;			//100% valve openpercent, switch = direct control
-//				AirEjector_Temp.Setpoint := 100;		//100% valve openpercent, switch = direct control
-//				HPHeater_Temp.Setpoint := 100;			//100% valve openpercent, switch = direct control
-//				Turbine_Speed.Setpoint := 100;			//100% valve openpercent, switch = direct control
-//				Boiler_Temp.Setpoint := 37.85;			//37.85 oC, pid control		
+		CASE StartState OF 
+			0:  //Start state 0: increase condense pump pressure to 5 bar, supply pump pressure to 30 bar
+				//Assign setpoint
+				CondensePump_Press.Setpoint := 5;		//5 bar, pid control
+				SupplyPump_Press.Setpoint := 30;		//10 bar, pid control
+				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
+				LPHeater_Temp.Setpoint := 100;			//100% valve openpercent, switch = direct control
+				AirEjector_Temp.Setpoint := 100;		//100% valve openpercent, switch = direct control
+				HPHeater_Temp.Setpoint := 72;			//100% valve openpercent, switch = direct control
+				Turbine_Speed.Setpoint := 100;			//100% valve openpercent, switch = direct control
+				Boiler_Temp.Setpoint := 37.85;			//37.85 oC, pid control		
 				
-//				//Switch controller
-//				LPHeater_Temp.Switch := 0;
-//				AirEjector_Temp.Switch := 0;
-//				HPHeater_Temp.Switch := 0;
-//				Turbine_Speed.Switch := 0;
+				//Switch controller
+				LPHeater_Temp.Switch := 0;
+				AirEjector_Temp.Switch := 0;
+				HPHeater_Temp.Switch := 0;
+				Turbine_Speed.Switch := 0;
 				
-//				//Check condition to change state
-//				IF Streams.InStream.CondensePump_Press >= 5 THEN
-//					flag1 := TRUE;
-//				END_IF
-//				IF Streams.InStream.SupplyPump_Press >= 10 THEN
-//					flag2 := TRUE;
-//				END_IF
-//				IF flag1 = TRUE AND flag2 = TRUE THEN
-//					fbTon(IN := TRUE, PT:= T#5S);
-//					IF fbTon.Q THEN
-//						StartState := 1;
-//						flag1 := FALSE; flag2:= FALSE; 
-//						fbTon(IN := FALSE);
-//					END_IF
-//				END_IF
+				//Check condition to change state
+				IF Streams.InStream.CondensePump_Press >= 5 THEN
+					flag1 := TRUE;
+				END_IF
+				IF Streams.InStream.SupplyPump_Press >= 10 THEN
+					flag2 := TRUE;
+				END_IF
+				IF flag1 = TRUE AND flag2 = TRUE THEN
+					fbTon(IN := TRUE, PT:= T#5S);
+					IF fbTon.Q THEN
+						StartState := 1;
+						flag1 := FALSE; flag2:= FALSE; 
+						fbTon(IN := FALSE);
+					END_IF
+				END_IF
 				
-//			1:  //Start state 1: increase boiler temp to 350 oC
-//				//Assign setpoint
-//				CondensePump_Press.Setpoint := 5;		//5 bar, pid control
-//				SupplyPump_Press.Setpoint := 30;		//10 bar, pid control
-//				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
-//				LPHeater_Temp.Setpoint := 100;			//100% valve openpercent, switch = direct control
-//				AirEjector_Temp.Setpoint := 100;		//100% valve openpercent, switch = direct control
-//				HPHeater_Temp.Setpoint := 295;			//100% valve openpercent, switch = direct control
-//				Turbine_Speed.Setpoint := 3000;			//100% valve openpercent, switch = direct control
-//				Boiler_Temp.Setpoint := 350;			//37.85 oC, pid control		
+			1:  //Start state 1: increase boiler temp to 350 oC
+				//Assign setpoint
+				CondensePump_Press.Setpoint := 5;		//5 bar, pid control
+				SupplyPump_Press.Setpoint := 30;		//10 bar, pid control
+				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
+				LPHeater_Temp.Setpoint := 100;			//100% valve openpercent, switch = direct control
+				AirEjector_Temp.Setpoint := 100;		//100% valve openpercent, switch = direct control
+				HPHeater_Temp.Setpoint := 72;			//100% valve openpercent, switch = direct control
+				Turbine_Speed.Setpoint := 3000;			//100% valve openpercent, switch = direct control
+				Boiler_Temp.Setpoint := 350;			//37.85 oC, pid control		
 				
-//				//Switch controller
-//				LPHeater_Temp.Switch := 0;
-//				AirEjector_Temp.Switch := 0;
-//				HPHeater_Temp.Switch := 1;
-//				Turbine_Speed.Switch := 1;
+				//Switch controller
+				LPHeater_Temp.Switch := 0;
+				AirEjector_Temp.Switch := 0;
+				HPHeater_Temp.Switch := 0;
+				Turbine_Speed.Switch := 1;
 				
-//				//Check condition to change state
-//				IF Streams.InStream.Boiler_Temp >= 350 THEN
-//					flag1 := TRUE;
-//				END_IF
-//				IF flag1 = TRUE THEN
-//					fbTon(IN := TRUE, PT:= T#8S);
-//					IF fbTon.Q THEN
-//						StartState := 2;
-//						flag1 := FALSE; 
-//						fbTon(IN := FALSE);
-//					END_IF
-//				END_IF
+				//Check condition to change state
+				IF Streams.InStream.Boiler_Temp >= 350 THEN
+					flag1 := TRUE;
+				END_IF
+				IF flag1 = TRUE THEN
+					fbTon(IN := TRUE, PT:= T#10S);
+					IF fbTon.Q THEN
+						StartState := 2;
+						flag1 := FALSE; 
+						fbTon(IN := FALSE);
+					END_IF
+				END_IF
 				
-//			2:  //Start state 2: increase condense pump pressure to 15 bar, supply pump pressure to 100 bar
-//				//Assign setpoint
-//				CondensePump_Press.Setpoint := 15;		//15 bar, pid control
-//				SupplyPump_Press.Setpoint := 100;		//100 bar, pid control
-//				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
-//				LPHeater_Temp.Setpoint := 100;			//100% valve openpercent, switch = direct control
-//				AirEjector_Temp.Setpoint := 100;		//100% valve openpercent, switch = direct control
-//				HPHeater_Temp.Setpoint := 295;			//100% valve openpercent, switch = direct control
-//				Turbine_Speed.Setpoint := 3000;			//100% valve openpercent, switch = direct control
-//				Boiler_Temp.Setpoint := 350;			//350 oC, pid control		
+			2:  //Start state 2: increase condense pump pressure to 15 bar, supply pump pressure to 100 bar
+				//Assign setpoint
+				CondensePump_Press.Setpoint := 15;		//15 bar, pid control
+				SupplyPump_Press.Setpoint := 100;		//100 bar, pid control
+				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
+				LPHeater_Temp.Setpoint := 100;			//100% valve openpercent, switch = direct control
+				AirEjector_Temp.Setpoint := 100;		//100% valve openpercent, switch = direct control
+				HPHeater_Temp.Setpoint := 72;			//100% valve openpercent, switch = direct control
+				Turbine_Speed.Setpoint := 3000;			//100% valve openpercent, switch = direct control
+				Boiler_Temp.Setpoint := 350;			//350 oC, pid control		
 				
-//				//Switch controller
-//				LPHeater_Temp.Switch := 0;
-//				AirEjector_Temp.Switch := 0;
-//				HPHeater_Temp.Switch := 1;
-//				Turbine_Speed.Switch := 1;
+				//Switch controller
+				LPHeater_Temp.Switch := 0;
+				AirEjector_Temp.Switch := 0;
+				HPHeater_Temp.Switch := 0;
+				Turbine_Speed.Switch := 1;
 				
-//				//Check condition to change state
-//				IF Streams.InStream.CondensePump_Press >= 15 THEN
-//					flag1 := TRUE;
-//				END_IF
-//				IF Streams.InStream.SupplyPump_Press >= 100 THEN
-//					flag2 := TRUE;
-//				END_IF
-//				IF flag1 = TRUE AND flag2 = TRUE THEN
-//					fbTon(IN := TRUE, PT:= T#10S);
-//					IF fbTon.Q THEN
-//						StartState := 3;
-//						flag1 := FALSE; flag2 := FALSE; 
-//						fbTon(IN := FALSE);
-//					END_IF
-//				END_IF		
-//			3:  //Start state 3: increase boiler temp to 450 oC
-//				//Assign setpoint
-//				CondensePump_Press.Setpoint := 15;		//5 bar, pid control
-//				SupplyPump_Press.Setpoint := 100;		//10 bar, pid control
-//				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
-//				LPHeater_Temp.Setpoint := 141.3;		//100% valve openpercent, switch = direct control
-//				AirEjector_Temp.Setpoint := 200;		//100% valve openpercent, switch = direct control
-//				HPHeater_Temp.Setpoint := 295;			//100% valve openpercent, switch = direct control
-//				Turbine_Speed.Setpoint := 3000;			//100% valve openpercent, switch = direct control
-//				Boiler_Temp.Setpoint := 450;			//37.85 oC, pid control		
+				//Check condition to change state
+				IF Streams.InStream.CondensePump_Press >= 15 THEN
+					flag1 := TRUE;
+				END_IF
+				IF Streams.InStream.SupplyPump_Press >= 100 THEN
+					flag2 := TRUE;
+				END_IF
+				IF flag1 = TRUE AND flag2 = TRUE THEN
+					fbTon(IN := TRUE, PT:= T#5S);
+					IF fbTon.Q THEN
+						StartState := 3;
+						flag1 := FALSE; flag2 := FALSE; 
+						fbTon(IN := FALSE);
+					END_IF
+				END_IF		
+			3:  //Start state 3: increase boiler temp to 450 oC
+				//Assign setpoint
+				CondensePump_Press.Setpoint := 15;		//5 bar, pid control
+				SupplyPump_Press.Setpoint := 100;		//10 bar, pid control
+				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
+				LPHeater_Temp.Setpoint := 141.3;		//100% valve openpercent, switch = direct control
+				AirEjector_Temp.Setpoint := 200;		//100% valve openpercent, switch = direct control
+				HPHeater_Temp.Setpoint := 72;			//100% valve openpercent, switch = direct control
+				Turbine_Speed.Setpoint := 3000;			//100% valve openpercent, switch = direct control
+				Boiler_Temp.Setpoint := 450;			//37.85 oC, pid control		
 				
-//				//Switch controller
-//				LPHeater_Temp.Switch := 1;
-//				AirEjector_Temp.Switch := 1;
-//				HPHeater_Temp.Switch := 1;
-//				Turbine_Speed.Switch := 1;
+				//Switch controller
+				LPHeater_Temp.Switch := 1;
+				AirEjector_Temp.Switch := 1;
+				HPHeater_Temp.Switch := 0;
+				Turbine_Speed.Switch := 1;
 				
-//				//Check condition to change state
-//				IF Streams.InStream.Boiler_Temp >= 450 THEN
-//					flag1 := TRUE;
-//				END_IF
-//				IF flag1 = TRUE THEN
-//					fbTon(IN := TRUE, PT:= T#10S);
-//					IF fbTon.Q THEN
-//						StartState := 4;
-//						flag1 := FALSE; 
-//						fbTon(IN := FALSE);
-//					END_IF
-//				END_IF
-//			4:  //Start state 4: increase condense pump pressure to 28 bar, supply pump pressure to 167 bar
-//				//Assign setpoint
-//				CondensePump_Press.Setpoint := 28;		//15 bar, pid control
-//				SupplyPump_Press.Setpoint := 167;		//100 bar, pid control
-//				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
-//				LPHeater_Temp.Setpoint := 141.3;			//100% valve openpercent, switch = direct control
-//				AirEjector_Temp.Setpoint := 200;		//100% valve openpercent, switch = direct control
-//				HPHeater_Temp.Setpoint := 295;			//100% valve openpercent, switch = direct control
-//				Turbine_Speed.Setpoint := 3000;			//100% valve openpercent, switch = direct control
-//				Boiler_Temp.Setpoint := 450;			//350 oC, pid control		
+				//Check condition to change state
+				IF Streams.InStream.Boiler_Temp >= 450 THEN
+					flag1 := TRUE;
+				END_IF
+				IF flag1 = TRUE THEN
+					fbTon(IN := TRUE, PT:= T#10S);
+					IF fbTon.Q THEN
+						StartState := 4;
+						flag1 := FALSE; 
+						fbTon(IN := FALSE);
+					END_IF
+				END_IF
+			4:  //Start state 4: increase condense pump pressure to 28 bar, supply pump pressure to 167 bar
+				//Assign setpoint
+				CondensePump_Press.Setpoint := 28;		//15 bar, pid control
+				SupplyPump_Press.Setpoint := 167;		//100 bar, pid control
+				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
+				LPHeater_Temp.Setpoint := 141.3;			//100% valve openpercent, switch = direct control
+				AirEjector_Temp.Setpoint := 200;		//100% valve openpercent, switch = direct control
+				HPHeater_Temp.Setpoint := 72;			//100% valve openpercent, switch = direct control
+				Turbine_Speed.Setpoint := 3000;			//100% valve openpercent, switch = direct control
+				Boiler_Temp.Setpoint := 450;			//350 oC, pid control		
 				
-//				//Switch controller
-//				LPHeater_Temp.Switch := 1;
-//				AirEjector_Temp.Switch := 1;
-//				HPHeater_Temp.Switch := 1;
-//				Turbine_Speed.Switch := 1;
+				//Switch controller
+				LPHeater_Temp.Switch := 1;
+				AirEjector_Temp.Switch := 1;
+				HPHeater_Temp.Switch := 0;
+				Turbine_Speed.Switch := 1;
 				
-//				//Check condition to change state
-//				IF Streams.InStream.CondensePump_Press >= 28 THEN
-//					flag1 := TRUE;
-//				END_IF
-//				IF Streams.InStream.SupplyPump_Press >= 167 THEN
-//					flag2 := TRUE;
-//				END_IF
-//				IF flag1 = TRUE AND flag2 = TRUE THEN
-//					fbTon(IN := TRUE, PT:= T#10S);
-//					IF fbTon.Q THEN
-//						StartState := 5;
-//						flag1 := FALSE; flag2 := FALSE;
-//						fbTon(IN := FALSE);
-//					END_IF
-//				END_IF				
-//			5:  //Start state 5: increase boiler temp to 566 oC
-//				//Assign setpoint
-//				CondensePump_Press.Setpoint := 28;		//15 bar, pid control
-//				SupplyPump_Press.Setpoint := 167;		//100 bar, pid control
-//				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
-//				LPHeater_Temp.Setpoint := 141.3;			//100% valve openpercent, switch = direct control
-//				AirEjector_Temp.Setpoint := 200;		//100% valve openpercent, switch = direct control
-//				HPHeater_Temp.Setpoint := 295;			//100% valve openpercent, switch = direct control
-//				Turbine_Speed.Setpoint := 3000;			//100% valve openpercent, switch = direct control
-//				Boiler_Temp.Setpoint := 566;			//350 oC, pid control		
+				//Check condition to change state
+				IF Streams.InStream.CondensePump_Press >= 28 THEN
+					flag1 := TRUE;
+				END_IF
+				IF Streams.InStream.SupplyPump_Press >= 167 THEN
+					flag2 := TRUE;
+				END_IF
+				IF flag1 = TRUE AND flag2 = TRUE THEN
+					fbTon(IN := TRUE, PT:= T#5S);
+					IF fbTon.Q THEN
+						StartState := 5;
+						flag1 := FALSE; flag2 := FALSE;
+						fbTon(IN := FALSE);
+					END_IF
+				END_IF				
+			5:  //Start state 5: increase boiler temp to 566 oC
+				//Assign setpoint
+				CondensePump_Press.Setpoint := 28;		//15 bar, pid control
+				SupplyPump_Press.Setpoint := 167;		//100 bar, pid control
+				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
+				LPHeater_Temp.Setpoint := 141.3;			//100% valve openpercent, switch = direct control
+				AirEjector_Temp.Setpoint := 200;		//100% valve openpercent, switch = direct control
+				HPHeater_Temp.Setpoint := 295;			//100% valve openpercent, switch = direct control
+				Turbine_Speed.Setpoint := 3000;			//100% valve openpercent, switch = direct control
+				Boiler_Temp.Setpoint := 566;			//350 oC, pid control		
 				
-//				//Switch controller
-//				LPHeater_Temp.Switch := 1;
-//				AirEjector_Temp.Switch := 1;
-//				HPHeater_Temp.Switch := 1;
-//				Turbine_Speed.Switch := 1;
+				//Switch controller
+				LPHeater_Temp.Switch := 1;
+				AirEjector_Temp.Switch := 1;
+				HPHeater_Temp.Switch := 1;
+				Turbine_Speed.Switch := 1;
 				
-//				//Check condition to change state
-//				IF Streams.InStream.CondensePump_Press >= 566 THEN
-//					flag1 := TRUE;
-//				END_IF
-//				IF flag1 = TRUE THEN
-//					fbTon(IN := TRUE, PT:= T#10S);
-//					IF fbTon.Q THEN
-//						StartState := 0;
-//						//Next state
-//						ProcessState := aE_ProcessState.SteadyState;
-//						flag1 := FALSE; 
-//						fbTon(IN := FALSE);
-//					END_IF
-//				END_IF				
-//		END_CASE
+				//Check condition to change state
+				IF Streams.InStream.Boiler_Temp >= 550 THEN
+					flag1 := TRUE;
+				END_IF
+				IF flag1 = TRUE THEN
+					fbTon(IN := TRUE, PT:= T#5S);
+					IF fbTon.Q THEN
+						StartState := 0;
+						//Next state
+						ProcessState := aE_ProcessState.SteadyState;
+						flag1 := FALSE; 
+						fbTon(IN := FALSE);
+					END_IF
+				END_IF				
+		END_CASE
 		 
 		 {endregion}
 		  
@@ -463,7 +463,7 @@ END_CASE
 								 
 	CASE LPHeater_Temp.Switch OF 
 		 0: 
-			  LPHeater_Temp.ControlSignal := LPHeater_Temp.Setpoint;
+			  LPHeater_Temp.ControlSignal := LPHeater_Temp.Setpoint/100;
 		 1: 
 			  LPHeater_Temp_PID(fSetpointValue := LPHeater_Temp.Setpoint,
 						fActualValue := Streams.InStream.LPHeater_Temp,
@@ -478,7 +478,7 @@ END_CASE
 	
 	CASE AirEjector_Temp.Switch OF
 		0:
-			 AirEjector_Temp.ControlSignal := AirEjector_Temp.Setpoint;
+			 AirEjector_Temp.ControlSignal := AirEjector_Temp.Setpoint/100;
 		1: 
 			 AirEjector_Temp_PID(fSetpointValue := AirEjector_Temp.Setpoint,
 							fActualValue := Streams.InStream.AirEjector_Temp,
@@ -493,7 +493,7 @@ END_CASE
 				
 	CASE HPHeater_Temp.Switch OF
 		0: 
-			 HPHeater_Temp.ControlSignal := HPHeater_Temp.Setpoint;
+			 HPHeater_Temp.ControlSignal := HPHeater_Temp.Setpoint/100;
 		1: 
 			 HPHeater_Temp_PID(fSetpointValue := HPHeater_Temp.Setpoint,
 							fActualValue := Streams.InStream.HPHeater_Temp,
@@ -508,7 +508,7 @@ END_CASE
 	
 	CASE Turbine_Speed.Switch OF
 		0:
-			 Turbine_Speed.ControlSignal := Turbine_Speed.Setpoint;
+			 Turbine_Speed.ControlSignal := Turbine_Speed.Setpoint/100;
 		1: 
 			 Turbine_Speed_PID(fSetpointValue := Turbine_Speed.Setpoint,
 							fActualValue := Streams.InStream.Turbine_Rotation,

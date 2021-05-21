@@ -30,7 +30,7 @@ END_IF
 fbTon(IN:= NOT fbTon.Q, PT:= T#1S);	
 IF fbTon.Q THEN
 	UpdateData();
-	bExecute := TRUE;
+	//bExecute := TRUE;
 END_IF
 
 IF bExecute AND bFirstScan THEN
