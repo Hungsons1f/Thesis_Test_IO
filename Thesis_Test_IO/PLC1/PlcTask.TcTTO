@@ -11,9 +11,6 @@
       <Name>PnID</Name>
     </PouCall>
     <PouCall>
-      <Name>TanksSimulation</Name>
-    </PouCall>
-    <PouCall>
       <Name>AlarmManagement</Name>
     </PouCall>
     <PouCall>

@@ -2,6 +2,14 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
   <POU Name="AutoControl" Id="{034eab86-42d1-4d45-93b4-eb66e60beb13}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM AutoControl
+VAR_INPUT
+	bStart AT %I* : BOOL;
+	bEmerNC AT %I*: BOOL := TRUE;
+END_VAR	
+VAR_OUTPUT
+	bRun AT %Q*: BOOL;
+	bErr AT %Q*: BOOL;
+END_VAR
 VAR
 	{region 'Control Template'} 			//Struct to manipulate the auto mode 
 	CondensePump_Press: aS_AutoControl;
@@ -12,6 +20,7 @@ VAR
 	HPHeater_Temp: aS_AutoControl;
 	Turbine_Speed: aS_AutoControl;
 	Boiler_Temp: aS_AutoControl;
+	InterTank_Level: aS_AutoControl;
 	{endregion}
 		 
 	{region 'Component PID Controllers'}
@@ -20,7 +29,7 @@ VAR
 	ForceFan3_PID: FB_BasicPID;
 	CondensePump_Press_PID: FB_BasicPID;
 	SupplyPump_Press_PID: FB_BasicPID;
-	Condenser_Temp_PID: FB_BasicPID;
+	//Condenser_Temp_PID: FB_BasicPID;
 	LPHeater_Temp_PID: FB_BasicPID;
 	AirEjector_Temp_PID: FB_BasicPID;
 	HPHeater_Temp_PID: FB_BasicPID;
@@ -32,7 +41,7 @@ VAR
 	ForceFan3_Trig: R_TRIG;
 	CondensePump_Press_Trig: R_TRIG;
 	SupplyPump_Press_Trig: R_TRIG;
-	Condenser_Temp_Trig: R_TRIG;
+	//Condenser_Temp_Trig: R_TRIG;
 	LPHeater_Temp_Trig: R_TRIG;
 	AirEjector_Temp_Trig: R_TRIG;
 	HPHeater_Temp_Trig: R_TRIG;
@@ -72,6 +81,11 @@ VAR
 	ProcessReady: BOOL;
 	ProcessRun: BOOL;
 	ProcessFault: BOOL;
+	
+	bStateOn: BOOL := FALSE;
+	trigBtnOn: R_TRIG;
+	rtrigStateOn: R_TRIG;
+	ftrigStateOn: F_TRIG;
 	{endregion}
 	i: INT;
 	fbttemp: TON;
@@ -81,14 +95,57 @@ END_VAR
       <ST><![CDATA[//Chú ý lỗi ở việc reset bộ pid
 
 {region 'Control signal'}
-ProcessStart := Interfacex.AutoCtrlCmds.Start;
-ProcessStop := Interfacex.AutoCtrlCmds.Stop;
-ProcessEmergency := Interfacex.AutoCtrlCmds.Emergency;
-ProcessReset := Interfacex.AutoCtrlCmds.Reset;
+IF Interfacex.AutoCtrlCmds.Start THEN
+	bStateOn:= TRUE;
+END_IF
+IF ProcessFault OR Interfacex.AutoCtrlCmds.Stop THEN
+	bStateOn:= FALSE;
+END_IF
+trigBtnOn(CLK:= bStart);
+IF trigBtnOn.Q THEN
+	bStateOn := NOT bStateOn;
+END_IF
+rtrigStateOn(CLK:= bStateOn);
+ftrigStateOn(CLK:= bStateOn);
+
+ProcessStart := Interfacex.AutoCtrlCmds.Start OR rtrigStateOn.Q;
+ProcessStop := Interfacex.AutoCtrlCmds.Stop OR ftrigStateOn.Q;
+ProcessEmergency := Interfacex.AutoCtrlCmds.Emergency OR NOT bEmerNC;
+ProcessReset := Interfacex.AutoCtrlCmds.Reset OR rtrigStateOn.Q;
 	 
 Interfacex.AutoCtrlCmds.ProcessReady := ProcessReady;
 Interfacex.AutoCtrlCmds.ProcessRun := ProcessRun;
 Interfacex.AutoCtrlCmds.ProcessFault := ProcessFault;
+{endregion}
+
+{region 'Tank Simulation Handling'}
+IF ProcessRun THEN 
+	IF NOT PnID.bHI THEN
+		InterTank_Level.Start:= FALSE;
+		InterTank_Level.Stop:= TRUE;
+	END_IF
+	IF PnID.bLO THEN
+		InterTank_Level.Start:= TRUE;
+		InterTank_Level.Stop:= FALSE;		
+	END_IF
+	
+	IF Streams.InStream.Condenser_Temp < 30 THEN
+		Condenser_Temp.Start:= FALSE;
+		Condenser_Temp.Stop:= TRUE;
+	END_IF
+	IF Streams.InStream.Condenser_Temp > 50 THEN
+		Condenser_Temp.Start:= TRUE;
+		Condenser_Temp.Stop:= FALSE;
+	END_IF
+//ELSE
+//	Condenser_Temp.Start:= FALSE;
+//	Condenser_Temp.Stop:= TRUE;
+//	InterTank_Level.Start:= FALSE;
+//	InterTank_Level.Stop:= TRUE;		
+END_IF
+
+bRun := ProcessRun;
+bErr := ProcessFault;
 {endregion}
 
 
@@ -159,7 +216,7 @@ CASE ProcessState OF
 				//Assign setpoint
 				CondensePump_Press.Setpoint := 5;		//5 bar, pid control
 				SupplyPump_Press.Setpoint := 30;		//10 bar, pid control
-				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
+				//Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
 				LPHeater_Temp.Setpoint := 100;			//100% valve openpercent, switch = direct control
 				AirEjector_Temp.Setpoint := 100;		//100% valve openpercent, switch = direct control
 				HPHeater_Temp.Setpoint := 72;			//100% valve openpercent, switch = direct control
@@ -192,7 +249,7 @@ CASE ProcessState OF
 				//Assign setpoint
 				CondensePump_Press.Setpoint := 5;		//5 bar, pid control
 				SupplyPump_Press.Setpoint := 30;		//10 bar, pid control
-				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
+				//Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
 				LPHeater_Temp.Setpoint := 100;			//100% valve openpercent, switch = direct control
 				AirEjector_Temp.Setpoint := 100;		//100% valve openpercent, switch = direct control
 				HPHeater_Temp.Setpoint := 72;			//100% valve openpercent, switch = direct control
@@ -222,7 +279,7 @@ CASE ProcessState OF
 				//Assign setpoint
 				CondensePump_Press.Setpoint := 15;		//15 bar, pid control
 				SupplyPump_Press.Setpoint := 100;		//100 bar, pid control
-				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
+				//Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
 				LPHeater_Temp.Setpoint := 100;			//100% valve openpercent, switch = direct control
 				AirEjector_Temp.Setpoint := 100;		//100% valve openpercent, switch = direct control
 				HPHeater_Temp.Setpoint := 72;			//100% valve openpercent, switch = direct control
@@ -250,11 +307,12 @@ CASE ProcessState OF
 						fbTon(IN := FALSE);
 					END_IF
 				END_IF		
+				
 			3:  //Start state 3: increase boiler temp to 450 oC
 				//Assign setpoint
 				CondensePump_Press.Setpoint := 15;		//5 bar, pid control
 				SupplyPump_Press.Setpoint := 100;		//10 bar, pid control
-				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
+				//Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
 				LPHeater_Temp.Setpoint := 100;		//100% valve openpercent, switch = direct control
 				AirEjector_Temp.Setpoint := 200;		//100% valve openpercent, switch = direct control
 				HPHeater_Temp.Setpoint := 72;			//100% valve openpercent, switch = direct control
@@ -279,11 +337,12 @@ CASE ProcessState OF
 						fbTon(IN := FALSE);
 					END_IF
 				END_IF
+				
 			4:  //Start state 4: increase condense pump pressure to 28 bar, supply pump pressure to 167 bar
 				//Assign setpoint
 				CondensePump_Press.Setpoint := 28;		//15 bar, pid control
 				SupplyPump_Press.Setpoint := 167;		//100 bar, pid control
-				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
+				//Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
 				LPHeater_Temp.Setpoint := 100;			//100% valve openpercent, switch = direct control
 				AirEjector_Temp.Setpoint := 200;		//100% valve openpercent, switch = direct control
 				HPHeater_Temp.Setpoint := 72;			//100% valve openpercent, switch = direct control
@@ -310,12 +369,13 @@ CASE ProcessState OF
 						flag1 := FALSE; flag2 := FALSE;
 						fbTon(IN := FALSE);
 					END_IF
-				END_IF				
+				END_IF	
+			
 			5:  //Start state 5: increase boiler temp to 566 oC
 				//Assign setpoint
 				CondensePump_Press.Setpoint := 28;		//15 bar, pid control
 				SupplyPump_Press.Setpoint := 167;		//100 bar, pid control
-				Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
+				//Condenser_Temp.Setpoint := 37.85;		//37.85 oC, pid control
 				LPHeater_Temp.Setpoint := 100;			//100% valve openpercent, switch = direct control
 				AirEjector_Temp.Setpoint := 200;		//100% valve openpercent, switch = direct control
 				HPHeater_Temp.Setpoint := 295;			//100% valve openpercent, switch = direct control
@@ -339,7 +399,7 @@ CASE ProcessState OF
 						Turbine_Speed.Setpoint := 3000;			//100% valve openpercent, switch = direct control
 						Turbine_Speed.Switch := 1;
 						LPHeater_Temp.Switch := 1;
-						fbTon2(IN := TRUE, PT:= T#130S);
+						fbTon2(IN := TRUE, PT:= T#90S);		//Steady State after 130s
 						IF fbTon2.Q THEN
 							StartState := 0;
 							//Next state
@@ -351,8 +411,8 @@ CASE ProcessState OF
 					END_IF
 				END_IF				
 		END_CASE
-		 
-		 {endregion}
+		
+		{endregion}
 		  
 		
 	
@@ -387,12 +447,11 @@ CASE ProcessState OF
 			ProcessState := aE_ProcessState.Disable;
 //			fbttemp(IN:= FALSE);
 //		END_IF
-		//ProcessState := aE_ProcessState.Disable;
 		
 	aE_ProcessState.Disable:
 		//Light
 		ProcessReady := FALSE;
-		ProcessRun := TRUE;
+		ProcessRun := FALSE;
 		ProcessFault := FALSE;
 
 		//Stop all components and lock all Pid Controllers, Clear all start flags of components
@@ -409,7 +468,6 @@ CASE ProcessState OF
 			ProcessState := aE_ProcessState.Init;
 //			fbttemp(IN:= FALSE);
 //		END_IF
-		//ProcessState := aE_ProcessState.Init;
 		
 	aE_ProcessState.Error:
 		//Light
@@ -460,15 +518,15 @@ END_CASE
 							fTd := Interfacex.Parameters.PID_SupplyPump_Press.Tn,
 							fCtrlOutput => SupplyPump_Press.ControlSignal);	
 		  
-	Condenser_Temp_PID(fSetpointValue := Condenser_Temp.Setpoint,
-							fActualValue := Streams.InStream.Condenser_Temp,
-							bReset := NOT PnID.CircularPump.Cmd OR Condenser_Temp.ResetPid,
-							fCtrlCycleTime := Interfacex.Parameters.SampleTime,
-							fKp := Interfacex.Parameters.PID_Condenser_Temp.Kp,
-							fTn := Interfacex.Parameters.PID_Condenser_Temp.Ti,
-							fTv := Interfacex.Parameters.PID_Condenser_Temp.Td,
-							fTd := Interfacex.Parameters.PID_Condenser_Temp.Tn,
-							fCtrlOutput => Condenser_Temp.ControlSignal);
+//	Condenser_Temp_PID(fSetpointValue := Condenser_Temp.Setpoint,
+//							fActualValue := Streams.InStream.Condenser_Temp,
+//							bReset := NOT PnID.CircularPump.Cmd OR Condenser_Temp.ResetPid,
+//							fCtrlCycleTime := Interfacex.Parameters.SampleTime,
+//							fKp := Interfacex.Parameters.PID_Condenser_Temp.Kp,
+//							fTn := Interfacex.Parameters.PID_Condenser_Temp.Ti,
+//							fTv := Interfacex.Parameters.PID_Condenser_Temp.Td,
+//							fTd := Interfacex.Parameters.PID_Condenser_Temp.Tn,
+//							fCtrlOutput => Condenser_Temp.ControlSignal);
 								 
 	CASE LPHeater_Temp.Switch OF 
 		 0: 
@@ -544,7 +602,7 @@ END_CASE
 //Catch trigger of manual to automatic
 CondensePump_Press_Trig(CLK := (PnID.CondensePump.Mode = aE_Mode.Auto));
 SupplyPump_Press_Trig(CLK := (PnID.SupplyPump.Mode = aE_Mode.Auto));
-Condenser_Temp_Trig(CLK := (PnID.CircularPump.Mode = aE_Mode.Auto));
+//Condenser_Temp_Trig(CLK := (PnID.CircularPump.Mode = aE_Mode.Auto));
 LPHeater_Temp_Trig(CLK := (PnID.LPHeaterValve.Mode = aE_Mode.Auto));
 AirEjector_Temp_Trig(CLK := (PnID.AirEjectorValve.Mode = aE_Mode.Auto));
 HPHeater_Temp_Trig(CLK := (PnID.HPHeaterValve.Mode = aE_Mode.Auto));
@@ -557,9 +615,9 @@ END_IF
 IF PnID.SupplyPump.Mode = aE_Mode.Manual THEN
 	SupplyPump_Press.ResetPid := TRUE;
 END_IF
-IF PnID.CircularPump.Mode = aE_Mode.Manual THEN
-	Condenser_Temp.ResetPid := TRUE;
-END_IF
+//IF PnID.CircularPump.Mode = aE_Mode.Manual THEN
+//	Condenser_Temp.ResetPid := TRUE;
+//END_IF
 IF PnID.LPHeaterValve.Mode = aE_Mode.Manual THEN
 	LPHeater_Temp.ResetPid := TRUE;
 END_IF
@@ -582,9 +640,9 @@ END_IF
 IF SupplyPump_Press_Trig.Q THEN
 	SupplyPump_Press.ResetPid := FALSE;
 END_IF
-IF Condenser_Temp_Trig.Q THEN
-	Condenser_Temp.ResetPid := FALSE;
-END_IF
+//IF Condenser_Temp_Trig.Q THEN
+//	Condenser_Temp.ResetPid := FALSE;
+//END_IF
 IF LPHeater_Temp_Trig.Q THEN
 	LPHeater_Temp.ResetPid := FALSE;
 END_IF
@@ -601,13 +659,14 @@ IF Boiler_Temp_Trig.Q THEN
 	Boiler_Temp.ResetPid := FALSE;
 END_IF
 {endregion}
+
 ]]></ST>
     </Implementation>
     <Action Name="LockAllPidControllers" Id="{f361dba3-b7eb-4ddb-a81a-34ed9f6f4613}">
       <Implementation>
         <ST><![CDATA[CondensePump_Press.ResetPid := TRUE;
 SupplyPump_Press.ResetPid := TRUE;
-Condenser_Temp.ResetPid := TRUE;
+//Condenser_Temp.ResetPid := TRUE;
 LPHeater_Temp.ResetPid := TRUE;
 AirEjector_Temp.ResetPid := TRUE;
 HPHeater_Temp.ResetPid := TRUE;
@@ -621,6 +680,7 @@ Boiler_Temp.ResetPid := TRUE;]]></ST>
 CondensePump_Press.Start := FALSE;
 SupplyPump_Press.Start := FALSE;
 Condenser_Temp.Start := FALSE;
+InterTank_Level.Start:= FALSE;
 LPHeater_Temp.Start := FALSE;
 AirEjector_Temp.Start := FALSE;
 HPHeater_Temp.Start := FALSE;
@@ -635,6 +695,7 @@ Boiler_Temp.Start := FALSE;
 CondensePump_Press.Stop := FALSE;
 SupplyPump_Press.Stop := FALSE;
 Condenser_Temp.Stop := FALSE;
+InterTank_Level.Stop := FALSE;
 LPHeater_Temp.Stop := FALSE;
 AirEjector_Temp.Stop := FALSE;
 HPHeater_Temp.Stop := FALSE;
@@ -648,7 +709,7 @@ Boiler_Temp.Stop := FALSE;
         <ST><![CDATA[//Reset all PID Controllers
 CondensePump_Press_PID(bReset := TRUE);
 SupplyPump_Press_PID(bReset := TRUE);
-Condenser_Temp_PID(bReset := TRUE);
+//Condenser_Temp_PID(bReset := TRUE);
 LPHeater_Temp_PID(bReset := TRUE);
 AirEjector_Temp_PID(bReset := TRUE);
 HPHeater_Temp_PID(bReset := TRUE);
@@ -662,7 +723,8 @@ Boiler_Temp_PID(bReset := TRUE);
         <ST><![CDATA[//Start all components
 CondensePump_Press.Start := TRUE;
 SupplyPump_Press.Start := TRUE;
-Condenser_Temp.Start := TRUE;
+//Condenser_Temp.Start := TRUE;
+//InterTank_Level.Start := TRUE;
 LPHeater_Temp.Start := TRUE;
 AirEjector_Temp.Start := TRUE;
 HPHeater_Temp.Start := TRUE;
@@ -677,6 +739,7 @@ Boiler_Temp.Start := TRUE;
 CondensePump_Press.Stop := TRUE;
 SupplyPump_Press.Stop := TRUE;
 Condenser_Temp.Stop := TRUE;
+InterTank_Level.Stop := TRUE;
 LPHeater_Temp.Stop := TRUE;
 AirEjector_Temp.Stop := TRUE;
 HPHeater_Temp.Stop := TRUE;
@@ -689,7 +752,7 @@ Boiler_Temp.Stop := TRUE;
       <Implementation>
         <ST><![CDATA[CondensePump_Press.ResetPid := FALSE;
 SupplyPump_Press.ResetPid := FALSE;
-Condenser_Temp.ResetPid := FALSE;
+//Condenser_Temp.ResetPid := FALSE;
 LPHeater_Temp.ResetPid := FALSE;
 AirEjector_Temp.ResetPid := FALSE;
 HPHeater_Temp.ResetPid := FALSE;
@@ -698,9 +761,33 @@ Boiler_Temp.ResetPid := FALSE;]]></ST>
       </Implementation>
     </Action>
     <LineIds Name="AutoControl">
-      <LineId Id="1571" Count="6" />
+      <LineId Id="1571" Count="2" />
+      <LineId Id="2524" Count="2" />
+      <LineId Id="2521" Count="2" />
+      <LineId Id="2512" Count="5" />
+      <LineId Id="2433" Count="0" />
+      <LineId Id="1574" Count="3" />
       <LineId Id="2117" Count="3" />
-      <LineId Id="1578" Count="5" />
+      <LineId Id="1578" Count="0" />
+      <LineId Id="2458" Count="1" />
+      <LineId Id="2462" Count="2" />
+      <LineId Id="2480" Count="0" />
+      <LineId Id="2466" Count="0" />
+      <LineId Id="2468" Count="0" />
+      <LineId Id="2481" Count="1" />
+      <LineId Id="2471" Count="0" />
+      <LineId Id="2487" Count="2" />
+      <LineId Id="2491" Count="0" />
+      <LineId Id="2490" Count="0" />
+      <LineId Id="2493" Count="3" />
+      <LineId Id="2527" Count="0" />
+      <LineId Id="2529" Count="0" />
+      <LineId Id="2528" Count="0" />
+      <LineId Id="2531" Count="1" />
+      <LineId Id="2475" Count="2" />
+      <LineId Id="2461" Count="0" />
+      <LineId Id="2460" Count="0" />
+      <LineId Id="1579" Count="4" />
       <LineId Id="2129" Count="0" />
       <LineId Id="2132" Count="0" />
       <LineId Id="2130" Count="0" />
@@ -712,7 +799,13 @@ Boiler_Temp.ResetPid := FALSE;]]></ST>
       <LineId Id="2126" Count="0" />
       <LineId Id="2139" Count="3" />
       <LineId Id="2127" Count="0" />
-      <LineId Id="1624" Count="184" />
+      <LineId Id="1624" Count="99" />
+      <LineId Id="2408" Count="0" />
+      <LineId Id="1724" Count="28" />
+      <LineId Id="2409" Count="0" />
+      <LineId Id="1753" Count="31" />
+      <LineId Id="2410" Count="0" />
+      <LineId Id="1785" Count="23" />
       <LineId Id="2242" Count="0" />
       <LineId Id="2319" Count="1" />
       <LineId Id="2243" Count="0" />
@@ -721,32 +814,42 @@ Boiler_Temp.ResetPid := FALSE;]]></ST>
       <LineId Id="2324" Count="0" />
       <LineId Id="2329" Count="2" />
       <LineId Id="2325" Count="0" />
-      <LineId Id="1814" Count="8" />
+      <LineId Id="1814" Count="2" />
+      <LineId Id="2412" Count="0" />
+      <LineId Id="2411" Count="0" />
+      <LineId Id="1819" Count="3" />
       <LineId Id="2144" Count="3" />
       <LineId Id="2143" Count="0" />
       <LineId Id="1823" Count="10" />
       <LineId Id="2149" Count="3" />
-      <LineId Id="1834" Count="12" />
+      <LineId Id="1834" Count="9" />
+      <LineId Id="1845" Count="1" />
       <LineId Id="2154" Count="3" />
       <LineId Id="2153" Count="0" />
-      <LineId Id="1847" Count="16" />
+      <LineId Id="1847" Count="13" />
+      <LineId Id="1862" Count="1" />
       <LineId Id="2159" Count="3" />
       <LineId Id="2158" Count="0" />
       <LineId Id="1864" Count="10" />
       <LineId Id="2164" Count="3" />
       <LineId Id="2163" Count="0" />
       <LineId Id="1875" Count="167" />
+      <LineId Id="2413" Count="0" />
       <LineId Id="132" Count="0" />
     </LineIds>
     <LineIds Name="AutoControl.LockAllPidControllers">
       <LineId Id="1" Count="7" />
     </LineIds>
     <LineIds Name="AutoControl.Reset_StartAllComponents">
-      <LineId Id="2" Count="8" />
+      <LineId Id="2" Count="3" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="6" Count="4" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="AutoControl.Reset_StopAllComponents">
-      <LineId Id="2" Count="8" />
+      <LineId Id="2" Count="3" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="6" Count="4" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="AutoControl.ResetAllPidControllers">
@@ -754,11 +857,15 @@ Boiler_Temp.ResetPid := FALSE;]]></ST>
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="AutoControl.StartAllComponents">
-      <LineId Id="2" Count="8" />
+      <LineId Id="2" Count="3" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="6" Count="4" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="AutoControl.StopAllComponents">
-      <LineId Id="2" Count="8" />
+      <LineId Id="2" Count="3" />
+      <LineId Id="11" Count="0" />
+      <LineId Id="6" Count="4" />
       <LineId Id="1" Count="0" />
     </LineIds>
     <LineIds Name="AutoControl.UnlockAllPidControllers">

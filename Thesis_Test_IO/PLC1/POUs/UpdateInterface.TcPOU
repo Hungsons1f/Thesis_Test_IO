@@ -15,6 +15,7 @@ Interfacex.ScadaInterface.Components.ForceFan3 := PnID.ForceFan3;
 Interfacex.ScadaInterface.Components.CondensePump := PnID.CondensePump;
 Interfacex.ScadaInterface.Components.SupplyPump := PnID.SupplyPump;
 Interfacex.ScadaInterface.Components.CircularPump := PnID.CircularPump;
+Interfacex.ScadaInterface.Components.InterPump := PnID.InterPump;
 
 Interfacex.ScadaInterface.Components.LPHValve := PnID.LPHeaterValve;
 Interfacex.ScadaInterface.Components.AirEjValve := PnID.AirEjectorValve;
@@ -38,7 +39,7 @@ Interfacex.ScadaInterface.Components.HPHeater.InFlow := Streams.InStream.SupplyP
 Interfacex.ScadaInterface.Components.Boiler.Temperature := Streams.InStream.Boiler_Temp;
 Interfacex.ScadaInterface.Components.Boiler.Pressure := Streams.InStream.Boiler_Press;
 Interfacex.ScadaInterface.Components.Condenser.Temperature := Streams.InStream.Condenser_Temp;
-Interfacex.ScadaInterface.Components.Condenser.InFlow := Streams.InStream.CircularPump_Flow;
+Interfacex.ScadaInterface.Components.Condenser.InFlow := Streams.OutStream.CircularPump_OutFlow;//Streams.InStream.CircularPump_Flow;
 Interfacex.ScadaInterface.Components.Turbine.Rotation := Streams.InStream.Turbine_Rotation;
 Interfacex.ScadaInterface.Components.Turbine.HighTemperature := Streams.InStream.Turbine_HighTemp;
 Interfacex.ScadaInterface.Components.Turbine.ImmediateTemperature := Streams.InStream.Turbine_ImmediateTemp;
@@ -85,6 +86,7 @@ Interfacex.ScadaInterface.Components.Turbine.OutPressure := Streams.InStream.Tur
       <LineId Id="13" Count="0" />
       <LineId Id="12" Count="0" />
       <LineId Id="14" Count="1" />
+      <LineId Id="112" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="16" Count="0" />
       <LineId Id="18" Count="2" />

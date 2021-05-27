@@ -29,8 +29,6 @@ STRUCT
 	Turbine_ImmediateTemp: REAL;
 	Turbine_OutTemp: REAL;
 	Condenser_Temp: REAL;
-	CircularPump_Flow: REAL;
-	CircularPump_Speed: REAL;
 
 END_STRUCT
 END_TYPE

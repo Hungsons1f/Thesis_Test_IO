@@ -8,7 +8,7 @@ STRUCT
 	ForceFan3_SetSpeed: REAL;
 	CondensePump_SetSpeed: REAL;
 	SupplyPump_SetSpeed: REAL;
-	CircularPump_SetSpeed: REAL;
+	CircularPump_OutFlow: REAL;
 	LPHeaterValve_SetPercent: REAL;
 	AirEjectorValve_SetPercent: REAL;
 	HPHeaterValve_SetPercent: REAL;

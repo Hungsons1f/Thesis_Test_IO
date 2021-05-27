@@ -10,6 +10,7 @@ STRUCT
 	CondensePump: aFb_Motor;
 	SupplyPump: aFb_Motor;
 	CircularPump: aFb_Motor;
+	InterPump: aFb_Motor;
 
 	LPHValve: aFb_Valve;
 	AirEjValve: aFb_Valve;

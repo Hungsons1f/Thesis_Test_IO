@@ -187,10 +187,10 @@
 				<Task Id="3" Priority="20" CycleTime="1000000" AmsPort="350" AdtTasks="true">
 					<Name>PlcTask</Name>
 				</Task>
-				<Task Id="4" Priority="21" CycleTime="10000" AmsPort="351" AdtTasks="true">
+				<Task Id="4" Disabled="true" Priority="21" CycleTime="10000" AmsPort="351" AdtTasks="true">
 					<Name>PlcDBTask</Name>
 				</Task>
-				<Task Id="5" Priority="22" CycleTime="10000" AmsPort="352" AdtTasks="true">
+				<Task Id="5" Disabled="true" Priority="22" CycleTime="10000" AmsPort="352" AdtTasks="true">
 					<Name>PlcTask1</Name>
 				</Task>
 			</Tasks>
@@ -203,38 +203,42 @@
 					<Vars VarGrpType="1">
 						<Name>PlcTask Inputs</Name>
 						<Var>
-							<Name>TanksSimulation.bStart</Name>
+							<Name>AutoControl.bStart</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>TanksSimulation.bEmerNC</Name>
+							<Name>AutoControl.bEmerNC</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>TanksSimulation.bHI</Name>
+							<Name>PnID.CircularPumpFlow</Name>
+							<Type>INT</Type>
+						</Var>
+						<Var>
+							<Name>PnID.bHI</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>TanksSimulation.bLO</Name>
+							<Name>PnID.bLO</Name>
 							<Type>BOOL</Type>
 						</Var>
 					</Vars>
 					<Vars VarGrpType="2">
 						<Name>PlcTask Outputs</Name>
 						<Var>
-							<Name>TanksSimulation.bMotor1</Name>
+							<Name>AutoControl.bRun</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>TanksSimulation.bMotor2</Name>
+							<Name>AutoControl.bErr</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>TanksSimulation.bRun</Name>
+							<Name>PnID.bMotor1</Name>
 							<Type>BOOL</Type>
 						</Var>
 						<Var>
-							<Name>TanksSimulation.bErr</Name>
+							<Name>PnID.bMotor2</Name>
 							<Type>BOOL</Type>
 						</Var>
 					</Vars>
@@ -242,6 +246,24 @@
 						<OwnerA Name="InputDst" Prefix="TIPC^PLC1^PLC1 Instance" Type="1">
 							<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 2 (EL1004)">
 								<Link VarA="TanksSimulation.bEmer" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Channel 4^Input" Size="1" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+					</UnrestoredVarLinks>
+					<UnrestoredVarLinks ImportTime="2021-05-26T14:15:59">
+						<OwnerA Name="InputDst" Prefix="TIPC^PLC1^PLC1 Instance" Type="1">
+							<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 2 (EL1004)">
+								<Link VarA="TanksSimulation.bEmerNC" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Channel 4^Input" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="TanksSimulation.bHI" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Channel 2^Input" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="TanksSimulation.bLO" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Channel 1^Input" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="TanksSimulation.bStart" TypeA="BOOL" InOutA="0" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Channel 3^Input" Size="1" RestoreInfo="ANotFound"/>
+							</OwnerB>
+						</OwnerA>
+						<OwnerA Name="OutputSrc" Prefix="TIPC^PLC1^PLC1 Instance" Type="2">
+							<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 3 (EL2004)">
+								<Link VarA="TanksSimulation.bErr" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Channel 4^Output" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="TanksSimulation.bMotor1" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Channel 1^Output" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="TanksSimulation.bMotor2" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Channel 2^Output" Size="1" RestoreInfo="ANotFound"/>
+								<Link VarA="TanksSimulation.bRun" TypeA="BOOL" InOutA="1" GuidA="{18071995-0000-0000-0000-000000000030}" VarB="Channel 3^Output" Size="1" RestoreInfo="ANotFound"/>
 							</OwnerB>
 						</OwnerA>
 					</UnrestoredVarLinks>
@@ -271,7 +293,7 @@
 					</TaskPouOids>
 				</Instance>
 			</Project>
-			<Project GUID="{D3D97C4A-489F-42F5-9047-6C37B60F1AC5}" Name="PLC2" PrjFilePath="PLC2\PLC2.plcproj" TmcFilePath="PLC2\PLC2.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
+			<Project Disabled="true" GUID="{D3D97C4A-489F-42F5-9047-6C37B60F1AC5}" Name="PLC2" PrjFilePath="PLC2\PLC2.plcproj" TmcFilePath="PLC2\PLC2.tmc" ReloadTmc="true" AmsPort="852" FileArchiveSettings="#x000e" SymbolicMapping="true">
 				<Instance Id="#x08502040" TcSmClass="TComPlcObjDef" KeepUnrestoredLinks="2" TmcPath="PLC2\PLC2.tmc">
 					<Name>PLC2 Instance</Name>
 					<CLSID ClassFactory="TcPlc30">{08500001-0000-0000-F000-000000000064}</CLSID>
@@ -620,18 +642,22 @@ Bit1: Value bigger/equal Limit2]]></Comment>
 		</Io>
 	</Project>
 	<Mappings>
+		<MappingInfo Identifier="{00000000-2001-0850-0020-500810000403}" Id="#x02030010"/>
 		<OwnerA Name="TIPC^PLC1^PLC1 Instance">
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 2 (EL1004)">
-				<Link VarA="PlcTask Inputs^TanksSimulation.bEmerNC" VarB="Channel 4^Input"/>
-				<Link VarA="PlcTask Inputs^TanksSimulation.bHI" VarB="Channel 2^Input"/>
-				<Link VarA="PlcTask Inputs^TanksSimulation.bLO" VarB="Channel 1^Input"/>
-				<Link VarA="PlcTask Inputs^TanksSimulation.bStart" VarB="Channel 3^Input"/>
+				<Link VarA="PlcTask Inputs^AutoControl.bEmerNC" VarB="Channel 4^Input"/>
+				<Link VarA="PlcTask Inputs^AutoControl.bStart" VarB="Channel 3^Input"/>
+				<Link VarA="PlcTask Inputs^PnID.bHI" VarB="Channel 2^Input"/>
+				<Link VarA="PlcTask Inputs^PnID.bLO" VarB="Channel 1^Input"/>
 			</OwnerB>
 			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 3 (EL2004)">
-				<Link VarA="PlcTask Outputs^TanksSimulation.bErr" VarB="Channel 4^Output"/>
-				<Link VarA="PlcTask Outputs^TanksSimulation.bMotor1" VarB="Channel 1^Output"/>
-				<Link VarA="PlcTask Outputs^TanksSimulation.bMotor2" VarB="Channel 2^Output"/>
-				<Link VarA="PlcTask Outputs^TanksSimulation.bRun" VarB="Channel 3^Output"/>
+				<Link VarA="PlcTask Outputs^AutoControl.bErr" VarB="Channel 4^Output"/>
+				<Link VarA="PlcTask Outputs^AutoControl.bRun" VarB="Channel 3^Output"/>
+				<Link VarA="PlcTask Outputs^PnID.bMotor1" VarB="Channel 1^Output"/>
+				<Link VarA="PlcTask Outputs^PnID.bMotor2" VarB="Channel 2^Output"/>
+			</OwnerB>
+			<OwnerB Name="TIID^Device 1 (EtherCAT)^Term 1 (EK1200)^Term 8 (EL3054)">
+				<Link VarA="PlcTask Inputs^PnID.CircularPumpFlow" VarB="AI Standard Channel 1^Value"/>
 			</OwnerB>
 		</OwnerA>
 	</Mappings>

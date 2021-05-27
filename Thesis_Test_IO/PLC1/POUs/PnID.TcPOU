@@ -2,6 +2,15 @@
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.4">
   <POU Name="PnID" Id="{10f77e3b-7018-4648-a34b-0c0909467aaf}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM PnID
+VAR_INPUT
+	CircularPumpFlow AT %I*: INT;
+	bHI AT %I*: BOOL;
+	bLO AT %I*: BOOL;
+END_VAR
+VAR_OUTPUT
+	bMotor1 AT %Q*: BOOL;
+	bMotor2 AT %Q*: BOOL;
+END_VAR
 VAR
 	ForceFan1: aFb_Motor;
 	ForceFan2: aFb_Motor;
@@ -9,16 +18,27 @@ VAR
 	CondensePump: aFb_Motor;
 	SupplyPump: aFb_Motor;
 	CircularPump: aFb_Motor;
+	InterPump: aFb_Motor;
 	LPHeaterValve: aFb_Valve;
 	AirEjectorValve: aFb_Valve;
 	HPHeaterValve: aFb_Valve;
 	TurbineValve: aFb_Valve;
 	
-	
+	CirPumpFlowT: INT;
+	temp: REAL;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[//Control all components in the P&ID 
+
+//Resolve Flow Sensor
+CirPumpFlowT:= CircularPumpFlow;
+temp := (INT_TO_REAL(CirPumpFlowT) - 630)*0.0006;
+IF temp < 0 THEN
+	Streams.OutStream.CircularPump_OutFlow := 0;
+ELSE
+	Streams.OutStream.CircularPump_OutFlow := temp;
+END_IF
 
 //Pumps
 {region "Condense Pump"}
@@ -45,12 +65,23 @@ SupplyPump(RunCondition := AutoControl.SupplyPump_Press.Start,
 {region "Circular Pump"}
 CircularPump(RunCondition := AutoControl.Condenser_Temp.Start,
 				StopCondition := AutoControl.Condenser_Temp.Stop,
-				SpeedCondition := AutoControl.Condenser_Temp.ControlSignal,
+				SpeedCondition := Interfacex.Parameters.MaxSpeed_CircularPump,
 				RunFeedback := CircularPump.Cmd,
 				Maxspeed := Interfacex.Parameters.MaxSpeed_CircularPump,
-				ActualSpeed := Streams.InStream.CircularPump_Speed,
-				Speed => Streams.OutStream.CircularPump_SetSpeed,
+				ActualSpeed := CircularPump.Speed,
+				Cmd => bMotor2,
 				DisplayName := 'Circular Pump');
+{endregion}
+	 
+{region 'Intermediate Pump'}
+InterPump(RunCondition := AutoControl.InterTank_Level.Start,
+				StopCondition := AutoControl.InterTank_Level.Stop,
+				SpeedCondition := Interfacex.Parameters.MaxSpeed_InterPump,
+				RunFeedback := InterPump.Cmd,
+				Maxspeed := Interfacex.Parameters.MaxSpeed_InterPump,
+				ActualSpeed := InterPump.Speed,
+				Cmd => bMotor1,
+				DisplayName := 'Intermediate Pump');
 {endregion}
 
 
@@ -125,16 +156,34 @@ ForceFan3(RunCondition := AutoControl.Boiler_Temp.Start,
 ]]></ST>
     </Implementation>
     <LineIds Name="PnID">
-      <LineId Id="343" Count="4" />
+      <LineId Id="343" Count="0" />
+      <LineId Id="541" Count="0" />
+      <LineId Id="497" Count="0" />
+      <LineId Id="491" Count="1" />
+      <LineId Id="498" Count="0" />
+      <LineId Id="500" Count="0" />
+      <LineId Id="502" Count="1" />
+      <LineId Id="501" Count="0" />
+      <LineId Id="344" Count="3" />
       <LineId Id="349" Count="5" />
       <LineId Id="465" Count="0" />
       <LineId Id="355" Count="2" />
       <LineId Id="359" Count="5" />
       <LineId Id="466" Count="0" />
       <LineId Id="365" Count="3" />
-      <LineId Id="370" Count="5" />
+      <LineId Id="370" Count="4" />
+      <LineId Id="550" Count="0" />
       <LineId Id="467" Count="0" />
-      <LineId Id="376" Count="5" />
+      <LineId Id="376" Count="0" />
+      <LineId Id="525" Count="1" />
+      <LineId Id="530" Count="1" />
+      <LineId Id="538" Count="0" />
+      <LineId Id="533" Count="2" />
+      <LineId Id="551" Count="0" />
+      <LineId Id="537" Count="0" />
+      <LineId Id="528" Count="0" />
+      <LineId Id="527" Count="0" />
+      <LineId Id="378" Count="3" />
       <LineId Id="383" Count="3" />
       <LineId Id="472" Count="0" />
       <LineId Id="387" Count="3" />
