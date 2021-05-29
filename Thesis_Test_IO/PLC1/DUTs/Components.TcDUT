@@ -24,6 +24,8 @@ STRUCT
 	Boiler: aT_Heater;
 	Turbine: aT_Turbine;
 	Condenser: aT_Heater;
+	
+	InterTank: aT_Tank;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

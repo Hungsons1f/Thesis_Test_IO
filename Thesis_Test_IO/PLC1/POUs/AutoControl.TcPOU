@@ -437,6 +437,17 @@ CASE ProcessState OF
 		ProcessReady := FALSE;
 		ProcessRun := TRUE;
 		ProcessFault := FALSE;
+		
+		//Stop process
+		CondensePump_Press.Stop := TRUE;
+		SupplyPump_Press.Stop := TRUE;
+		//Condenser_Temp.Stop := TRUE;
+		//InterTank_Level.Stop := TRUE;
+		LPHeater_Temp.Stop := TRUE;
+		AirEjector_Temp.Stop := TRUE;
+		HPHeater_Temp.Stop := TRUE;
+		Turbine_Speed.Stop := TRUE;
+		Boiler_Temp.Stop := TRUE;
 
 		//Next State
 		IF ProcessEmergency THEN
@@ -444,10 +455,13 @@ CASE ProcessState OF
 		END_IF
 //		fbttemp(IN:= TRUE, PT:=T#3S);
 //		IF fbttemp.Q THEN
-			ProcessState := aE_ProcessState.Disable;
+//			ProcessState := aE_ProcessState.Disable;
 //			fbttemp(IN:= FALSE);
 //		END_IF
 		
+		IF Streams.InStream.Boiler_Temp <= 45 THEN
+			ProcessState := aE_ProcessState.Disable;
+		END_IF
 	aE_ProcessState.Disable:
 		//Light
 		ProcessReady := FALSE;
@@ -822,8 +836,14 @@ Boiler_Temp.ResetPid := FALSE;]]></ST>
       <LineId Id="2143" Count="0" />
       <LineId Id="1823" Count="10" />
       <LineId Id="2149" Count="3" />
+      <LineId Id="2625" Count="1" />
+      <LineId Id="2628" Count="7" />
+      <LineId Id="2627" Count="0" />
       <LineId Id="1834" Count="9" />
-      <LineId Id="1845" Count="1" />
+      <LineId Id="1845" Count="0" />
+      <LineId Id="2623" Count="1" />
+      <LineId Id="2622" Count="0" />
+      <LineId Id="1846" Count="0" />
       <LineId Id="2154" Count="3" />
       <LineId Id="2153" Count="0" />
       <LineId Id="1847" Count="13" />

@@ -8,8 +8,8 @@ VAR_GLOBAL
 	alDeaeratorTemp: aS_AnalogAlarm := (HIHI:= 220, HI:= 210, LO:= 190, LOLO:= 180, Deadband:= 5);
 	alHPHeaterTemp: aS_AnalogAlarm := (HIHI:= 315, HI:= 305, LO:= 285, LOLO:= 275, Deadband:= 5);
 	alHPHeaterPress: aS_AnalogAlarm := (HIHI:= 315, HI:= 305, LO:= 285, LOLO:= 275, Deadband:= 5);
-	alBoilerTemp: aS_AnalogAlarm := (HIHI:= 585, HI:= 575, LO:= 555, LOLO:= 545, Deadband:= 5);
-	alCondenserTemp: aS_AnalogAlarm := (HIHI:= 70, HI:= 55, LO:= 30, LOLO:= 20, Deadband:= 5);
+	alBoilerTemp: aS_AnalogAlarm := (HIHI:= 590, HI:= 580, LO:= 550, LOLO:= 540, Deadband:= 5);
+	alCondenserTemp: aS_AnalogAlarm := (HIHI:= 80, HI:= 70, LO:= 10, LOLO:= 5, Deadband:= 5);
 	alTurbineTemp: aS_AnalogAlarm := (HIHI:= 170, HI:= 160, LO:= 140, LOLO:= 130, Deadband:= 5);
 	alTurbinePress: aS_AnalogAlarm := (HIHI:= 0.2, HI:= 0.1, LO:= 0.02, LOLO:= 0.01, Deadband:= 0.005);
 	alTurbineRotation: aS_AnalogAlarm := (HIHI:= 3020, HI:= 3010, LO:= 2990, LOLO:= 2980, Deadband:= 5);

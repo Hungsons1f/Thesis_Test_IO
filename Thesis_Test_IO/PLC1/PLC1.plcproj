@@ -41,6 +41,9 @@
     <Compile Include="DUTs\aT_Heater.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\aT_Tank.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\aT_Turbine.TcDUT">
       <SubType>Code</SubType>
     </Compile>
