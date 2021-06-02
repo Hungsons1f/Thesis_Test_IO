@@ -6,7 +6,7 @@ VAR
 	fbPLCDBWrite : FB_PLCDBWriteEvt (sNetID := '', tTimeout := T#5S);
 	myDBID : UDINT:=1;
 	sMyTableName : T_MaxString:='Data';
-	ColumnNames : ARRAY [0..85] OF STRING(50);
+	ColumnNames : ARRAY [0..91] OF STRING(50);
 	insertData : aS_DBField;
 	tcMessage : I_TcMessage;
 	
@@ -30,7 +30,7 @@ END_IF
 fbTon(IN:= NOT fbTon.Q, PT:= T#1S);	
 IF fbTon.Q THEN
 	UpdateData();
-	//bExecute := TRUE;
+	bExecute := TRUE;
 END_IF
 
 IF bExecute AND bFirstScan THEN
@@ -153,7 +153,14 @@ ColumnNames[81] := 'VturRun';
 ColumnNames[82] := 'VturVal';
 ColumnNames[83] := 'VturTime';
 ColumnNames[84] := 'VturAtime';
-ColumnNames[85] := 'VturFault';]]></ST>
+ColumnNames[85] := 'VturFault';
+
+ColumnNames[86] := 'PintMode';
+ColumnNames[87] := 'PintRun';
+ColumnNames[88] := 'PintVal';
+ColumnNames[89] := 'PintTime';
+ColumnNames[90] := 'PintAtime';
+ColumnNames[91] := 'PintFault';]]></ST>
       </Implementation>
     </Action>
     <Action Name="UpdateData" Id="{ee102ece-0353-4bcb-bb58-75f20df150bc}">
@@ -258,7 +265,14 @@ insertData.VturRun:= Interfacex.ScadaInterface.Components.TurbineValve.RunFeedba
 insertData.VturVal:= Interfacex.ScadaInterface.Components.TurbineValve.OpenPercent;
 insertData.VturTime:= Interfacex.ScadaInterface.Components.TurbineValve.Runtime;
 insertData.VturAtime:= Interfacex.ScadaInterface.Components.TurbineValve.AccRuntime;
-insertData.VturFault:= Interfacex.ScadaInterface.Components.TurbineValve.Fault;]]></ST>
+insertData.VturFault:= Interfacex.ScadaInterface.Components.TurbineValve.Fault;
+
+insertData.PintMode:= INT_TO_BYTE(Interfacex.ScadaInterface.Components.InterPump.Mode); 
+insertData.PintRun:= Interfacex.ScadaInterface.Components.InterPump.RunFeedback;
+insertData.PintVal:= Interfacex.ScadaInterface.Components.InterPump.ActualSpeed;
+insertData.PintTime:= Interfacex.ScadaInterface.Components.InterPump.Runtime;
+insertData.PintAtime:= Interfacex.ScadaInterface.Components.InterPump.AccRuntime;
+insertData.PintFault:= Interfacex.ScadaInterface.Components.InterPump.Fault;]]></ST>
       </Implementation>
     </Action>
     <LineIds Name="SaveDatabase">
@@ -308,6 +322,8 @@ insertData.VturFault:= Interfacex.ScadaInterface.Components.TurbineValve.Fault;]
       <LineId Id="87" Count="0" />
       <LineId Id="95" Count="5" />
       <LineId Id="94" Count="0" />
+      <LineId Id="102" Count="5" />
+      <LineId Id="101" Count="0" />
     </LineIds>
     <LineIds Name="SaveDatabase.UpdateData">
       <LineId Id="1" Count="0" />
@@ -335,6 +351,8 @@ insertData.VturFault:= Interfacex.ScadaInterface.Components.TurbineValve.Fault;]
       <LineId Id="88" Count="0" />
       <LineId Id="96" Count="5" />
       <LineId Id="95" Count="0" />
+      <LineId Id="103" Count="5" />
+      <LineId Id="102" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

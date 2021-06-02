@@ -30,7 +30,7 @@ STRUCT
 	TurLpress: REAL;
 	TurSpeed: REAL;
 	
-		PconMode: BYTE;
+	PconMode: BYTE;
 	PconRun: BOOL;
 	PconVal: REAL;
 	PconTime: DINT;
@@ -99,6 +99,13 @@ STRUCT
 	VturTime: DINT;
 	VturAtime: DINT;
 	VturFault: BOOL;
+	
+	PintMode: BYTE;
+	PintRun: BOOL;
+	PintVal: REAL;
+	PintTime: DINT;
+	PintAtime: DINT;
+	PintFault: BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

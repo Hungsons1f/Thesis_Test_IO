@@ -99,6 +99,13 @@ STRUCT
 	VturTime: DINT;
 	VturAtime: DINT;
 	VturFault: BOOL;
+	
+	PintMode: BYTE;
+	PintRun: BOOL;
+	PintVal: REAL;
+	PintTime: DINT;
+	PintAtime: DINT;
+	PintFault: BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

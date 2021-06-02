@@ -96,3 +96,10 @@ alter table Data add column VturVal REAL;
 alter table Data add column VturTime INT;
 alter table Data add column VturAtime INT;
 alter table Data add column VturFault BOOLEAN;
+
+alter table Data add column PintMode TINYINT;
+alter table Data add column PintRun BOOLEAN;
+alter table Data add column PintVal REAL;
+alter table Data add column PintTime INT;
+alter table Data add column PintAtime INT;
+alter table Data add column PintFault BOOLEAN;

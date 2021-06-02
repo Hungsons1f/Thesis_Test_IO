@@ -178,6 +178,19 @@ fbJsonWriter.AddKey('ComponentStatus');
 	fbJsonWriter.AddKey('PcirFault');
 	fbJsonWriter.AddBool(GVL.aReadStruct.PcirFault);
 
+	fbJsonWriter.AddKey('PintMode');
+	fbJsonWriter.AddUdint(GVL.aReadStruct.PintMode);
+	fbJsonWriter.AddKey('PintRun');
+	fbJsonWriter.AddBool(GVL.aReadStruct.PintRun);
+	fbJsonWriter.AddKey('PintVal');
+	fbJsonWriter.AddReal(GVL.aReadStruct.PintVal);
+	fbJsonWriter.AddKey('PintTime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.PintTime);
+	fbJsonWriter.AddKey('PintAtime');
+	fbJsonWriter.AddDint(GVL.aReadStruct.PintAtime);
+	fbJsonWriter.AddKey('PintFault');
+	fbJsonWriter.AddBool(GVL.aReadStruct.PintFault);
+	
 	fbJsonWriter.AddKey('F1Mode');
 	fbJsonWriter.AddUdint(GVL.aReadStruct.F1Mode);
 	fbJsonWriter.AddKey('F1Run');
@@ -355,7 +368,11 @@ fbJsonWriter.ResetDocument();
       <LineId Id="114" Count="0" />
       <LineId Id="99" Count="0" />
       <LineId Id="101" Count="11" />
-      <LineId Id="115" Count="103" />
+      <LineId Id="115" Count="12" />
+      <LineId Id="234" Count="0" />
+      <LineId Id="236" Count="11" />
+      <LineId Id="235" Count="0" />
+      <LineId Id="129" Count="89" />
       <LineId Id="21" Count="3" />
       <LineId Id="1" Count="0" />
     </LineIds>
