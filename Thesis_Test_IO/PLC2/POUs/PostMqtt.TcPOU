@@ -28,7 +28,7 @@ END_VAR
     <Implementation>
       <ST><![CDATA[IF bFirstScan THEN
 	bFirstScan := FALSE;
-	fbMqttClient.sHostName:= '127.0.0.1';
+	fbMqttClient.sHostName:= '192.168.1.2';
 	fbMqttClient.nHostPort:= 8883;
 	fbMqttClient.sClientId:= 'mqtt'; 
 	fbMqttClient.sTopicPrefix:= ''; 
